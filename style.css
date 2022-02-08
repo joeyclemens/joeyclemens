@@ -3,6 +3,8 @@ body {
   background-color: #411040;
 }
 
+@media screen and (min-width: 600px) {
+
 video {
 position:absolute;
 height:900px;
@@ -10,3 +12,18 @@ width:300px;
 top:15px;
 right:200px;
 }
+
+  
+  
+  
+@media screen and (max-width: 600px) {
+
+video {
+position:absolute;
+height:900px;
+width:300px;
+top:15px;
+right:20px;
+}
+
+  }
