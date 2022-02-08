@@ -23,9 +23,9 @@ video {
 position:absolute;
 height:400px;
 width:300px;
-/*top:15px;
-right:30px;*/
- float: centre;
+top:15px;
+right:35px;
+
 }
 
   }
