@@ -126,9 +126,7 @@ p > span {
 @media screen and (max-width: 600px) {
     
 .floppy {
-  /*position: absolute;
+  position: absolute;
   top: 40%;
-  right: 10%; */
-    margin-left: auto;
-  margin-right: auto;
+  right: 15%; 
 }
