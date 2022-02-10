@@ -122,3 +122,12 @@ p > span {
   text-transform: uppercase;
   border-bottom: 1.5px solid #a4243b;
 }
+
+@media screen and (max-width: 600px) {
+    
+.floppy {
+  position: absolute;
+  top: 40%;
+  right: 30%;
+    
+}
