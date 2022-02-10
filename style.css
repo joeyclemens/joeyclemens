@@ -130,5 +130,6 @@ p > span {
   top: 40%;
   right: 10%; */
   display: flex;
+    align-items: center;
   justify content: center;
 }
