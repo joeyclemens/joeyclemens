@@ -139,6 +139,10 @@ audio {
 }
 
 img.animated-gif{
+  position: absolute;
+  top: 40%;
+  right: 15%; 
+    
   width: 300px;
   height: auto;
 }
