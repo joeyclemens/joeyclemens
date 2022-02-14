@@ -141,7 +141,7 @@ audio {
 .container {
   position: absolute;
   top: 40px;
-  right: 30px;
+  left: 30px;
   width: 90px;
   height: 90px;
 }
