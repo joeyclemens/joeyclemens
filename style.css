@@ -134,30 +134,5 @@ p > span {
 
 
 
-button {
-  font-size: 16px;
-  
-  position: absolute;
-  top: 10;
-  left: 10;
-  
-  width: 50px;
-  padding: 15px;
-  border: none;
-  border-radius: 2px;
-  
-  cursor: pointer;
-  
-}
 
-button.fade:hover {
-  opacity: 0.8;
-}
-
-.fade {
-  opacity: 0.1;
-  top: 0;
-  left: 0;
-  transform: translate(0, 0);
-}
 
