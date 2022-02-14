@@ -9,10 +9,15 @@
           url= hello.html" />
   </head>
   <body>
+<script>
+  window.addEventListener("DOMContentLoaded", event => {
+  const audio = document.querySelector("audio");
+  audio.volume = 0.2;
+  audio.play();
+});
+    </script>
 
-
-<audio autoplay src="Amiga.m4a">
-<p>If you are reading this, it is because your browser does not support the audio element.     </p>
+<audio src="Amiga.m4a">
 </audio>
 
 <div class="floppy">
