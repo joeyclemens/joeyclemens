@@ -138,10 +138,10 @@ audio {
 
 button {
   font-size: 16px;
-  color: #00000;
+  color: #000000;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 10;
+  left: 10;
   transform: translate(-50%, -50%);
   width: 50px;
   padding: 15px;
