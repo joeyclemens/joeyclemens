@@ -148,7 +148,7 @@ button {
   border: none;
   border-radius: 2px;
   outline: none;
-  background: rgba(115, 67, 167, 0.8);
+  background: rgba(0, 0, 0);
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
   opacity: 0.8;
   cursor: pointer;
