@@ -138,6 +138,13 @@ audio {
     height: 25px;
 }
 
+.container {
+  position: absolute;
+  top: 40%;
+  right: 30%;
+  width: 290px;
+  height: 290px;
+}
 
 
 
