@@ -60,6 +60,7 @@ body {
   text-decoration: none;
   display: block;
   text-align: left;
+  font-family: monospace;
 }
 
 .dropdown-content a:hover {
