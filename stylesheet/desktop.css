@@ -1,0 +1,144 @@
+body {
+  background-color: #dcdcd0;
+  padding: 0;
+  margin: 0;
+}
+
+/* navbar */
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+/* navbar end */
+/* dropdown1 */
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+  background-color: #4d4d4d;
+  border-radius: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #666666;
+}
+
+.show {
+  display: block;
+}
+
+/* dropdown1 end */
+/* Dock */
+.dock {
+  position: fixed;
+  bottom: 2px;
+  left: 30%;
+  background-color: #666666;
+  border-radius: 10px;
+  font-family: sans-serif;
+}
+
+#dock-container {
+  font: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+
+}
+
+#dock-container li {
+  float: left;
+  list-style-type: none;
+  text-align: center;
+}
+
+#dock-container a {
+  color: #ccc;
+  text-decoration: none;
+}
+
+#dock-container img {
+  border: 0;
+  width: 75px;
+  padding: 5px;
+
+}
+
+#dock-container p {
+  background: #000;
+  width: 90px;
+  border-radius: 8px;
+  -moz-border-radius: 8px;
+  margin: 0;
+  position: relative;
+  z-index: 100;
+}
+
+#dock-container img, #dock-container p {
+  -moz-transition: all .4s ease-in-out;
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+}
+
+#dock-container p, #dock-container div {
+  -moz-transition: opacity .1s ease-in-out;
+  -o-transition: opacity .1s ease-in-out;
+  -webkit-transition: opacity .1s ease-in-out;
+}
+
+#dock-container a:hover>img {
+  -moz-transform: scale(1.4);
+  -o-transform: scale(1.4);
+  -webkit-transform: scale(1.4);
+}
+
+#dock-container p, #dock-container div {
+  opacity: 0;
+}
+
+#dock-container a:hover>div, #dock-container a:hover>p {
+  opacity: 1;
+}
+
+/* Dock end */
