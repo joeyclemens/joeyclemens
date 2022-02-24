@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desktop Enviroment</title>
+  <link rel="stylesheet" href="stylesheet/desktop.css">
+  <script>
+  /* When the user clicks on the button,
+  toggle between hiding and showing the dropdown content */
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(e) {
+    if (!e.target.matches('.dropbtn')) {
+    var myDropdown = document.getElementById("myDropdown");
+      if (myDropdown.classList.contains('show')) {
+        myDropdown.classList.remove('show');
+      }
+    }
+  }
+  </script>
+
+</head>
+
+<body>
+
+  <div class="navbar">
+  <a href="index">Home</a>
+  <div class="dropdown">
+  <button class="dropbtn" onclick="myFunction()">Apps
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-content" id="myDropdown">
+    <a href="javascript:void(0);" NAME="Error Handling"
+  title="ZeroDivisionError handling"
+  onClick=window.open("window-child.html","Ratting","width=550,height=170,left=150,top=200,toolbar=0,status=0,");>Click here to open the child window</a>
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+  </div>
+</div>
+
+
+
+
+<!-- CSS Dock Code -->
+<div class="dock"></div>
+<!-- End: CSS Dock Code -->
+
+
+
+
+
+</body>
+
+</html>
