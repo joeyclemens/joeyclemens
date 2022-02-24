@@ -76,7 +76,7 @@ body {
 /* Dock */
 .dock {
   border-left: 70px;
-  width: 3.6%;
+  width: 70px;
   background-color: #333;
   opacity: .8;
   position: absolute;
