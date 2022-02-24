@@ -141,8 +141,8 @@ body {
   #basicValet {
     background: #dcdcd0;
     position: absolute;
-    left: 15%;
-    top: 150px;
+    right: 15%;
+    top: 120px;
     font-family: Helvetica, Arial, sans-serif;
   }
 
