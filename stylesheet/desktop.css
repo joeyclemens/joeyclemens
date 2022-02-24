@@ -75,7 +75,10 @@ body {
 /* dropdown1 end */
 /* Dock */
 .dock {
-  border-left: 70px solid #333;
+  border-left: 70px;
+  width: 3.6%;
+  background-color: #333;
+  opacity: .8;
   position: absolute;
   top: 35px;
   right: 0px;
@@ -84,3 +87,124 @@ body {
 }
 
 /* Dock end */
+
+
+
+/* The Modal (background) */
+  .modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 50px;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+
+
+  }
+
+  /* Modal Content */
+  .modal-content {
+    background-color: #dcdcd0;;
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: auto;
+    padding: 10px;
+    border: 5px solid #000;
+    width: 40%;
+    border-radius: 15px;
+    text-align: center;
+  }
+
+  /* The Close Button */
+  .close {
+    color: #3fd1b9;
+    float: left;
+    font-size: 45px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: orange;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #basicValet {
+    background: #dcdcd0;
+    position: absolute;
+    left: 15%;
+    top: 150px;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  #basicValet:hover {
+    font-size: 20px;
+    cursor: default;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+
+  #basicbtn {
+    position: relative;
+    color: white;
+    font-family: 'squarish_sans_ctregular', Arial, sans-serif;
+    font-size: 30px;
+    background: linear-gradient(#dcdcd0; 0%, #262222 80%);
+
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  #basicbtn:before {
+    content: "";
+    position: absolute;
+    width: 99%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #3fd1b9;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out;
+  }
+
+  #basicbtn:hover:before {
+    visibility: visible;
+    transform: scaleX(1);
+
+  }
+
+.buttontxt:hover {
+	z-index:5;
+	}
+  .gradient-border {
+    --borderWidth: 6px;
+    border-radius: 10px;
+    width: 20%;
+    text-align: center;
+    color: white;
+  }
+
+  .gradient-border:hover:after {
+    content: '';
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    background: linear-gradient(45deg, #3fd1b9, #c26e0e, #3fd1b9, #c26e0e, #3fd1b9, #52dec7, #c26e0e, #0d7060, #298f7e);
+    border-radius: 20px;
+    filter: blur(2px);
+    z-index: -1;
+    animation: animatedgradient 3s ease-in-out infinite;
+    background-size: 300% 300%;
+  }
