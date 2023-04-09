@@ -37,6 +37,28 @@ a:visited {
 
 /*================================================================*/
 
+/*=== scroll stuff ===*/
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: black;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#ff8533, #262222);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 /*============= Index page ===================*/
 
 .first-header {
