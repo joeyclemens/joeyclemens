@@ -47,8 +47,92 @@
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     </p>
   </div>
- 
- 
+
+  <div class="menu">
+    <nav class="menu__nav">
+      <ul class="menu__list r-list">
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">Home</a>
+        </li>
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">About me</a>
+        </li>
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">Services</a>
+        </li>
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">Portfolio</a>
+        </li>
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">Blog</a>
+        </li>
+        <li class="menu__group">
+          <a href="#0" class="menu__link r-link">Contacts</a>
+        </li>
+      </ul>
+    </nav>
+    <button class="menu__toggle r-button" type="button">
+      <span class="menu__hamburger m-hamburger">
+        <span class="m-hamburger__label">
+          <span class="menu__toggle-hint screen-reader">Open menu</span>
+        </span>
+      </span>
+    </button>
+  </div>
+
+ <script>
+  (function(){
+  'use strict';
+
+  class Menu {
+    constructor(settings) {
+      this.menuRootNode = settings.menuRootNode;
+      this.isOpened = false;
+    }
+    
+    changeMenuState(menuState) {
+      return this.isOpened = !menuState;
+    }
+    
+    changeToggleHint(toggleHint, toggleNode) {
+      toggleNode.textContent = toggleHint;
+      return toggleHint; 
+    }
+  }
+
+  const menuClassesNames = {
+    rootClass: 'menu',
+    activeClass: 'menu_activated',
+    toggleClass: 'menu__toggle',
+    toggleHintClass: 'menu__toggle-hint'
+  }
+  
+  const jsMenuNode = document.querySelector(`.${menuClassesNames.rootClass}`);
+  const demoMenu = new Menu ({
+    menuRootNode: jsMenuNode
+  });
+  
+  function getCurrentToggleHint(currentMenuState) {
+    return (currentMenuState !== true) ? 'Open menu' : 'Close menu';
+  }
+  
+  function toggleMenu(event) {
+    
+      let currentMenuState = demoMenu.changeMenuState(demoMenu.isOpened);
+      let toggleHint = getCurrentToggleHint(currentMenuState);
+      
+      demoMenu.changeToggleHint(
+        toggleHint, 
+        demoMenu.menuRootNode.querySelector(`.${menuClassesNames.toggleHintClass}`)
+      );
+      demoMenu.menuRootNode.classList.toggle(`${menuClassesNames.activeClass}`);
+      
+      return currentMenuState;  
+  }
+  
+  jsMenuNode.querySelector(`.${menuClassesNames.toggleClass}`).addEventListener('click', toggleMenu);
+})();
+ </script>
 
 <script> const hello = document.querySelector(".hello__div");
     setInterval(hello__function, 20000);
