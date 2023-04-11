@@ -8,7 +8,9 @@ body {
     background-size: 100% 100%;
     font-family: 'IBM Plex Mono', monospace;
 }
-
+.container {
+  visibility: hidden;
+}
 /* ====================Link stuff================== */
 /* unvisited link */
 li {
@@ -154,7 +156,7 @@ a:visited {
 
 
 
-/* ================ Mobile View ================= */
+/* ==================================================================  Mobile View =================================================================================== */
 @media (max-width: 600px) {
   body {
     width: 80%;
@@ -163,6 +165,12 @@ a:visited {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     font-family: 'IBM Plex Mono', monospace;
+}
+
+
+
+.banner-txt {
+  visibility: hidden;
 }
 
 /* ====================Link stuff================== */
@@ -190,6 +198,10 @@ a:visited {
     color: black;
 
 }
+
+/* Hamburger menu */
+
+
 
 /*================================================================*/
 
@@ -232,7 +244,8 @@ a:visited {
     min-height: 500px;
     display: flex;
     justify-content: center;
-    position: relative;
+    position: absolute;
+    top: 1%;
   }
   .hello__div {
     display: flex;
