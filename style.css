@@ -514,7 +514,7 @@ SETTINGS
 }
 
 .menu_activated{
-  --menuHaburgerOutlineColor: var(--colorWhite);
+  --menuHaburgerOutlineColor: var(#cac4b7);
 }
 
 
