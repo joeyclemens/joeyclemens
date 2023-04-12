@@ -231,7 +231,7 @@ a:visited {
   --uirButtonBackgroundColor: var(--rButtonBackgroundColor, transparent);
   --uirButtonPadding: var(--rButtonPadding, var(--rButtonPaddingTop, 0) var(--rButtonPaddingRight, 0) var(--rButtonPaddingBottom, 0) var(--rButtonPaddingLeft, 0));
   --uirButtonBorderWidth: var(--rButtonBorderWidth, 0);
-  --uirButtonBorderStyle: var(--rButtonBorderStyle, solid);
+  --uirButtonBorderStyle: var(--rButtonBorderStyle, none);
   --uirButtonBorderColor: var(--rButtonBorderColor, #e4dcc9);
   --uirButtonFontFamily: var(--rButtonFontFamily, inherit);
   --uirButtonFontSize: var(--rButtonFontSize,  inherit);
