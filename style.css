@@ -521,7 +521,7 @@ SETTINGS
 
 
 .menu__group{
-  --rLinkTextColor: var(--colorWhite);
+  --rLinkTextColor: var(black);
 
   padding: .5rem 2rem; 
   font-size: 2rem;
