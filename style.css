@@ -509,7 +509,7 @@ SETTINGS
   --colorWhite: black;
   --colorMain: #cac4b7;
   --menuCircleBackgroundColor: var(--colorMain);
-  --menuHamburgerBackgroundColor: var(#cac4b7);
+  --menuHamburgerBackgroundColor: var(black);
   --menuHaburgerOutlineColor: var(#cac4b7);
 }
 
