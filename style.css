@@ -362,7 +362,7 @@ MENU STYLES
   
   --hamburgerWidth: var(--uiMenuHamburgerWidth);
   --hamburgerHeight: var(--uiMenuHamburgerHeight);
-  --hamburgerBackgroundColor: var(--menuHamburgerBackgroundColor, #fff);
+  --hamburgerBackgroundColor: var(--menuHamburgerBackgroundColor, black);
 
   width: 100%;
   
