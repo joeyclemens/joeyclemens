@@ -509,8 +509,8 @@ SETTINGS
   --colorWhite: black;
   --colorMain: #cac4b7;
   --menuCircleBackgroundColor: var(--colorMain);
-  --menuHamburgerBackgroundColor: var(--colorWhite);
-  --menuHaburgerOutlineColor: var(--colorMain);
+  --menuHamburgerBackgroundColor: var(#cac4b7);
+  --menuHaburgerOutlineColor: var(#cac4b7);
 }
 
 .menu_activated{
