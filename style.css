@@ -588,12 +588,11 @@ SETTINGS
 }
 
 .mastodon-link {
-  display: inline-block;
-  margin-top: 10px; /* Adjust this value to move it down */
+ visibility: hidden;
 }
 
 .mastodon-img {
-  width: 30px; /* Adjust this value to control the size */
+  visibility: hidden;
 }
 
 /*=======Hello==========*/
