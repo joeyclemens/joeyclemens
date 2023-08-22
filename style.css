@@ -100,6 +100,15 @@ a:visited {
     width: 180px;
 }
 
+.mastodon-link {
+  display: inline-block;
+  margin-top: 10px; /* Adjust this value to move it down */
+}
+
+.mastodon-img {
+  width: 30px; /* Adjust this value to control the size */
+}
+
 /*=======Hello==========*/
 .new__bg {
     height: 100%;
@@ -576,6 +585,15 @@ SETTINGS
     padding-left: 10px;
     padding-right: 10px;
  
+}
+
+.mastodon-link {
+  display: inline-block;
+  margin-top: 10px; /* Adjust this value to move it down */
+}
+
+.mastodon-img {
+  width: 30px; /* Adjust this value to control the size */
 }
 
 /*=======Hello==========*/
