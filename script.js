@@ -7,10 +7,14 @@ function startTimer() {
     if (isPaused) {
         isPaused = false;
         timer = setInterval(updateTimer, 1000);
-        // Hide the navigation bar when the timer starts
-        document.getElementById('banner-txt').style.display = 'none';
+        
+        // Check if it's not a mobile view before hiding the navigation bar
+        if (window.innerWidth > 768) {
+            document.getElementById('banner-txt').style.display = 'none';
+        }
     }
 }
+
 
 function pauseTimer() {
     isPaused = true;
