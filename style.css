@@ -166,6 +166,12 @@ a:visited {
 
 /*============= Portfolio page ===================*/
 
+
+
+
+
+
+/*============= Pomodoro page ===================*/
 .timer {
   text-align: center;
   margin-top: 50px;
@@ -251,12 +257,6 @@ a:visited {
   background-color: #ff8533;
   color: black;
 }
-
-
-
-
-/*============= Pomodoro page ===================*/
-
 
 /*========================================================= */
 }
