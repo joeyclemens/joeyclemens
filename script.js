@@ -1,6 +1,6 @@
 let timer;
-let minutes = 25;
-let seconds = 0;
+let minutes = 0;
+let seconds = 5;
 let isPaused = true;
 
 function startTimer() {
@@ -37,10 +37,12 @@ function updateTimer() {
         minutes--;
     } else {
         clearInterval(timer);
+        document.getElementById('timerSound').play(); // Play the audio when the timer ends
         alert("Time's up!");
     }
     displayTime();
 }
+
 
 function displayTime() {
     const minutesStr = String(minutes).padStart(2, '0');
