@@ -1,6 +1,6 @@
 let timer;
-let minutes = 0;
-let seconds = 5;
+let minutes = 25;
+let seconds = 0;
 let isPaused = true;
 
 function startTimer() {
