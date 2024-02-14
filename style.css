@@ -750,8 +750,11 @@ SETTINGS
   /*============= Portfolio page ===================*/
 
 .timer {
-  text-align: center;
-  margin-top: 50px;
+  box-shadow: inset 0 0 0 0 #ff8533;
+  color: #ff8533;
+  padding: 0 0.25rem;
+  margin: 0 -.25rem;
+  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .time-display {
@@ -764,20 +767,16 @@ SETTINGS
 }
 
 .timer a {
-  font-size: 24px; /* Increase font size */
-  padding: 15px 30px; /* Increase padding */
-  border: 4px solid black; /* Increase border size */
-  border-radius: 100px; /* Increase border radius for a more rounded appearance */
-  background-color: transparent;
-  color: black;
-  cursor: pointer;
-  transition: color 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
-  text-decoration: underline;
+  box-shadow: inset 0 0 0 0 #ff8533;
+  color: #ff8533;
+  padding: 0 0.25rem;
+  margin: 0 -.25rem;
+  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .timer a:hover {
-  color: black;
-  box-shadow: inset 300px 0 0 0 #ff8533; /* Adjust shadow size */
+  color: #fff;
+  box-shadow: inset 200px 0 0 0 #ff8533;
 }
 
 li {
