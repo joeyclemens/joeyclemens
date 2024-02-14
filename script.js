@@ -19,19 +19,10 @@ function pauseTimer() {
 }
 
 function resetTimer() {
-    isPaused = true;
-    clearInterval(timer);
-    currentCycle = 0; // Reset cycle count
-    resetBreakTime(); // Reset break time display
-    seconds = 1500; // Reset to 25-minute timer
-    displayTime();
-    
-    // Show the input box on reset
-    document.getElementById('taskInputWrapper').style.display = 'block';
-    
-    // Show the navigation bar on reset
-    document.getElementById('banner-txt').style.display = 'block';
+    window.location.reload(); // Reload the page to reset the timer
 }
+
+
 
 function updateTimer() {
     if (seconds > 0) {
@@ -39,28 +30,37 @@ function updateTimer() {
     } else {
         clearInterval(timer);
         document.getElementById('timerSound').play();
-        if (currentCycle === 0) {
-            setTimer(300); // Start with 5 minutes (300 seconds) after the first 25-minute cycle
-            alert("Break time!");
-            displayBreakTime();
-        } else if (currentCycle === 6) { // Change to 20 minutes (1200 seconds) on the seventh cycle
-            setTimer(1200);
-            alert("Break time!");
-            displayBreakTime();
-        } else if (currentCycle % 2 === 0 && currentCycle !== 0 && currentCycle !== 6) { 
-            setTimer(300); // Change to 5 minutes (300 seconds) after every even cycle, excluding the 7th cycle
-            alert("Break time!");
-            displayBreakTime();
-        } else {
-            setTimer(1500); // Continue with 25-minute timer
-            resetBreakTime(); // Hide "Break Time" text during 25-second timer
-            alert("Time's up!");
+        
+        switch (currentCycle) {
+            case 0:
+            case 2:
+            case 4:
+            case 6:
+                setTimer(300); // 5-minute timer
+                alert("Break time! Enjoy your 5-minute break.");
+                break;
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+                setTimer(1500); // 25-minute timer
+                alert("Focus time! 25 minutes to go.");
+                break;
+            case 8:
+                setTimer(1200); // 20-minute timer
+                alert("Last focus stretch! 20 minutes to go.");
+                currentCycle = -1; // Reset cycle count after the 8th cycle
+                break;
         }
+        
         currentCycle++;
         startTimer(); // Start the timer again
+        
     }
+    
     displayTime();
 }
+
 
 function displayTime() {
     const minutes = Math.floor(seconds / 60);
