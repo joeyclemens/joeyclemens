@@ -7,6 +7,8 @@ function startTimer() {
     if (isPaused) {
         isPaused = false;
         timer = setInterval(updateTimer, 1000);
+        // Hide the navigation bar when the timer starts
+        document.getElementById('banner-txt').style.display = 'none';
     }
 }
 
@@ -21,7 +23,10 @@ function resetTimer() {
     minutes = 25;
     seconds = 0;
     displayTime();
-    document.getElementById('taskInputWrapper').style.display = 'block'; // Show input box on reset
+    // Show the input box on reset
+    document.getElementById('taskInputWrapper').style.display = 'block';
+    // Show the navigation bar on reset
+    document.getElementById('banner-txt').style.display = 'block';
 }
 
 function updateTimer() {
