@@ -53,6 +53,7 @@ function updateTimer() {
             displayBreakTime();
         } else {
             setTimer(1500); // Continue with 25-minute timer
+            resetBreakTime(); // Hide "Break Time" text during 25-second timer
             alert("Time's up!");
         }
         currentCycle++;
@@ -77,14 +78,4 @@ function displayTask() {
     const taskInput = document.getElementById('taskInput').value;
     document.getElementById('task').textContent = `Task: ${taskInput}`;
     document.getElementById('taskInputWrapper').style.display = 'none'; // Hide input box when task is set
-}
-
-function displayBreakTime() {
-    // Display "Break Time" text
-    document.getElementById('break-time').style.display = 'block';
-}
-
-function resetBreakTime() {
-    // Hide "Break Time" text
-    document.getElementById('break-time').style.display = 'none';
 }
