@@ -1,18 +1,15 @@
 let timer;
-let minutes = 25;
-let seconds = 0;
+let seconds = 1500; // 25 minutes in seconds
 let isPaused = true;
 let currentCycle = 0;
 
 function startTimer() {
-    if (isPaused) {
-        isPaused = false;
-        timer = setInterval(updateTimer, 1000);
-        
-        // Check if it's not a mobile view before hiding the navigation bar
-        if (window.innerWidth > 768) {
-            document.getElementById('banner-txt').style.display = 'none';
-        }
+    isPaused = false;
+    clearInterval(timer); // Clear any existing interval
+    timer = setInterval(updateTimer, 1000); // Start the timer immediately
+    // Check if it's not a mobile view before hiding the navigation bar
+    if (window.innerWidth > 768) {
+        document.getElementById('banner-txt').style.display = 'none';
     }
 }
 
@@ -24,10 +21,9 @@ function pauseTimer() {
 function resetTimer() {
     isPaused = true;
     clearInterval(timer);
-    minutes = 25;
-    seconds = 0;
     currentCycle = 0; // Reset cycle count
     resetBreakTime(); // Reset break time display
+    seconds = 1500; // Reset to 25-minute timer
     displayTime();
     
     // Show the input box on reset
@@ -40,38 +36,39 @@ function resetTimer() {
 function updateTimer() {
     if (seconds > 0) {
         seconds--;
-    } else if (minutes > 0) {
-        seconds = 59;
-        minutes--;
     } else {
         clearInterval(timer);
         document.getElementById('timerSound').play();
-        if (minutes === 0 && seconds === 0) {
-            if (currentCycle % 2 === 1) {
-                alert("Break time!");
-                displayBreakTime();
-            } else {
-                alert("Time's up!");
-            }
-            currentCycle++;
-            if (currentCycle === 5) {
-                setTimer(20, 0); // Change to 20 minutes after the 4th cycle
-            } else {
-                setTimer(5, 0); // Change to 5 minutes for the next cycle
-            }
+        if (currentCycle === 0) {
+            setTimer(300); // Start with 5 minutes (300 seconds) after the first 25-minute cycle
+            alert("Break time!");
+            displayBreakTime();
+        } else if (currentCycle === 6) { // Change to 20 minutes (1200 seconds) on the seventh cycle
+            setTimer(1200);
+            alert("Break time!");
+            displayBreakTime();
+        } else if (currentCycle % 2 === 0 && currentCycle !== 0 && currentCycle !== 6) { 
+            setTimer(300); // Change to 5 minutes (300 seconds) after every even cycle, excluding the 7th cycle
+            alert("Break time!");
+            displayBreakTime();
+        } else {
+            setTimer(1500); // Continue with 25-minute timer
+            alert("Time's up!");
         }
+        currentCycle++;
+        startTimer(); // Start the timer again
     }
     displayTime();
 }
 
 function displayTime() {
-    const minutesStr = String(minutes).padStart(2, '0');
-    const secondsStr = String(seconds).padStart(2, '0');
-    document.getElementById('time').textContent = `${minutesStr}:${secondsStr}`;
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    const displaySeconds = remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds;
+    document.getElementById('time').textContent = `${minutes}:${displaySeconds}`;
 }
 
-function setTimer(newMinutes, newSeconds) {
-    minutes = newMinutes;
+function setTimer(newSeconds) {
     seconds = newSeconds;
     displayTime();
 }
