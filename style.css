@@ -226,6 +226,7 @@ a:visited {
   justify-content: center;
   align-items: center;
   margin-top: 20px; /* Adjust margin as needed */
+  text-align: center; /* Center the text within the container */
 }
 
 .task-input-field {
