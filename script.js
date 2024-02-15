@@ -22,45 +22,43 @@ function resetTimer() {
     window.location.reload(); // Reload the page to reset the timer
 }
 
-
-
 function updateTimer() {
-    if (seconds > 0) {
-        seconds--;
-    } else {
-        clearInterval(timer);
-        document.getElementById('timerSound').play();
-        
-        switch (currentCycle) {
-            case 0:
-            case 2:
-            case 4:
-            case 6:
-                setTimer(300); // 5-minute timer
-                alert("Break time! Enjoy your 5-minute break.");
-                break;
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-                setTimer(1500); // 25-minute timer
-                alert("Focus time! 25 minutes to go.");
-                break;
-            case 8:
-                setTimer(1200); // 20-minute timer
-                alert("Last focus stretch! 20 minutes to go.");
-                currentCycle = -1; // Reset cycle count after the 8th cycle
-                break;
+    if (!isPaused) {
+        if (seconds > 0) {
+            seconds--;
+        } else {
+            clearInterval(timer);
+            playAudio(); // Play a sound when the timer finishes
+            
+            switch (currentCycle) {
+                case 0:
+                case 2:
+                case 4:
+                case 6:
+                    setTimer(300); // 5-minute timer
+                    alert("Break time! Enjoy your 5-minute break.");
+                    break;
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                    setTimer(1500); // 25-minute timer
+                    alert("Focus time! 25 minutes to go.");
+                    break;
+                case 8:
+                    setTimer(1200); // 20-minute timer
+                    alert("Last focus stretch! 20 minutes to go.");
+                    currentCycle = -1; // Reset cycle count after the 8th cycle
+                    break;
+            }
+            
+            currentCycle++;
+            startTimer(); // Start the timer again
         }
         
-        currentCycle++;
-        startTimer(); // Start the timer again
-        
+        displayTime();
     }
-    
-    displayTime();
 }
-
 
 function displayTime() {
     const minutes = Math.floor(seconds / 60);
@@ -78,4 +76,9 @@ function displayTask() {
     const taskInput = document.getElementById('taskInput').value;
     document.getElementById('task').textContent = `Task: ${taskInput}`;
     document.getElementById('taskInputWrapper').style.display = 'none'; // Hide input box when task is set
+}
+
+function playAudio() {
+    const audio = new Audio('path/to/your/audio/file.mp3'); // Change path to your audio file
+    audio.play();
 }
