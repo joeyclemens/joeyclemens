@@ -167,6 +167,102 @@ a:visited {
 /*============= Portfolio page ===================*/
 
 
+/*============= Project page ===================*/
+.menu-toggler {
+  display: none; /* Hide the checkbox input */
+}
+
+.menu-text {
+  position: absolute;
+  display: block;
+  z-index: 2;
+  cursor: pointer;
+  top: calc(33vh - 10px); /* 33vh represents approximately one-third of the viewport height */
+  left: 20px;
+  color: Black;
+  font-size: 18px;
+}
+
+.menu-text :hover {
+color: #fff;
+box-shadow: inset 200px 0 0 0 #ff8533;
+transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.menu-text::before {
+  content: ""; /* Unicode character for the hamburger icon */
+  margin-right: 10px; /* Add some spacing between the icon and text */
+}
+
+.menu-toggler:checked ~ .menu-text::before {
+  content: ""; /* Hide the hamburger icon when the menu is checked */
+}
+
+.menu-toggler:checked ~ ul .menu-item {
+  opacity: 1;
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(1) {
+  transform: rotate(0deg) translate(-140px) rotate(0deg); /* Counteract the rotation */
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(2) {
+  transform: rotate(60deg) translateX(-140px) rotate(-60deg); /* Counteract the rotation */
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(3) {
+  transform: rotate(120deg) translateX(-140px) rotate(-120deg); /* Counteract the rotation */
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(4) {
+  transform: rotate(180deg) translateX(-140px) rotate(-180deg); /* Counteract the rotation */
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(5) {
+  transform: rotate(240deg) translateX(-140px) rotate(-240deg); /* Counteract the rotation */
+}
+
+.menu-toggler:checked ~ ul .menu-item:nth-child(6) {
+  transform: rotate(300deg) translateX(-140px) rotate(-300deg); /* Counteract the rotation */
+}
+
+.menu-item {
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 100px; /* Adjust the size of the circles */
+  height: 100px; /* Adjust the size of the circles */
+  opacity: 0;
+  transition: 0.5s;
+  border-radius: 50%; /* Ensure the menu items are circular */
+  text-align: center;
+}
+
+.menu-item a {
+  display: flex;
+  align-items: center; /* Vertically center the text */
+  justify-content: center; /* Horizontally center the text */
+  width: inherit;
+  height: inherit;
+  color: #ff8533;
+
+  border-radius: 50%;
+  text-decoration: none;
+  font-size: 20px; /* Adjust the font size */
+  pointer-events: none;
+  transition: 0.2s;
+}
+
+.menu-item a:hover {
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+  color: white;
+  background: #ff8533;
+  font-size: 22px; /* Adjust the font size on hover */
+}
 
 
 
@@ -838,6 +934,13 @@ a:visited {
 .task-input-button:hover {
   background-color: #ff8533;
   color: black;
+}
+
+
+
+/*============= Project page ===================*/
+.menu-toggler {
+  display: none; /* Hide the checkbox input */
 }
 
 }
