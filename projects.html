@@ -6,155 +6,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
     <title>joeyclemens.com</title>
 </head>
 <body>
 
- 
-	<div class="first-header column"><!-- first header -->
-		<h1><u>Joey Clemens</u></h1>
-	</div><!-- close first header -->   
+<div class="first-header column"><!-- first header -->
+    <h1><u>Joey Clemens</u></h1>
+</div><!-- close first header -->   
 
-	<nav class="banner-txt" id="banner-txt">
-	<ul class="nav">
-		<li><a href="index.html"> <h2>Home</h2></a></li>
+<nav class="banner-txt" id="banner-txt">
+    <ul class="nav">
+        <li><a href="index.html"> <h2>Home</h2></a></li>
         <li><a href="Portfolio.html"> <h2>Portfolio</h2></a></li>
-		<li><a href="#"> <h2>Fun </h2></a></li>
-	</ul>
-	</nav>
+        <li><a href="#"> <h2>Fun </h2></a></li>
+    </ul>
+</nav>
 
-	<nav class="menu24">
-		<input checked="checked" class="menu-toggler" type="checkbox" id="menu-toggler">
-		<label for="menu-toggler" class="menu-text"><u><b>2024</b></u></label>
-		<ul>
-		  <li class="menu-item">
-			<a href="pomodoro.html">Pomodoro timer</a>
-		  </li>
-		  <!-- <li class="menu-item">
-			<a href="#">Cookie</a>
-		  </li>
-		  <li class="menu-item">
-			<a href="#">Birds</a>
-		  </li>
-		  <li class="menu-item">
-			<a href="#">Fly</a>
-		  </li>
-		  <li class="menu-item">
-			<a href="#">Gem</a>
-		  </li>
-		  <li class="menu-item">
-			<a href="">Cheers</a>
-		  </li>
-		  <li class="menu-item">
-			<a href="">Cheers2</a>
-		  </li> -->
-		</ul>
-	</nav>
+<nav class="menu24">
+    <input class="menu-toggler" type="checkbox" id="menu-toggler">
+    <label for="menu-toggler" class="menu-text"><u><b>2024</b></u></label>
+    <ul>
+        <li class="menu-item">
+            <a href="pomodoro.html">Pomodoro timer</a>
+        </li>
+    </ul>
+</nav>
 
+<br>
+<br>
 
+<div class="menu">
+    <nav class="menu__nav">
+        <ul class="menu__list r-list">
+            <li class="menu__group">
+                <a href="index.html" class="menu__link r-link">Home</a>
+            </li>
+            <li class="menu__group">
+                <a href="portfolio.html" class="menu__link r-link">Portfolio</a>
+            </li>
+            <li class="menu__group">
+                <a href="#0" class="menu__link r-link">Fun stuff</a>
+            </li>
+            <li class="menu__group">
+                <a href="#0" class="menu__link r-link">Contact</a>
+            </li>
+        </ul>
+    </nav>
+    <button class="menu__toggle r-button" type="button">
+        <span class="menu__hamburger m-hamburger">
+            <span class="m-hamburger__label">
+                <span class="menu__toggle-hint screen-reader">Open menu</span>
+            </span>
+        </span>
+    </button>
+</div>
 
+<script>
+    (function(){
+        'use strict';
 
+        class Menu {
+            constructor(settings) {
+                this.menuRootNode = settings.menuRootNode;
+                this.isOpened = false;
+            }
 
+            changeMenuState(menuState) {
+                return this.isOpened = !menuState;
+            }
 
+            changeToggleHint(toggleHint, toggleNode) {
+                toggleNode.textContent = toggleHint;
+                return toggleHint;
+            }
+        }
 
+        const menuClassesNames = {
+            rootClass: 'menu',
+            activeClass: 'menu_activated',
+            toggleClass: 'menu__toggle',
+            toggleHintClass: 'menu__toggle-hint'
+        }
 
+        const jsMenuNode = document.querySelector(`.${menuClassesNames.rootClass}`);
+        const demoMenu = new Menu ({
+            menuRootNode: jsMenuNode
+        });
 
+        function getCurrentToggleHint(currentMenuState) {
+            return (currentMenuState !== true) ? 'Open menu' : 'Close menu';
+        }
 
+        function toggleMenu(event) {
 
+            let currentMenuState = demoMenu.changeMenuState(demoMenu.isOpened);
+            let toggleHint = getCurrentToggleHint(currentMenuState);
 
+            demoMenu.changeToggleHint(
+                toggleHint, 
+                demoMenu.menuRootNode.querySelector(`.${menuClassesNames.toggleHintClass}`)
+            );
+            demoMenu.menuRootNode.classList.toggle(`${menuClassesNames.activeClass}`);
 
+            return currentMenuState;  
+        }
 
+        // Initially, close the menu on page load
+        toggleMenu();
 
-
-
-
-		<br>
-		<br>
-	
-		<div class="menu">
-			<nav class="menu__nav">
-				<ul class="menu__list r-list">
-				  <li class="menu__group">
-					<a href="index.html" class="menu__link r-link">Home</a>
-				  </li>
-				  <li class="menu__group">
-					<a href="portfolio.html" class="menu__link r-link">Portfolio</a>
-				  </li>
-				  <li class="menu__group">
-					<a href="#0" class="menu__link r-link">Fun stuff</a>
-				  </li>
-				  <li class="menu__group">
-					<a href="#0" class="menu__link r-link">Contact</a>
-				  </li>
-				</ul>
-			  </nav>
-			<button class="menu__toggle r-button" type="button">
-			  <span class="menu__hamburger m-hamburger">
-				<span class="m-hamburger__label">
-				  <span class="menu__toggle-hint screen-reader">Open menu</span>
-				</span>
-			  </span>
-			</button>
-		  </div>
-		
-		 <script>
-		  (function(){
-		  'use strict';
-		
-		  class Menu {
-			constructor(settings) {
-			  this.menuRootNode = settings.menuRootNode;
-			  this.isOpened = false;
-			}
-			
-			changeMenuState(menuState) {
-			  return this.isOpened = !menuState;
-			}
-			
-			changeToggleHint(toggleHint, toggleNode) {
-			  toggleNode.textContent = toggleHint;
-			  return toggleHint; 
-			}
-		  }
-		
-		  const menuClassesNames = {
-			rootClass: 'menu',
-			activeClass: 'menu_activated',
-			toggleClass: 'menu__toggle',
-			toggleHintClass: 'menu__toggle-hint'
-		  }
-		  
-		  const jsMenuNode = document.querySelector(`.${menuClassesNames.rootClass}`);
-		  const demoMenu = new Menu ({
-			menuRootNode: jsMenuNode
-		  });
-		  
-		  function getCurrentToggleHint(currentMenuState) {
-			return (currentMenuState !== true) ? 'Open menu' : 'Close menu';
-		  }
-		  
-		  function toggleMenu(event) {
-			
-			  let currentMenuState = demoMenu.changeMenuState(demoMenu.isOpened);
-			  let toggleHint = getCurrentToggleHint(currentMenuState);
-			  
-			  demoMenu.changeToggleHint(
-				toggleHint, 
-				demoMenu.menuRootNode.querySelector(`.${menuClassesNames.toggleHintClass}`)
-			  );
-			  demoMenu.menuRootNode.classList.toggle(`${menuClassesNames.activeClass}`);
-			  
-			  return currentMenuState;  
-		  }
-		  
-		  jsMenuNode.querySelector(`.${menuClassesNames.toggleClass}`).addEventListener('click', toggleMenu);
-		})();
-		 </script>
-		
-
-
+        jsMenuNode.querySelector(`.${menuClassesNames.toggleClass}`).addEventListener('click', toggleMenu);
+    })();
+</script>
 
 </body>
 </html>
