@@ -183,10 +183,9 @@ a:visited {
   font-size: 40px;
 }
 
-.menu-text :hover {
-
-box-shadow: inset 200px 0 0 0 #ff8533;
-transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+.menu-text:hover {
+  box-shadow: inset 200px 0 0 0 #ff8533;
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .menu-text::before {
@@ -209,27 +208,6 @@ transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 .menu-toggler:checked ~ ul .menu-item:nth-child(2) {
   transform: rotate(51.43deg) translateX(-140px) rotate(-51.43deg); /* Counteract the rotation */
 }
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(3) {
-  transform: rotate(102.86deg) translateX(-140px) rotate(-102.86deg); /* Counteract the rotation */
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(4) {
-  transform: rotate(154.29deg) translateX(-140px) rotate(-154.29deg); /* Counteract the rotation */
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(5) {
-  transform: rotate(205.72deg) translateX(-140px) rotate(-205.72deg); /* Counteract the rotation */
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(6) {
-  transform: rotate(257.15deg) translateX(-140px) rotate(-257.15deg); /* Counteract the rotation */
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(7) {
-  transform: rotate(308.58deg) translateX(-140px) rotate(-308.58deg); /* Counteract the rotation */
-}
-
 
 .menu-item {
   position: absolute;
@@ -254,19 +232,16 @@ transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   width: inherit;
   height: inherit;
   color: #ff8533;
-
   border-radius: 50%;
   text-decoration: none;
   font-size: 20px; /* Adjust the font size */
-
   transition: 0.2s;
 }
 
 .menu-item a:hover {
-  
   background: #ff8533;
-
 }
+
 
 
 
@@ -365,6 +340,106 @@ a:visited {
 
 
 /*========================================================= */
+/* ================ Anagram page =================== */
+
+#container1 {
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 20px;
+
+}
+
+
+
+#word {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: calc(100% - 90px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px; /* Add some bottom margin to separate from the button */
+}
+
+button#checkButton {
+  width: 80px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+button#checkButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+button#skipButton {
+  width: 100px; /* Adjust button width as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #f44336; /* Red */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto; /* Add margin between buttons */
+}
+
+button#skipButton:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+
+button[type="submit"] {
+  width: 120px; /* Adjust button width as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #007bff; /* Blue */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto; /* Add margin as needed */
+}
+
+button[type="submit"]:hover {
+  background-color: #00f5fd; /* Darker blue on hover */
+  color: #333;
+}
+
+
+p#result {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+p#score {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/*========================================================= */
+
 }
 /* ================ End of Desktop view =================== */
 
@@ -946,5 +1021,94 @@ a:visited {
 .menu-toggler {
   display: none; /* Hide the checkbox input */
 }
+
+/* ================ Anagram page =================== */
+#word {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: calc(100% - 90px);
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px; /* Add some bottom margin to separate from the button */
+}
+
+button#checkButton {
+  width: 80px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+}
+
+button#checkButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+button#skipButton {
+  width: 100px; /* Adjust button width as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #f44336; /* Red */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto; /* Add margin between buttons */
+}
+
+button#skipButton:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+
+
+button[type="submit"] {
+  width: 120px; /* Adjust button width as needed */
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  background-color: #007bff; /* Blue */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+  margin: 10px auto; /* Add margin as needed */
+}
+
+button[type="submit"]:hover {
+  background-color: #00f5fd; /* Darker blue on hover */
+  color: #333;
+}
+
+
+p#result {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+p#score {
+  text-align: center;
+  color: #333;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+/*========================================================= */
 
 }
