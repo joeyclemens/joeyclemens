@@ -212,7 +212,7 @@ a:visited {
 .menu-item {
   position: absolute;
   display: block;
-  top: 0;
+  top: 150px;
   bottom: 0;
   left: 0;
   right: 0;
