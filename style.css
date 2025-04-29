@@ -1,1114 +1,232 @@
-/* =================================
-============ Desktop view ========== 
-===================================*/
-@media (min-width: 600px) {
 body {
-    width: 80%;
-    background-color: #e4dcc9;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    font-family: 'IBM Plex Mono', monospace;
+  font-family: 'IBM Plex Mono', monospace;
+  margin: 0; /* Remove default margin */
+  cursor: none;
+  background-color:  #e4dcc9;
 }
+
 .container {
-  visibility: hidden;
-}
-
-.menu {
-  visibility: hidden;
-}
-/* ====================Link stuff================== */
-/* unvisited link */
-li {
-    box-shadow: inset 0 0 0 0 #ff8533;
-    color: #ff8533;
-    padding: 0 0.25rem;
-    margin: 0 -.25rem;
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-li:hover {
-    color: #fff;
-    box-shadow: inset 200px 0 0 0 #ff8533;
-}
-
-/* unvisited link */
-a:link {
-    color: black;
-    text-decoration: none;
-}
-
-/* visited link */
-a:visited {
-    color: black;
-
-}
-
-/*================================================================*/
-
-/*=== scroll stuff ===*/
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: black;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(#ff8533, #262222);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/*============= Index page ===================*/
-
-.first-header {
-    text-align: center;
-    font-size: 24px;
-    color: #000000;
-    list-style: none;
-}
-
-.banner-txt {
-    text-align: center;
-
-    font-size: 24px;
-    color: #000000;
-    list-style: none;
-
-}
-
-.nav {
-    padding: 10px;
-    list-style-type: none;
-    text-align: center;
-
-}
-
-.nav li {
-    display: inline-block;
-    font-size: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border: 3px solid black;
-    border-radius: 75px;
-    width: 180px;
-}
-
-.mastodon-link {
-  display: inline-block;
-  margin-top: 10px; /* Adjust this value to move it down */
-}
-
-.mastodon-img {
-  width: 30px; /* Adjust this value to control the size */
-}
-
-/*=======Hello==========*/
-.new__bg {
-    height: 100%;
-    min-height: 500px;
-    display: flex;
-    justify-content: center;
-  }
-  .hello__div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin: 0 auto;
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-  }
-  .hello__svg {
-    fill: none;
-    stroke: black;
-    stroke-linecap: round;
-    stroke-miterlimit: 10;
-    stroke-width: 48px;
-    stroke-dasharray: 5800px;
-    stroke-dashoffset: 5800px;
-    animation: anim__hello linear 5s forwards;
-    width: 100%;
-    
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  @keyframes anim__hello {
-    0% {
-      stroke-dashoffset: 5800;
-    }
-    25% {
-      stroke-dashoffset: 5800;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-  
-/*=======Intro section==========*/
-.intro_text {
-  text-align: center;
-}
-
-/*================================================================*/
-
-/*============= Portfolio page ===================*/
-
-
-/*============= Project page ===================*/
-.menu-toggler {
-  display: none; /* Hide the checkbox input */
-}
-
-.menu-text {
-  position: absolute;
-  display: block;
-  z-index: 2;
-  cursor: pointer;
-  top: calc(33vh - 10px); /* 33vh represents approximately one-third of the viewport height */
-  left: 20px;
-  color: Black;
-  font-size: 40px;
-}
-
-.menu-text:hover {
-  box-shadow: inset 200px 0 0 0 #ff8533;
-  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.menu-text::before {
-  content: ""; /* Unicode character for the hamburger icon */
-  margin-right: 10px; /* Add some spacing between the icon and text */
-}
-
-.menu-toggler:checked ~ .menu-text::before {
-  content: ""; /* Hide the hamburger icon when the menu is checked */
-}
-
-.menu-toggler:checked ~ ul .menu-item {
-  opacity: 1;
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(1) {
-  transform: rotate(0deg) translate(-140px) rotate(0deg); /* Counteract the rotation */
-}
-
-.menu-toggler:checked ~ ul .menu-item:nth-child(2) {
-  transform: rotate(51.43deg) translateX(-140px) rotate(-51.43deg); /* Counteract the rotation */
-}
-
-.menu-item {
-  position: absolute;
-  display: block;
-  top: 150px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 100px; /* Adjust the size of the circles */
-  height: 100px; /* Adjust the size of the circles */
-  opacity: 0;
-  transition: 0.5s;
-  border-radius: 50%; /* Ensure the menu items are circular */
-  text-align: center;
-}
-
-.menu-item a {
-  display: flex;
-  align-items: center; /* Vertically center the text */
-  justify-content: center; /* Horizontally center the text */
-  width: inherit;
-  height: inherit;
-  color: #ff8533;
-  border-radius: 50%;
-  text-decoration: none;
-  font-size: 20px; /* Adjust the font size */
-  transition: 0.2s;
-}
-
-.menu-item a:hover {
-  background: #ff8533;
-}
-
-
-
-
-
-/*============= Pomodoro page ===================*/
-.timer {
-  text-align: center;
-  margin-top: 50px;
-}
-
-.time-display {
-  font-size: 48px;
-}
-
-.timer {
-  text-align: center;
-  color: black;
-}
-
-.timer a {
-  font-size: 24px; /* Increase font size */
-  padding: 15px 30px; /* Increase padding */
-  border: 4px solid black; /* Increase border size */
-  border-radius: 100px; /* Increase border radius for a more rounded appearance */
-  background-color: transparent;
-  color: black;
-  cursor: pointer;
-  transition: color 0.6s ease-in-out, box-shadow 0.6s ease-in-out;
-  text-decoration: underline;
-}
-
-.timer a:hover {
-  color: black;
-  box-shadow: inset 300px 0 0 0 #ff8533; /* Adjust shadow size */
-}
-
-li {
-  box-shadow: inset 0 0 0 0 #ff8533;
-  color: #ff8533;
-  padding: 0 0.25rem;
-  margin: 0 -.25rem;
-  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-li:hover {
-  color: #fff;
-  box-shadow: inset 200px 0 0 0 #ff8533;
-}
-
-/* unvisited link */
-a:link {
-  color: black;
-  text-decoration: none;
-}
-
-/* visited link */
-a:visited {
-  color: black;
-}
-
-
-.task-input {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px; /* Adjust margin as needed */
-  text-align: center; /* Center the text within the container */
-}
-
-.task-input-field {
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px; /* Add spacing between input field and button */
-}
-
-.task-input-button {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: black;
-  border: 2px solid black;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  text-decoration: none; /* Remove underline */
-}
-
-.task-input-button:hover {
-  background-color: #ff8533;
-  color: black;
-}
-
-#task {
-  font-weight: bold;
-  padding-bottom: 10px;
-}
-
-
-/*========================================================= */
-/* ================ Anagram page =================== */
-
-#container1 {
-  max-width: 600px;
-  margin: 50px auto;
-  text-align: center;
-  padding: 20px;
-
-}
-
-
-
-#word {
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-input[type="text"] {
-  width: calc(100% - 90px);
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 10px; /* Add some bottom margin to separate from the button */
-}
-
-button#checkButton {
-  width: 80px;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #4CAF50; /* Green */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 0 auto;
-}
-
-button#checkButton:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-button#skipButton {
-  width: 100px; /* Adjust button width as needed */
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #f44336; /* Red */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 10px auto; /* Add margin between buttons */
-}
-
-button#skipButton:hover {
-  background-color: #d32f2f; /* Darker red on hover */
-}
-
-
-button[type="submit"] {
-  width: 120px; /* Adjust button width as needed */
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #007bff; /* Blue */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 10px auto; /* Add margin as needed */
-}
-
-button[type="submit"]:hover {
-  background-color: #00f5fd; /* Darker blue on hover */
-  color: #333;
-}
-
-
-p#result {
-  text-align: center;
-  color: #333;
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-p#score {
-  text-align: center;
-  color: #333;
-  font-size: 18px;
-  margin-top: 20px;
-}
-
-/*========================================================= */
-
-}
-/* ================ End of Desktop view =================== */
-
-
-
-/* =================================
-============ Mobile view ========== 
-===================================*/
-@media (max-width: 600px) {
-  body {
-    width: 80%;
-    background-color: #e4dcc9;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    font-family: 'IBM Plex Mono', monospace;
-}
-
-
-
-.banner-txt {
-  visibility: hidden;
-}
-
-/* ====================Link stuff================== */
-/* unvisited link */
-li {
-    box-shadow: inset 0 0 0 0 #ff8533;
-    color: #ff8533;
-    padding: 0 0.25rem;
-    margin: 0 -.25rem;
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-li:hover {
-    color: #fff;
-    box-shadow: inset 200px 0 0 0 #ff8533;
-}
-
-/* unvisited link */
-a:link {
-    color: black;
-    text-decoration: none;
-}
-
-/* visited link */
-a:visited {
-    color: black;
-
-}
-
-/*=== scroll stuff ===*/
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: black;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(#ff8533, #262222);
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* ================================================ Hamburger menu ================================================*/
-
-.r-button{
-  --uirButtonBackgroundColor: var(--rButtonBackgroundColor, transparent);
-  --uirButtonPadding: var(--rButtonPadding, var(--rButtonPaddingTop, 0) var(--rButtonPaddingRight, 0) var(--rButtonPaddingBottom, 0) var(--rButtonPaddingLeft, 0));
-  --uirButtonBorderWidth: var(--rButtonBorderWidth, 0);
-  --uirButtonBorderStyle: var(--rButtonBorderStyle, none);
-  --uirButtonBorderColor: var(--rButtonBorderColor, #e4dcc9);
-  --uirButtonFontFamily: var(--rButtonFontFamily, inherit);
-  --uirButtonFontSize: var(--rButtonFontSize,  inherit);
-  --uirButtonColor: var(--rButtonColor);
-
-  background-color: var(--uirButtonBackgroundColor);
-  padding: var(--uirButtonPadding);
-
-  border-width: var(--uirButtonBorderWidth);
-  border-style: var(--uirButtonBorderStyle);
-  border-color: var(--uirButtonBorderColor);
-
-  cursor: pointer;
-
-  font-family: var(--uirButtonFontFamily);
-  font-size: var(--uirButtonFontSize);
-}
-
-.r-button::-moz-focus-inner,
-.r-button[type="button"]::-moz-focus-inner,
-.r-button[type="reset"]::-moz-focus-inner,
-.r-button[type="submit"]::-moz-focus-inner {
-  
-  /* Remove the inner border and padding in Firefox. */
-  
-  border-style: none;
-  padding: 0;
-}
-
-/* The component will reset browser's styles of link */
-
-.r-link{
-    --uirLinkDisplay: var(--rLinkDisplay, inline-flex);
-    --uirLinkTextColor: var(--rLinkTextColor);
-    --uirLinkTextDecoration: var(--rLinkTextDecoration, none);
-
-    display: var(--uirLinkDisplay) !important;
-    color: var(--uirLinkTextColor) !important;
-    text-decoration: var(--uirLinkTextDecoration) !important;
-}
-
-/* The component will reset browser's styles of list */
-
-.r-list{
-    --uirListPaddingLeft: var(--rListPaddingLeft, 0);
-    --uirListMarginTop: var(--rListMarginTop, 0);
-    --uirListMarginBottom: var(--rListMarginBottom, 0);
-    --uirListListStyle: var(--rListListStyle, none);
-
-    padding-left: var(--uirListPaddingLeft) !important;
-    margin-top: var(--uirListMarginTop) !important;
-    margin-bottom: var(--uirListMarginBottom) !important;
-    list-style: var(--uirListListStyle) !important;
-}
-
-/* Basic styles of the hamburger component */
-
-.m-hamburger{  
-  --uiHamburgerThickness: var(--hamburgerThickness, 4px);
-
-  display: var(--hamburgerDisplay, inline-flex);
-  width: var(--hamburgerWidth, 28px);
-  height: var(--hamburgerHeight, 20px);
-
-  position: relative;
-}
-
-.m-hamburger::before, 
-.m-hamburger::after, 
-.m-hamburger__label{
-  width: 100%;
-  height: var(--uiHamburgerThickness);
-  border-radius: var(--hamburgerBorderRadius, 5px);
-  background-color: var(--hamburgerBackgroundColor, currentColor);
-
-  position: absolute;
-  left: 0;
-}
-
-.m-hamburger::before, 
-.m-hamburger::after{
-  content:"";
-}
-
-.m-hamburger::before{
-  top: 0;
-}
-
-.m-hamburger::after{
-  bottom: 0;
-}
-
-.m-hamburger__label{
-  /* The calculation of middle hamburger button line position */
-  
-  top: calc(50% - calc(var(--uiHamburgerThickness) / 2));
-}
-
-/* helper to hide elements that are available only for screen readers. */
-
-.screen-reader{
-  width: var(--screenReaderWidth, 1px) !important;
-  height: var(--screenReaderHeight, 1px) !important;
-  padding: var(--screenReaderPadding, 0) !important;
-  border: var(--screenReaderBorder, none) !important;
-
-  position: var(--screenReaderPosition, absolute) !important;
-  clip: var(--screenReaderClip, rect(1px, 1px, 1px, 1px)) !important;
-  overflow: var(--screenReaderOverflow, hidden) !important;
-}
-
-/*
-=====
-MENU STYLES
-=====
-*/
-
-.menu{
-  --uiMenuCircleSize: var(--menuCircleSize, 6.25rem);
-  --uiMenuCircleOffset: var(--menuCircleOffset, 1rem);
-  --uiMenuCircleHeight: calc(var(--uiMenuCircleSize) / 2);  
-  --uiMenuCircleBackgroundColor: var(--menuCircleBackgroundColor, currentColor);
-
-  --uiMenuHamburgerWidth: var(--menuHamburgerWidth, 1.75rem);
-  --uiMenuHamburgerHeight: var(--menuHamburgerHeight, 1.25rem);
-  
-  --rButtonPaddingTop: calc(var(--uiMenuCircleHeight) - var(--uiMenuHamburgerHeight) - var(--uiMenuCircleOffset));
-  
-  --hamburgerWidth: var(--uiMenuHamburgerWidth);
-  --hamburgerHeight: var(--uiMenuHamburgerHeight);
-  --hamburgerBackgroundColor: var(--menuHamburgerBackgroundColor, black);
-
-  width: 100%;
-  
   display: flex;
   flex-direction: column;
-  align-items: center;  
-
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: var(--menuZindex, 9998);
+  justify-content: flex-start; /* Align items at the top */
+  align-items: center;
+  height: 100vh;
+  margin-top: 20px; /* Add margin to the top */
 }
 
-.menu__nav{
-  box-sizing: border-box;
-  width: 100%;
-  height: 0;
-
-  transition: opacity .2s ease-out;
-  opacity: 0;
-
-  display: flex;
-  align-items: flex-end;
-  z-index: 2;
+#header-text {
+  display: inline-block;
+  color: #333;
+  margin-top: 0; /* Remove default margin */
 }
 
-.menu__list{
-  width: 100%;
-  max-height: 100%;
-
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+#cursor {
+  
+  display: inline-block;
+  width: 7px;
+  height: 25px;
+  background-color: orange;
+  animation: blink-animation 0.7s infinite;
 }
 
-.menu__toggle{
-  box-sizing: border-box;
-  width: var(--uiMenuCircleSize);
-  height: var(--uiMenuCircleHeight);
-  flex: none;
-
-  position: relative;
+@keyframes blink-animation {
+  0% {
+      opacity: 0;
+  }
+  50% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0;
+  }
 }
 
-.menu__toggle::before{
-  /*
-  1. The font-size property is used to simplify calculations of the element's sizes and position
-  2. The negative value for the bottom property need for hiding half of circle. 
-  */
-
-  content: "";
-  width: 1em;
-  height: 1em;
-  font-size: var(--uiMenuCircleSize); /* 1 */
-
-  background-color: var(--uiMenuCircleBackgroundColor);
-  border-radius: 50%;
-
-  position: absolute;
-  bottom: -.5em; /* 2 */
-  left: calc(50% - .5em);
-  z-index: -1;
-
-  will-change: width, height;
-  transition: transform .25s cubic-bezier(0.04, -0.1, 0.29, 0.98),
-              width .25s cubic-bezier(0.04, -0.1, 0.29, 0.98),
-              height .25s cubic-bezier(0.04, -0.1, 0.29, 0.98);
-}
-
-/* styles of hamburger's animation */
-
-.m-hamburger::before, 
-.m-hamburger::after, 
-.m-hamburger__label{
-  transition-timing-function: ease;
-  transition-duration: .15s;  
-}
-
-.m-hamburger::before, 
-.m-hamburger::after{
-  transition-property: transform;
-}
-
-.m-hamburger__label{
-  transition-property: transform, opacity;
-}
-
-/*
-=====
-MENU STATES
-=====
-*/
-
-.menu__toggle:focus{
-  outline: var(--menuHaburgerOutlineOWidth, 2px) solid var(--menuHaburgerOutlineColor);
-  outline-offset: var(--menuHaburgerOutlineOffset, 5px);
-}
-
-.menu_activated{
-  height: 100%;
-}
-
-.menu_activated .menu__nav{
-  flex-grow: 1;
-  opacity: 1;
-
-  will-change: opacity;
-  transition-duration: .2s;
-  transition-delay: .3s;
-}
-
-.menu_activated .menu__toggle::before{
-  width: 100vmax;
-  height: 100vmax;
-  transform: translate3d(-50vh, -50vh, 0) scale(5);
-  transition-duration: 1s;
-}
-
-.menu:not(.menu_activated) .menu__list{
-  display: none;
-}
-
-.menu_activated .m-hamburger::before{
-  top: 50%;
-  transform: translate3d(0, -50%, 0) rotate(45deg);
-}
-
-.menu_activated .m-hamburger::after{
-  transform: translate3d(0, -50%, 0) rotate(135deg);
-  top: 50%;
-}
-
-.menu_activated .m-hamburger__label{
-  transform: rotate(-45deg) translate3d(-.285em,-.3em, 0);
-  opacity: 0;
-}
-
-/*
-=====
-SETTINGS
-=====
-*/
-
-:root{
-  --colorWhite: black;
-  --colorMain: #cac4b7;
-  --menuCircleBackgroundColor: var(--colorMain);
-  --menuHamburgerBackgroundColor: var(black);
-  --menuHaburgerOutlineColor: var(#cac4b7);
-}
-
-.menu_activated{
-  --menuHaburgerOutlineColor: var(#cac4b7);
-}
-
-
-
-
-.menu__group{
-  --rLinkTextColor: var(--colorWhite);
-
-  padding: .5rem 2rem; 
-  font-size: 2rem;
-  font-weight: 700;
-  text-transform: uppercase;
-
-  box-shadow: inset 0 0 0 0 #ff8533;
-    color: #ff8533;
-    padding: 0 0.25rem;
-    margin: 0 -.25rem;
-    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.menu__group:hover {
-  color: #fff;
-  box-shadow: inset 200px 0 0 0 #ff8533;
- 
-}
-
-
-
-/*================================================================*/
-
-/*============= Index page ===================*/
-
-.first-header {
-    text-align: center;
-    font-size: 24px;
-    color: #000000;
-    list-style: none;
-}
-
-.banner-txt {
-    text-align: center;
-
-    font-size: 24px;
-    color: #000000;
-    list-style: none;
-
-}
-
-.nav {
-    padding: 10px;
-    list-style-type: none;
-    text-align: center;
-
-}
-
-.nav li {
-    display: inline-block;
-    font-size: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
- 
-}
-
-.mastodon-link {
- visibility: hidden;
-}
-
-.mastodon-img {
-  visibility: hidden;
+.header-section,
+.button-section {
+  
+  margin-top: 10px; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
 }
 
 /*=======Hello==========*/
 .new__bg {
-    height: 100%;
-    min-height: 500px;
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    top: 1%;
-  }
-  .hello__div {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin: 0 auto;
-    text-align: center;
-    width: 100%;
-    max-width: 600px;
-  }
-  .hello__svg {
-    fill: none;
-    stroke: black;
-    stroke-linecap: round;
-    stroke-miterlimit: 10;
-    stroke-width: 48px;
-    stroke-dasharray: 5800px;
-    stroke-dashoffset: 5800px;
-    animation: anim__hello linear 5s forwards;
-    width: 100%;
-    
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin: 0 auto;
-    text-align: center;
-  }
-  
-  @keyframes anim__hello {
-    0% {
-      stroke-dashoffset: 5800;
-    }
-    25% {
-      stroke-dashoffset: 5800;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-
-
-  .intro_text {
-    text-align: center;
-  }  
-
-
-
-  /*============= Portfolio page ===================*/
-
-.timer {
-  box-shadow: inset 0 0 0 0 #ff8533;
-  color: #ff8533;
-  padding: 0 0.25rem;
-  margin: 0 -.25rem;
-  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.time-display {
-  font-size: 48px;
-}
-
-.timer {
-  text-align: center;
-  color: black;
-}
-
-.timer a {
-  box-shadow: inset 0 0 0 0 #ff8533;
-  color: #ff8533;
-  padding: 0 0.25rem;
-  margin: 0 -.25rem;
-  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.timer a:hover {
-  color: #fff;
-  box-shadow: inset 200px 0 0 0 #ff8533;
-}
-
-li {
-  box-shadow: inset 0 0 0 0 #ff8533;
-  color: #ff8533;
-  padding: 0 0.25rem;
-  margin: 0 -.25rem;
-  transition: color 0.6s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-li:hover {
-  color: #fff;
-  box-shadow: inset 200px 0 0 0 #ff8533;
-}
-
-/* unvisited link */
-a:link {
-  color: black;
-  text-decoration: none;
-}
-
-/* visited link */
-a:visited {
-  color: black;
-}
-
-
-.task-input {
+  height: 100%;
+  min-height: 500px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 20px; /* Adjust margin as needed */
-  text-align: center; /* Center the text within the container */
 }
-
-.task-input-field {
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px; /* Add spacing between input field and button */
-}
-
-.task-input-button {
-  padding: 10px 20px;
-  background-color: transparent;
-  color: black;
-  border: 2px solid black;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-  text-decoration: none; /* Remove underline */
-}
-
-.task-input-button:hover {
-  background-color: #ff8533;
-  color: black;
-}
-
-
-
-/*============= Project page ===================*/
-.menu-toggler {
-  display: none; /* Hide the checkbox input */
-}
-
-/* ================ Anagram page =================== */
-#word {
-  font-size: 24px;
+.hello__div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
   text-align: center;
+  width: 100%;
+  max-width: 600px;
+}
+.hello__svg {
+  fill: none;
+  stroke: black;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
+  stroke-width: 48px;
+  stroke-dasharray: 5800px;
+  stroke-dashoffset: 5800px;
+  animation: anim__hello linear 5s forwards;
+  width: 100%;
+  
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@keyframes anim__hello {
+  0% {
+    stroke-dashoffset: 5800;
+  }
+  25% {
+    stroke-dashoffset: 5800;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Style for your button */
+.button {
+  font-family: 'IBM Plex Mono', monospace;
+  position: relative;
+  width: auto;
+  display: inline-block;
+  color: #ecf0f1;
+  text-decoration: none;
+  border-radius: 5px;
+  border: solid 1px #f39c12;
+  background: #e67e22;
+  text-align: center;
+  padding: 16px 18px 14px;
+  margin: 12px;
+
+  -webkit-transition: opacity 0.5s ease; /* Adjust the transition */
+  -moz-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 0; /* Initially hide buttons */
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 6px 0px #d35400;
+}
+
+/* Hover effect */
+.button:hover {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: #e67e22;
+  transform: translateY(-2px); /* Move the button slightly up */
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 6px 0px #d35400;
+cursor: none;
+}
+
+/* Active effect (when the button is clicked) */
+.button:active {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: #e67e22;
+  transform: translateY(2px); /* Move the button slightly down */
+  box-shadow: none; /* Remove shadow on active state */
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  transition: all 0.1s;
+
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 1px 0px #d35400;
+}
+
+/* Initially hide the content */
+.content {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Fade in effect when opacity changes */
+.fade-in {
+  opacity: 1;
+}
+
+.step {
+  margin: 0 auto; /* Center the element horizontally */
+  width: 70%; /* Set the width of the step elements */
+  background-color: #e4dcc9;
+  box-shadow: 6px 6px 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 20px;
   margin-bottom: 20px;
-  color: #333;
+  border-style: solid;
+  
+  
 }
 
-input[type="text"] {
-  width: calc(100% - 90px);
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
+#back-to-top-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  font-size: 24px;
+  cursor: none;
+  border-radius: 100px;
+}
+
+.button {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #ecf0f1;
+  text-decoration: none;
   border-radius: 5px;
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 10px; /* Add some bottom margin to separate from the button */
-}
-
-button#checkButton {
-  width: 80px;
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #4CAF50; /* Green */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 0 auto;
-}
-
-button#checkButton:hover {
-  background-color: #45a049; /* Darker green on hover */
-}
-
-button#skipButton {
-  width: 100px; /* Adjust button width as needed */
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #f44336; /* Red */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 10px auto; /* Add margin between buttons */
-}
-
-button#skipButton:hover {
-  background-color: #d32f2f; /* Darker red on hover */
-}
-
-
-button[type="submit"] {
-  width: 120px; /* Adjust button width as needed */
-  padding: 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #007bff; /* Blue */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  display: block;
-  margin: 10px auto; /* Add margin as needed */
-}
-
-button[type="submit"]:hover {
-  background-color: #00f5fd; /* Darker blue on hover */
-  color: #333;
-}
-
-
-p#result {
+  border: solid 1px #f39c12;
+  background: #e67e22;
   text-align: center;
-  color: #333;
-  font-size: 18px;
-  margin-top: 10px;
+  padding: 16px 18px 14px;
+  -webkit-transition: opacity 0.5s ease; /* Adjust the transition */
+  -moz-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  opacity: 0; /* Initially hide buttons */
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 6px 0px #d35400;
+  cursor: none;
 }
 
-p#score {
-  text-align: center;
-  color: #333;
-  font-size: 18px;
-  margin-top: 20px;
+.button:hover {
+  background-color: #e67e22;
+  transform: translateY(-2px); /* Move the button slightly up */
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 6px 0px #d35400;
+  cursor: none;
 }
 
-/*========================================================= */
+.button:active {
+  background-color: #e67e22;
+  transform: translateY(2px); /* Move the button slightly down */
+  box-shadow: none; /* Remove shadow on active state */
+  -webkit-transition: all 0.1s;
+  -moz-transition: all 0.1s;
+  transition: all 0.1s;
+  -webkit-box-shadow: 0px 6px 0px #d35400;
+  -moz-box-shadow: 0px 6px 0px #d35400;
+  box-shadow: 0px 1px 0px #d35400;
+}
 
+.code-block-container {
+  max-width: 70%; /* Adjust this value as needed */
+  margin: auto; /* Center the code block horizontally */
+}
+
+.button-section {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap to the next row */
+  justify-content: center; /* Center the buttons horizontally */
+  margin-top: 10px; /* Adjust as needed */
+  margin-bottom: 20px; /* Adjust as needed */
 }
