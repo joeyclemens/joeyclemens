@@ -19,11 +19,11 @@ setTimeout(typeWriter, 2000); // 2000 milliseconds = 2 seconds
 function createButtons() {
     const buttonSection = document.querySelector(".button-section");
 
-    const button1 = createButton("How do I use the SoA Maker?");
-    const button2 = createButton("Explain the Exported SoA");
-    const button3 = createButton("Give me the Reference SoA Template");
-    const button4 = createButton("The Python Source Code");
-    const button5 = createButton("Bugs and Future Features");
+    const button1 = createButton("Games");
+    const button2 = createButton("Applications");
+    const button3 = createButton("Blog");
+    const button4 = createButton("Other stuff");
+    const button5 = createButton("Do I need this many buttons?");
 
 
     buttonSection.appendChild(button1);
