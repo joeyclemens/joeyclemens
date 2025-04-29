@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The SoA Maker</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/monokai-sublime.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+  
+
+
+  <style>
+    /* CSS styles for code display */
+    .code-container {
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+      overflow-x: auto; /* Enable horizontal scrolling */
+    }
+    .code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 12px; /* Adjust text size */
+      line-height: 1.2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h2>
+        <span id="header-text"></span>
+        <span id="cursor"></span>
+      </h2>
+    </div>
+    <div class="button-section"></div>
+    <div class="content">
+      <div class="step">
+        <h2>Python source code for reference</h2>
+        <div class="code-container">
+          <pre class="code" class="python">
+            <h2><u>The SoA Maker</u></h2>
+            <code>
+from flask import Flask, render_template, jsonify, request, redirect, url_for, send_file
+import pyodbc
+import os
+import pandas as pd
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import PatternFill, Font, Alignment
+import re
+
+app = Flask(__name__)
+
+def get_db_connection():
+    server = 'mjm-sql01'
+    database = 'MJM_SoA_Template'
+    try:
+        cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';Trusted_Connection=yes;')
+        print("Connected to SQL Server")
+        return cnxn
+    except Exception as e:
+        print(f"Error connecting to SQL Server: {e}")
+        return None
+
+def get_areaslevel3_data(): 
+    cnxn = get_db_connection()
+    if cnxn:
+        cursor = cnxn.cursor()
+        cursor.execute("SELECT * FROM dbo.Areaslevel3")  
+        rows = cursor.fetchall()
+        cursor.close()  # Close the cursor
+        cnxn.close()    # Close the connection
+        return rows
+    return []
+
+def get_soa_projects_data():
+    cnxn = get_db_connection()
+    if cnxn:
+        cursor = cnxn.cursor()
+        cursor.execute("SELECT Project_ID, Project_Description FROM dbo.SoA_Projects ORDER BY Project_Description")
+        rows = cursor.fetchall()
+        cursor.close()
+        cnxn.close()
+        
+        # Convert to a list of dictionaries
+        projects = [{"Project_ID": row[0], "Project_Description": row[1]} for row in rows]
+        
+        return projects
+    return []
+
+
+
+@app.route('/')
+def index():
+    areaslevel3_data = get_areaslevel3_data()
+    soa_projects_data = get_soa_projects_data()
+    return render_template('index.html', areaslevel3_data=areaslevel3_data, soa_projects_data=soa_projects_data)
+
+@app.route('/get_areaslevel2/<area_level3_ids>')
+def get_areaslevel2(area_level3_ids):
+    cnxn = get_db_connection()
+    if cnxn:
+        cursor = cnxn.cursor()
+        area_level3_ids_list = area_level3_ids.split(',')
+        placeholders = ','.join(['?'] * len(area_level3_ids_list))
+        query = f"""
+            SELECT ArealevelID, AreaDescription
+            FROM dbo.Areaslevel2 
+            WHERE ParentArea IN ({placeholders})
+        """
+        cursor.execute(query, area_level3_ids_list)
+        rows = cursor.fetchall()
+        areaslevel2_data = [{'ArealevelID': row[0], 'AreaDescription': row[1]} for row in rows]
+        cursor.close()  # Close the cursor
+        cnxn.close()    # Close the connection
+        return jsonify(areaslevel2_data)
+    return jsonify([])
+
+@app.route('/get_areaslevel1/<area_level2_ids>')
+def get_areaslevel1(area_level2_ids):
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+            area_level2_ids_list = area_level2_ids.split(',')
+            placeholders = ','.join(['?'] * len(area_level2_ids_list))
+            query = f"""
+                SELECT ArealevelID, AreaDescription
+                FROM dbo.Areaslevel1 
+                WHERE ParentArea IN ({placeholders})
+            """
+            cursor.execute(query, area_level2_ids_list)
+            rows = cursor.fetchall()
+            areaslevel1_data = [{'ArealevelID': row[0], 'AreaDescription': row[1]} for row in rows]
+            return jsonify(areaslevel1_data)
+        except Exception as e:
+            logger.error(f"Error fetching Areaslevel1 data: {e}")
+            return jsonify([])
+        finally:
+            cursor.close()
+            cnxn.close()
+    return jsonify([])
+
+@app.route('/get_room_schedule/<area_level1_ids>')
+def get_room_schedule(area_level1_ids):
+    cnxn = get_db_connection()
+    if cnxn:
+        cursor = cnxn.cursor()
+        area_level1_ids_list = area_level1_ids.split(',')
+        placeholders = ','.join(['?'] * len(area_level1_ids_list))
+        query = f"""
+            SELECT Room_Id, Project_Room_Description, ParentArea
+            FROM dbo.Room_Schedule
+            WHERE ParentArea IN ({placeholders})
+        """
+        cursor.execute(query, area_level1_ids_list)
+        rows = cursor.fetchall()
+        room_schedule_data = [{'Room_Id': row[0], 'Project_Room_Description': row[1], 'ParentArea': row[2]} for row in rows]
+        app.logger.info(f"Room schedule data: {room_schedule_data}")
+        cursor.close()
+        cnxn.close()
+        return jsonify(room_schedule_data)
+    return jsonify([])
+
+
+@app.route('/add_project', methods=['POST'])
+def add_project():
+    project_name = request.form['newProjectName']
+    
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+            cursor.execute("INSERT INTO dbo.SoA_Projects (Project_Description) VALUES (?)", (project_name,))
+            cnxn.commit()  # Commit the transaction
+            cursor.close()  # Close the cursor
+            print(f"Project '{project_name}' added successfully.")
+        except Exception as e:
+            print(f"Error adding project: {e}")
+        finally:
+            cnxn.close()  # Close the connection
+    return redirect(url_for('index'))  # Redirect to the main page 
+
+@app.route('/populate_soa', methods=['POST'])
+def populate_soa():
+    app.logger.info("populate_soa route called")
+    data = request.json
+    app.logger.info(f"Received data: {data}")
+
+    selected_project_id = data.get('project_id')
+    selected_areas = data.get('areas', [])
+    selected_departments = data.get('departments', [])
+    selected_subdepartments = data.get('subdepartments', [])
+
+    if not selected_project_id:
+        app.logger.error("No Project ID provided")
+        return jsonify({'status': 'error', 'message': 'No Project ID provided'}), 400
+
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+
+            
+            query = """
+            INSERT INTO dbo.SoA 
+            (Project, Room_ID, Room_Description, Room_Code, ParentArea, AL3, AL2, AL1, Qty, Area, Comments, Circulation_Percentage)
+            SELECT 
+                ?, 
+                rs.Room_ID, 
+                rs.Project_Room_Description, 
+                rs.Room_Code,  -- Include Room_Code here
+                rs.ParentArea, 
+                al3.AreaDescription, 
+                al2.AreaDescription, 
+                al1.AreaDescription, 
+                rs.Add_Qty, 
+                rs.Area, 
+                rs.Internal_Notes, 
+                al1.Circulation_Percentage
+            FROM 
+                dbo.Room_Schedule rs
+                JOIN dbo.Areaslevel1 al1 ON rs.ParentArea = al1.ArealevelID
+                JOIN dbo.Areaslevel2 al2 ON al1.ParentArea = al2.ArealevelID
+                JOIN dbo.Areaslevel3 al3 ON al2.ParentArea = al3.ArealevelID
+            WHERE 1=1
+            """
+
+            params = [selected_project_id]
+
+            if selected_areas:
+                query += " AND al3.ArealevelID IN ({})".format(','.join(['?']*len(selected_areas)))
+                params.extend(selected_areas)
+
+            if selected_departments:
+                query += " AND al2.ArealevelID IN ({})".format(','.join(['?']*len(selected_departments)))
+                params.extend(selected_departments)
+
+            if selected_subdepartments:
+                query += " AND al1.ArealevelID IN ({})".format(','.join(['?']*len(selected_subdepartments)))
+                params.extend(selected_subdepartments)
+
+            app.logger.info(f"Executing query: {query}")
+            app.logger.info(f"With parameters: {params}")
+
+            cursor.execute(query, params)
+            cnxn.commit()
+
+            app.logger.info("Data inserted successfully")
+            return jsonify({'status': 'success', 'message': 'Data added to SoA successfully'})
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+        finally:
+            cursor.close()
+            cnxn.close()
+    else:
+        app.logger.error("Unable to connect to database")
+        return jsonify({'status': 'error', 'message': 'Unable to connect to database'}), 500
+
+
+@app.route('/add_department_to_soa', methods=['POST'])
+def add_department_to_soa():
+    app.logger.info("add_department_to_soa route called")
+    data = request.json
+    app.logger.info(f"Received data: {data}")
+
+    selected_project_id = data.get('project_id')
+    selected_department = data.get('department')
+
+    if not selected_project_id or not selected_department:
+        app.logger.error("No Project ID or Department provided")
+        return jsonify({'status': 'error', 'message': 'No Project ID or Department provided'}), 400
+
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+
+            # Insert new entries for the selected department
+            query = """
+            INSERT INTO dbo.SoA 
+            (Project, Room_ID, Room_Description, ParentArea, AL3, AL2, AL1, Qty, Area, Comments, Circulation_Percentage)
+            SELECT 
+                ?, 
+                rs.Room_ID, 
+                rs.Project_Room_Description, 
+                rs.ParentArea, 
+                al3.AreaDescription, 
+                al2.AreaDescription, 
+                al1.AreaDescription, 
+                rs.Add_Qty, 
+                rs.Area, 
+                rs.Internal_Notes, 
+                al1.Circulation_Percentage
+            FROM 
+                dbo.Room_Schedule rs
+                JOIN dbo.Areaslevel1 al1 ON rs.ParentArea = al1.ArealevelID
+                JOIN dbo.Areaslevel2 al2 ON al1.ParentArea = al2.ArealevelID
+                JOIN dbo.Areaslevel3 al3 ON al2.ParentArea = al3.ArealevelID
+            WHERE 
+                al2.ArealevelID = ?
+            """
+
+            params = [selected_project_id, selected_department]
+
+            app.logger.info(f"Executing query: {query}")
+            app.logger.info(f"With parameters: {params}")
+
+            cursor.execute(query, params)
+            cnxn.commit()
+
+            app.logger.info("Department data inserted successfully")
+            return jsonify({'status': 'success', 'message': 'Department data added to SoA successfully'})
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+        finally:
+            cursor.close()
+            cnxn.close()
+    else:
+        app.logger.error("Unable to connect to database")
+        return jsonify({'status': 'error', 'message': 'Unable to connect to database'}), 500
+
+
+
+@app.route('/add_subdepartment_to_soa', methods=['POST'])
+def add_subdepartment_to_soa():
+    app.logger.info("add_subdepartment_to_soa route called")
+    data = request.json
+    app.logger.info(f"Received data: {data}")
+
+    selected_project_id = data.get('project_id')
+    selected_subdepartments = data.get('subdepartments')
+
+    if not selected_project_id or not selected_subdepartments:
+        app.logger.error("No Project ID or Sub-Departments provided")
+        return jsonify({'status': 'error', 'message': 'No Project ID or Sub-Departments provided'}), 400
+
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+
+            # Loop through each subdepartment and insert data
+            for subdepartment in selected_subdepartments:
+                query = """
+                INSERT INTO dbo.SoA 
+                (Project, Room_ID, Room_Description, ParentArea, AL3, AL2, AL1, Qty, Area, Comments, Circulation_Percentage)
+                SELECT 
+                    ?, 
+                    rs.Room_Id, 
+                    rs.Project_Room_Description, 
+                    rs.ParentArea, 
+                    al3.AreaDescription, 
+                    al2.AreaDescription, 
+                    al1.AreaDescription, 
+                    rs.Add_Qty, 
+                    rs.Area, 
+                    rs.Internal_Notes, 
+                    al1.Circulation_Percentage
+                FROM 
+                    dbo.Room_Schedule rs
+                    JOIN dbo.Areaslevel1 al1 ON rs.ParentArea = al1.ArealevelID
+                    JOIN dbo.Areaslevel2 al2 ON al1.ParentArea = al2.ArealevelID
+                    JOIN dbo.Areaslevel3 al3 ON al2.ParentArea = al3.ArealevelID
+                WHERE 
+                    al1.ArealevelID = ?
+                """
+                params = [selected_project_id, subdepartment]
+
+                cursor.execute(query, params)
+            cnxn.commit()
+
+            app.logger.info("Sub-Department data inserted successfully")
+            return jsonify({'status': 'success', 'message': 'Sub-Department data added to SoA successfully'})
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+        finally:
+            cursor.close()
+            cnxn.close()
+    else:
+        app.logger.error("Unable to connect to database")
+        return jsonify({'status': 'error', 'message': 'Unable to connect to database'}), 500
+
+
+@app.route('/add_room_to_soa', methods=['POST'])
+def add_room_to_soa():
+    app.logger.info("add_room_to_soa route called")
+    data = request.json
+    app.logger.info(f"Received data: {data}")
+
+    selected_project_id = data.get('project_id')
+    selected_rooms = data.get('rooms')
+
+    if not selected_project_id or not selected_rooms:
+        app.logger.error("No Project ID or Rooms provided")
+        return jsonify({'status': 'error', 'message': 'No Project ID or Rooms provided'}), 400
+
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+            inserted_count = 0
+
+            for room in selected_rooms:
+                query = """
+                INSERT INTO dbo.SoA 
+                (Project, Room_ID, Room_Description, ParentArea, AL3, AL2, AL1, Qty, Area, Comments, Circulation_Percentage)
+                SELECT 
+                    ?, 
+                    rs.Room_Id, 
+                    rs.Project_Room_Description, 
+                    rs.ParentArea, 
+                    al3.AreaDescription, 
+                    al2.AreaDescription, 
+                    al1.AreaDescription, 
+                    rs.Add_Qty, 
+                    rs.Area, 
+                    rs.Internal_Notes, 
+                    al1.Circulation_Percentage
+                FROM 
+                    dbo.Room_Schedule rs
+                    JOIN dbo.Areaslevel1 al1 ON rs.ParentArea = al1.ArealevelID
+                    JOIN dbo.Areaslevel2 al2 ON al1.ParentArea = al2.ArealevelID
+                    JOIN dbo.Areaslevel3 al3 ON al2.ParentArea = al3.ArealevelID
+                WHERE 
+                    rs.Room_Id = ? AND rs.ParentArea = ?
+                """
+                params = [selected_project_id, room['Room_Id'], room['ParentArea']]
+                
+                app.logger.info(f"Executing query with params: {params}")
+                cursor.execute(query, params)
+                inserted_count += cursor.rowcount
+                app.logger.info(f"Query executed. Rowcount: {cursor.rowcount}")
+
+            cnxn.commit()
+            app.logger.info(f"Transaction committed. Total rows inserted: {inserted_count}")
+
+            if inserted_count > 0:
+                return jsonify({'status': 'success', 'message': f'{inserted_count} room(s) added to SoA successfully'})
+            else:
+                return jsonify({'status': 'warning', 'message': 'No rooms were added to SoA. Please check your selection.'})
+
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            cnxn.rollback()
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+        finally:
+            cursor.close()
+            cnxn.close()
+    else:
+        app.logger.error("Unable to connect to database")
+        return jsonify({'status': 'error', 'message': 'Unable to connect to database'}), 500
+
+@app.route('/view_soa/<project_id>')
+def view_soa(project_id):
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+            
+            
+            project_query = """
+            SELECT Project_Description
+            FROM dbo.SoA_Projects
+            WHERE Project_ID = ?
+            """
+            cursor.execute(project_query, (project_id,))
+            project_row = cursor.fetchone()
+            project_description = project_row[0] if project_row else "Unknown Project"
+            
+           
+            soa_query = """
+            SELECT AL3, AL2, AL1, Room_Description, Qty, Area, Comments
+            FROM dbo.SoA
+            WHERE Project = ?
+            """
+            cursor.execute(soa_query, (project_id,))
+            rows = cursor.fetchall()
+            columns = [column[0] for column in cursor.description]  # Get column names
+            
+            cursor.close()
+            cnxn.close()
+            
+            return render_template('view_soa.html', 
+                                   rows=rows, 
+                                   columns=columns, 
+                                   project_id=project_id,
+                                   project_description=project_description)
+        except Exception as e:
+            app.logger.error(f"Error fetching SoA data: {e}")
+            return "Error fetching SoA data", 500
+    return "Database connection error", 500
+
+@app.route('/delete_soa', methods=['POST'])
+def delete_soa():
+    data = request.get_json()
+    project_id = data.get('project_id')
+
+    if not project_id:
+        return jsonify({'status': 'error', 'message': 'No project ID provided'}), 400
+
+    cnxn = get_db_connection()
+    if cnxn:
+        try:
+            cursor = cnxn.cursor()
+            cursor.execute("DELETE FROM dbo.SoA WHERE Project = ?", (project_id,))
+            cnxn.commit()
+            cursor.close()
+            cnxn.close()
+            return jsonify({'status': 'success'})
+        except Exception as e:
+            return jsonify({'status': 'error', 'message': str(e)}), 500
+    else:
+        return jsonify({'status': 'error', 'message': 'Unable to connect to database'}), 500
+
+def generate_soa_report(project_number):
+    def auto_adjust_column_widths(ws):
+        for column_cells in ws.columns:
+            column = column_cells[0].column_letter
+            if column in ["C", "H"]:
+                continue
+            max_length = 0
+            for cell in column_cells:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(cell.value)
+                except:
+                    pass
+            adjusted_width = min(max_length + 2, 50)
+            ws.column_dimensions[column].width = adjusted_width
+
+    def apply_header_style(ws, color):
+        fill = PatternFill(start_color=color[1:], end_color=color[1:], fill_type="solid")
+        font = Font(color="FFFFFF", bold=True)
+        for cell in ws[1]:
+            cell.fill = fill
+            cell.font = font
+        ws.freeze_panes = "A2"
+
+    def set_wrap_text(ws):
+        for row in ws.iter_rows():
+            for cell in row:
+                cell.alignment = Alignment(wrap_text=True)
+
+    def add_total_area_formula(ws):
+        for row in range(2, ws.max_row + 1):
+            ws[f'G{row}'].value = f'=E{row}*F{row}'
+
+    def create_summary_tab(wb, df):
+        if 'Summary' in wb.sheetnames:
+            ws_summary = wb['Summary']
+        else:
+            ws_summary = wb.create_sheet(title='Summary')
+
+        headers = [
+            'Area', 'Department', 'Sub-Department', 'Net Departmental Area', 
+            'Circ Area (m2)', 'Circ %', 'Plan Area (m2)', 'Plan %', 
+            'Eng Area (m2)', 'Eng %', 'GROSS SOA area (m2)'
+        ]
+        ws_summary.append(headers)
+        apply_header_style(ws_summary, "#51748b")
+
+        unique_combinations = df[['AL3', 'AL2', 'AL1']].drop_duplicates()
+        avg_circ_percentage = df.groupby(['AL3', 'AL2', 'AL1'])['Circulation_Percentage'].mean().reset_index()
+
+        for idx, (al3, al2, al1) in enumerate(unique_combinations.values, start=2):
+            ws_summary[f'A{idx}'].value = al3
+            ws_summary[f'B{idx}'].value = al2
+            ws_summary[f'C{idx}'].value = al1
+
+            circ_percentage = avg_circ_percentage[
+                (avg_circ_percentage['AL3'] == al3) &
+                (avg_circ_percentage['AL2'] == al2) &
+                (avg_circ_percentage['AL1'] == al1)
+            ]['Circulation_Percentage']
+
+            circ_value = circ_percentage.values[0] / 100 if not circ_percentage.empty else ''
+            ws_summary[f'F{idx}'].value = circ_value
+            ws_summary[f'F{idx}'].number_format = '0%'
+
+            ws_summary[f'D{idx}'].value = f'=SUMIFS(SOA!G:G, SOA!A:A, A{idx}, SOA!B:B, B{idx}, SOA!C:C, C{idx})'
+            ws_summary[f'H{idx}'].value = 0.05
+            ws_summary[f'J{idx}'].value = 0.05
+
+            ws_summary[f'H{idx}'].number_format = '0%'
+            ws_summary[f'J{idx}'].number_format = '0%'
+
+            ws_summary[f'G{idx}'].value = f'=H{idx}*D{idx}'
+            ws_summary[f'E{idx}'].value = f'=SUM((D{idx}+G{idx})*F{idx})'
+            ws_summary[f'I{idx}'].value = f'=SUM((D{idx}+G{idx})*H{idx})'
+            ws_summary[f'K{idx}'].value = f'=SUM(D{idx},G{idx},E{idx},I{idx})'
+
+        auto_adjust_column_widths(ws_summary)
+        set_wrap_text(ws_summary)
+        ws_summary.freeze_panes = "A2"
+
+        ws_summary.column_dimensions['C'].width = 31
+        ws_summary.column_dimensions['D'].width = 17
+
+        for col in ['E', 'G', 'I', 'K']:
+            for row in range(2, ws_summary.max_row + 1):
+                cell = ws_summary[f'{col}{row}']
+                if cell.value != '':
+                    cell.number_format = '0'
+
+            ws_summary.column_dimensions[col].width = 15
+
+    def add_total_area_summary(ws):
+        last_row = ws.max_row
+        row = 2
+
+        blue_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid")
+        bold_font = Font(bold=True)
+
+        while row <= last_row:
+            current_al2 = ws[f'B{row}'].value
+            next_al2 = ws[f'B{row + 1}'].value if row + 1 <= last_row else None
+
+            if current_al2 != next_al2:
+                ws.insert_rows(row + 1)
+                ws[f'A{row + 1}'].value = ws[f'A{row}'].value
+                ws[f'B{row + 1}'].value = ws[f'B{row}'].value
+                ws[f'G{row + 1}'].value = 'Total'
+                ws[f'H{row + 1}'].value = f'=SUMIFS(G:G, A:A, A{row + 1}, B:B, B{row + 1})'
+
+                for cell in ws[row + 1]:
+                    cell.fill = blue_fill
+                    cell.font = bold_font
+
+                # Update formulas in the rows below the inserted row
+                for update_row in range(row + 2, last_row + 2):
+                    for col in ['E', 'F', 'G', 'H']:
+                        cell = ws[f'{col}{update_row}']
+                        if cell.data_type == 'f':  # Check if the cell contains a formula
+                            formula = cell.value
+                            # Update row references in the formula
+                            updated_formula = re.sub(r'(\$?[A-Z]\$?)(\d+)', 
+                                                     lambda m: m.group(1) + str(int(m.group(2)) + 1), 
+                                                     formula)
+                            cell.value = updated_formula
+
+                row += 2
+                last_row += 1
+            else:
+                row += 1
+
+    conn = get_db_connection()
+    if conn:
+        try:
+            query = 'SELECT * FROM dbo.soa WHERE Project = ?'
+            df = pd.read_sql(query, conn, params=[project_number])
+            
+            column_order = [
+                'AL3', 'AL2', 'AL1', 'Room_Description', 'Qty',
+                'Area', 'Total_Area', 'Comments', 'Room_ID', 'Room_Code', 'Circulation_Percentage'
+            ]
+            
+            df = df[column_order]
+            
+            excel_path = 'output.xlsx'
+            
+            df.to_excel(excel_path, index=False, engine='openpyxl')
+            
+            wb = load_workbook(excel_path)
+            ws = wb.active
+            
+            ws.title = "SOA"
+            
+            apply_header_style(ws, "#51748b")
+            ws.row_dimensions[1].height = 32.1
+            ws.column_dimensions['C'].width = 30
+            ws.column_dimensions['H'].width = 43.37
+            
+            auto_adjust_column_widths(ws)
+            set_wrap_text(ws)
+            add_total_area_formula(ws)
+            add_total_area_summary(ws)
+            create_summary_tab(wb, df)
+            
+            ws.delete_cols(11)  # Delete column K from the SOA tab
+            
+            summary_ws = wb['Summary']
+            wb.move_sheet(summary_ws, offset=-len(wb.sheetnames) + 1)
+            
+            wb.save(excel_path)
+            
+            print(f"Data exported to {excel_path} with summary rows, a summary tab created for AL3, AL2 combinations, and Total_Area summed. The Summary tab is now the first tab.")
+            return excel_path
+        except Exception as e:
+            print(f"Error processing data or saving Excel file: {e}")
+            return None
+        finally:
+            conn.close()
+    else:
+        print("Failed to connect to SQL Server")
+        return None
+
+@app.route('/generate_report', methods=['POST'])
+def generate_report():
+    project_id = request.form.get('projects')
+    if project_id and project_id != 'add-new':
+        file_path = generate_soa_report(project_id)
+        if file_path and os.path.exists(file_path):
+            return send_file(file_path, as_attachment=True)
+        else:
+            return "Error generating report", 500
+    elif project_id == 'add-new':
+        return "Functionality to add new projects is not yet implemented", 400
+    return "Project not selected", 400
+
+@app.route('/create_soa', methods=['POST'])
+def create_soa():
+    project_id = request.form.get('projects')
+    if project_id and project_id != 'add-new':
+        try:
+            file_path = generate_soa_report(project_id)
+            if file_path:
+                return send_file(file_path, as_attachment=True, download_name=f'SoA_Project_{project_id}.xlsx')
+            else:
+                return "Error generating SoA report", 500
+        except Exception as e:
+            app.logger.error(f"Error generating SoA report: {str(e)}")
+            return "Error generating SoA report", 500
+    elif project_id == 'add-new':
+        return "Functionality to add new projects is not yet implemented", 400
+    else:
+        return "No project selected", 400
+
+if __name__ == '__main__':
+    app.run(debug=True)
+              
+            </code>
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to Top Button with Font Awesome icon and custom style -->
+  <button onclick="scrollToTop()" id="back-to-top-btn" class="button" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+  <script>
+    // JavaScript to show/hide the back to top button
+    window.onscroll = function() {scrollFunction()};
+    
+    function scrollFunction() {
+      var button = document.getElementById("back-to-top-btn");
+      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        button.style.opacity = "1";
+      } else {
+        button.style.opacity = "0";
+      }
+    }
+    
+    function scrollToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+  <script src="js/pythonscript.js"></script>
+</body>
+</html>

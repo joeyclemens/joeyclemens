@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The SoA Export</title>
+<link rel="stylesheet" href="styles.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h2>
+        <span id="header-text"></span>
+        <span id="cursor"></span>
+      </h2>
+    </div>
+    <div class="button-section"></div>
+    <div class="content">
+      <div class="step">
+        <h2>The Layout</h2>
+        <p>
+         The SoA that you have just exported is based on the Areas/Departments/Sub-Departments/Rooms you selected in the SoA Maker. You will be presented with a Summary page and a tab named SoA that contains the room list.
+      </p>
+      <p>The formulas and formatting should be applied dynamically so there shouldnt be too much to do other than any specific things you want to add in or change. </p>
+      
+    </div>
+
+    <div class="step">
+        <h2>The Summary tab</h2>
+
+        <p>The Summary tab is where you can see a summary of the Departments and Sub Departments that you selected.  </p>
+        <ul>
+          <li> 
+          The Net Departmental Area column is a sub total of each Sub Department from the other tab. It calculates this using a SUMIFS formula to get the information as quickly and accurately as possible.  
+        </li>
+
+        <li>
+          Circ % is data pulled from the database. This can be changed here, or changed in the database if a permanant change is needed. The data is taken from the Template SoA used to create the database.
+        </li>
+        <li>
+          Circ Area (m2) is calculated using the formula =SUM((D2+G2)*F2).<sub style="vertical-align: super; font-size: smaller;">1</sub>
+        </li>
+        <li>Planning allowance Total (m2) is calculated using the formula =H2*D2</li>
+        <li>
+          Plan % is set to 5% on all rows. This can be changed if you have a specific allowance for a particular Sub Department and the rest of the formulas will adjust themselves accordingly.
+        </li>
+            <li>Engineering allowance (%) is set to 5% on all rows. This can be changed if you have a specific allowance for a particular Sub Department and the rest of the formulas will adjust themselves accordingly.</li>
+            <li>Engineering allowance Total (m2) is calculated using the formula =SUM((D2+G2)*H2)</li>
+          
+        </ul>
+        <p style="font-size: smaller;"><sub style="vertical-align: super; font-size: smaller;">1</sub>This and other formulas shown here are just examples. The actual formula will remain the same but will use different cells for reference</p>
+    </div>
+
+    <div class="step">
+        <h2>The SOA Tab</h2>
+        <p>This tab will have the following columns:
+          <br>
+          AL3, AL2, AL1, Room_ID, Room_Description, Qty, Area, Total_Area, Comments, Room_ID, Room_Code<sub style="vertical-align: super; font-size: smaller;">2</sub>.
+          <br>         
+        </p>
+        
+        <ul>
+        <li>AL3, AL2, AL1 represent Area, Department and Sub Department from the SoA_Input_Form. The AL3 and AL2 columns are used in creating the Summary tab.
+        </li>
+          <li>Room_ID is the unique identifier for each room as set in the database<sub style="vertical-align: super; font-size: smaller;">3</sub>. 
+        </li>
+        <li>Room_Description is the name of the room. </li>
+        <li>The Qty data has been taken from the Template SoA<sub style="vertical-align: super; font-size: smaller;">4</sub>. It can be changed and all formulas will adjust themselves accordingly.</li>
+        <li>Area is the total area of the room as set in the database. The information has come from the Template SoA<sub style="vertical-align: super; font-size: smaller;">4</sub>.</li>
+        <li>Total Area is the total area of the room multiplied by the Qty.</li>
+        <li>Comments have come from the Template SoA and are in the database<sub style="vertical-align: super; font-size: smaller;">4</sub>.</li>
+       
+       
+        <p style="font-size: smaller;"><sub style="vertical-align: super; font-size: smaller;">2</sub>Room_ID & Room_Code are optional extras. They are for a quicker transfer to a database but should be ommitted if presenting to a client.</p>
+        <p style="font-size: smaller;"><sub style="vertical-align: super; font-size: smaller;">3</sub>This data can easily be changed in the database should any of it be consistently wrong or just in need of updating.</p>
+        <p style="font-size: smaller;"><sub style="vertical-align: super; font-size: smaller;">4</sub>See Reference Template SoA button at the top</p>
+      </div>
+  </ul>
+
+    <div class="step">
+      <h2>Notable information</h2>
+      <p>Formatting is created for each tab as the worksheet is created. The formulas are created dynamically based on the information passed on from the SoA Maker. The data should be accurate but its always wise to check the numbers as the script isnt clever enough to determine errors, let alone fix them as it goes. </p>
+      <p>This is still a work in progress and there are going to be bugs cropping up from time to time. See the Bugs and future revisions log for more information</p>
+    
+  </div>
+    </div>
+
+    
+  </div>
+
+<!-- Back to Top Button with Font Awesome icon and custom style -->
+<button onclick="scrollToTop()" id="back-to-top-btn" class="button" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // JavaScript to show/hide the back to top button
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    var button = document.getElementById("back-to-top-btn");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      button.style.opacity = "1";
+    } else {
+      button.style.opacity = "0";
+    }
+  }
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  </script>
+  
+<script src="js/exportscript.js"></script>
+
+</body>
+</html>

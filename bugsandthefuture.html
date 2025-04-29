@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bugs and future revisions log</title>
+<link rel="stylesheet" href="styles.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h2>
+        <span id="header-text"></span>
+        <span id="cursor"></span>
+      </h2>
+    </div>
+    <div class="button-section"></div>
+    <div class="content">
+      <div class="step">
+       <h2>Known Bugs</h2>
+       <ul>
+        <li><s>Multi-select on the department selection is not working</s> </li>
+        <li>The back button in the View_SoA page resets the SoA maker forcing users to reselect the project</li>
+        <li><s>Header in View SoA page not sticky</s></li>
+        <li>Installation issues due to complexity of code on users machines</li>
+        <li>Figure out a way to allow users of the Access/Chromium version to save the file where they like and with a custom file name</li>
+        <li>Pop up form does not work in single screen view apparently so figure that one out somehow. </li>
+       <li>Separate the export process from the main app. Create a more modular export for different SoA types</li>
+       <li>Adjust the summary page outputs to just Area rather than Area and Department</li>
+      </ul>
+      
+    </div>
+    <div class="step">
+      <h2>Features of the future</h2>
+      <ul>
+       <li><s>Amend the SoA from the View SoA page</s></li>
+       <li>A more upto date and complete source SoA to build the initial dataset from</li>  
+       <li>Edit/delete projects from the SoA maker page</li>
+       <li>Dynamic Planning and Eng % instead of blanket 5%</li>
+       <li>create an soa button needs to open a modal? Then have options for different types of soa exports. <br>
+        single tab (like it is now) <br>
+        multi tab (like how it was before) <br>
+        PowerBI version <br>
+        Database input version <br>
+       </li>
+       
+      </ul>
+     
+   </div>
+    
+
+
+    
+  </div>
+
+<!-- Back to Top Button with Font Awesome icon and custom style -->
+<button onclick="scrollToTop()" id="back-to-top-btn" class="button" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // JavaScript to show/hide the back to top button
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    var button = document.getElementById("back-to-top-btn");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      button.style.opacity = "1";
+    } else {
+      button.style.opacity = "0";
+    }
+  }
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  </script>
+
+<script src="js/bugsandstuff.js"></script>
+
+</body>
+</html>

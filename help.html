@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The SoA Maker</title>
+<link rel="stylesheet" href="styles.css">
+<!-- Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header-section">
+      <h2>
+        <span id="header-text"></span>
+        <span id="cursor"></span>
+      </h2>
+    </div>
+    <div class="button-section"></div>
+    <div class="content">
+      <div class="step">
+        <h2>Getting Started</h2>
+        <p>
+          When you open the SoA_Template Access file, you'll be greeted. The program will load and await your input. 
+          <br>
+          <strong>Once its loaded, pick a project and have fun.</strong>
+      </p>
+      
+    </div>
+
+    <div class="step">
+        <h2>Lets build a SoA</h2>
+        <p>When you have selected a project, the fun can begin. Two selection boxes will appear: Select Area & Select Department. You may also notice the plethora of buttons that have suddenly appeared in the side bar.
+          <br>
+          This is the entire layout of the program and should hopefully be somewhat self-explanatory. 
+        </p>
+        <h3>The buttons</h3>
+        <ul>
+            <li>The buttons will carry out the behind the scenes operations that make the magic happen. </li>
+            <li><strong>"Create SoA".</strong> This button will create the SoA and export it into Excel. Use this when you're happy with the SoA you've created.</li>
+            
+            <li><strong>"Add Area to SoA".</strong> This button will add an area (The first selection box) to the SoA. Select the Area(s) you want to add amd then press this button. It will add entire Areas to the SoA.</li>
+            <li> <strong> If you need a more granular approach then these next few buttons will be of interest to you.</strong></li>
+            <li><strong>"Add Department to SoA".</strong> This button will add a Department (The second selection box) to the SoA. Select the Department(s) you want to add amd then press this button. It will add entire Departments to the SoA.</li>
+            <li><strong>"Add Sub-Department to SoA".</strong> This button will add a Sub-Department (The third selection box) to the SoA. <br>
+              <i><strong>The third selection box? What third selection box?</strong></i><br>Well press the "Show Extra bits" button and you'll see.
+              <br>
+              Select the Sub-Department(s) you want to add amd then press this button. It will add entire Sub-Departments to the SoA.</li>
+            <li><strong>"Add Room to SoA".</strong> This button will add a Room (The fourth selection box) to the SoA. Select the Room(s) you want to add amd then press this button. It will add individual rooms to the SoA.</li>
+            <li>You can view the rooms that have been added by pressing the "View SoA" button.</li>
+            <li>If you think you've made a series of terrible mistakes and just want to start again, press the "Delete current SoA" button. This will delete all content in this projects SoA so you can start again.
+            <br>
+            <strong>Doing this is irreversable and will erase all content in this projects SoA. Dont blame me if you do it by mistake</strong></li>
+           <!-- <li>Or if you made a tiny mistake and just want to amend a room, press the "View SoA" button and just delete the row that contains the errant room.  </li> -->
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>Time to export</h2>
+        <p>Are you ready to export your beautifully curated set of rooms into a fully functional SoA in MS Excel?</p>
+        <p>To do so, press the "Create Soa" button. It may appear as if nothing is happening but in the background magic is happening.</p>
+        <p>Depending on where you are accessing this program you may be greeted with a file prompt. Choose where you want to save the SoA and what you want to call it. If you are in MS Access it will just go to your downloads folder</p>
+    </div>
+
+
+    <div class="step">
+      <h2>The SoA</h2>
+      <p>Navigate to where you saved it and open it up. You should be presented with a fully functional SoA based on what you just created It should have formulas built in and have nicely formatted headers etc... For a run down on how it works, press the "SoA template Export" button at the top of this page.
+
+    </p>
+    
+  </div>
+    </div>
+
+    
+  </div>
+
+<!-- Back to Top Button with Font Awesome icon and custom style -->
+<button onclick="scrollToTop()" id="back-to-top-btn" class="button" title="Go to top"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // JavaScript to show/hide the back to top button
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    var button = document.getElementById("back-to-top-btn");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      button.style.opacity = "1";
+    } else {
+      button.style.opacity = "0";
+    }
+  }
+  
+  function scrollToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }
+  </script>
+
+<script src="js/helpscript.js"></script>
+
+</body>
+</html>
