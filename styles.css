@@ -1,27 +1,26 @@
 body {
   font-family: 'IBM Plex Mono', monospace;
-  margin: 0; /* Remove default margin */
+  margin: 0;
   cursor: none;
-  background-color:  #e4dcc9;
+  background-color: #e4dcc9;
 }
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align items at the top */
+  justify-content: flex-start;
   align-items: center;
   height: 100vh;
-  margin-top: 20px; /* Add margin to the top */
+  margin-top: 20px;
 }
 
 #header-text {
   display: inline-block;
   color: #333;
-  margin-top: 0; /* Remove default margin */
+  margin-top: 0;
 }
 
 #cursor {
-  
   display: inline-block;
   width: 7px;
   height: 25px;
@@ -30,40 +29,35 @@ body {
 }
 
 @keyframes blink-animation {
-  0% {
-      opacity: 0;
-  }
-  50% {
-      opacity: 1;
-  }
-  100% {
-      opacity: 0;
-  }
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .header-section,
 .button-section {
-  
-  margin-top: 10px; /* Adjust as needed */
-  margin-bottom: 20px; /* Adjust as needed */
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
-/*=======Hello==========*/
+/*======= Hello & Image Container ==========*/
 .new__bg {
   height: 100%;
   min-height: 500px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 50px;
 }
+
 .hello__div {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  margin: 0 auto;
-  text-align: center;
   width: 100%;
   max-width: 600px;
 }
+
 .hello__svg {
   fill: none;
   stroke: black;
@@ -74,31 +68,66 @@ body {
   stroke-dashoffset: 5800px;
   animation: anim__hello linear 5s forwards;
   width: 100%;
-  
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  margin: 0 auto;
-  text-align: center;
 }
 
 @keyframes anim__hello {
-  0% {
-    stroke-dashoffset: 5800;
-  }
-  25% {
-    stroke-dashoffset: 5800;
-  }
-  100% {
-    stroke-dashoffset: 0;
-  }
+  0% { stroke-dashoffset: 5800; }
+  25% { stroke-dashoffset: 5800; }
+  100% { stroke-dashoffset: 0; }
 }
 
-/* Style for your button */
+.image__container {
+  display: flex;
+  justify-content: center;
+  margin-top: 60px;
+  width: 100%;
+  animation: fadeIn 1s 5s both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.circular__image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/*======= Content & Steps ==========*/
+.content {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.step {
+  margin: 0 auto;
+  width: 70%;
+  background-color: #e4dcc9;
+  box-shadow: 6px 6px 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-style: solid;
+}
+
+.code-block-container {
+  max-width: 70%;
+  margin: auto;
+}
+
+/*======= Buttons ==========*/
 .button {
   font-family: 'IBM Plex Mono', monospace;
   position: relative;
-  width: auto;
   display: inline-block;
   color: #ecf0f1;
   text-decoration: none;
@@ -108,64 +137,27 @@ body {
   text-align: center;
   padding: 16px 18px 14px;
   margin: 12px;
-
-  -webkit-transition: opacity 0.5s ease; /* Adjust the transition */
-  -moz-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
-  opacity: 0; /* Initially hide buttons */
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.2s ease;
   box-shadow: 0px 6px 0px #d35400;
+  cursor: none;
 }
 
-/* Hover effect */
 .button:hover {
-  font-family: 'IBM Plex Mono', monospace;
-  background-color: #e67e22;
-  transform: translateY(-2px); /* Move the button slightly up */
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 6px 0px #d35400;
-cursor: none;
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 0px #d35400;
 }
 
-/* Active effect (when the button is clicked) */
 .button:active {
-  font-family: 'IBM Plex Mono', monospace;
-  background-color: #e67e22;
-  transform: translateY(2px); /* Move the button slightly down */
-  box-shadow: none; /* Remove shadow on active state */
-  -webkit-transition: all 0.1s;
-  -moz-transition: all 0.1s;
-  transition: all 0.1s;
-
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
+  transform: translateY(2px);
   box-shadow: 0px 1px 0px #d35400;
 }
 
-/* Initially hide the content */
-.content {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-/* Fade in effect when opacity changes */
-.fade-in {
-  opacity: 1;
-}
-
-.step {
-  margin: 0 auto; /* Center the element horizontally */
-  width: 70%; /* Set the width of the step elements */
-  background-color: #e4dcc9;
-  box-shadow: 6px 6px 10px 0 rgba(0, 0, 0, 0.5);
-  border-radius: 5px;
-  padding: 20px;
-  margin-bottom: 20px;
-  border-style: solid;
-  
-  
+.button-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 30px 0;
 }
 
 #back-to-top-btn {
@@ -178,55 +170,46 @@ cursor: none;
   border-radius: 100px;
 }
 
-.button {
-  font-family: 'IBM Plex Mono', monospace;
-  color: #ecf0f1;
-  text-decoration: none;
-  border-radius: 5px;
-  border: solid 1px #f39c12;
-  background: #e67e22;
-  text-align: center;
-  padding: 16px 18px 14px;
-  -webkit-transition: opacity 0.5s ease; /* Adjust the transition */
-  -moz-transition: opacity 0.5s ease;
-  transition: opacity 0.5s ease;
-  opacity: 0; /* Initially hide buttons */
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 6px 0px #d35400;
-  cursor: none;
+/*======= Responsive ==========*/
+@media (max-width: 768px) {
+  .hello__svg {
+    stroke-width: 32px;
+  }
+  
+  .new__bg {
+    padding-top: 30px;
+    min-height: 400px;
+  }
+  
+  .image__container {
+    margin-top: 40px;
+  }
+  
+  .circular__image {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .step, .code-block-container {
+    width: 85%;
+    max-width: 85%;
+  }
 }
 
-.button:hover {
-  background-color: #e67e22;
-  transform: translateY(-2px); /* Move the button slightly up */
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 6px 0px #d35400;
-  cursor: none;
-}
-
-.button:active {
-  background-color: #e67e22;
-  transform: translateY(2px); /* Move the button slightly down */
-  box-shadow: none; /* Remove shadow on active state */
-  -webkit-transition: all 0.1s;
-  -moz-transition: all 0.1s;
-  transition: all 0.1s;
-  -webkit-box-shadow: 0px 6px 0px #d35400;
-  -moz-box-shadow: 0px 6px 0px #d35400;
-  box-shadow: 0px 1px 0px #d35400;
-}
-
-.code-block-container {
-  max-width: 70%; /* Adjust this value as needed */
-  margin: auto; /* Center the code block horizontally */
-}
-
-.button-section {
-  display: flex;
-  flex-wrap: wrap; /* Allow buttons to wrap to the next row */
-  justify-content: center; /* Center the buttons horizontally */
-  margin-top: 10px; /* Adjust as needed */
-  margin-bottom: 20px; /* Adjust as needed */
+@media (max-width: 480px) {
+  .hello__svg {
+    stroke-width: 24px;
+  }
+  
+  .circular__image {
+    width: 120px;
+    height: 120px;
+    border-width: 3px;
+  }
+  
+  .step, .code-block-container {
+    width: 90%;
+    max-width: 90%;
+    padding: 15px;
+  }
 }
