@@ -6,7 +6,7 @@ function typeWriter() {
     if (i < headerText.length) {
         headerSpan.innerHTML += headerText.charAt(i);
         i++;
-        setTimeout(typeWriter, 80); // Adjust the duration here (in milliseconds)
+        setTimeout(typeWriter, 70); // Adjust the duration here (in milliseconds)
     } else {
         // Text has finished typing, create the buttons after a delay
         createButtons();
@@ -23,7 +23,7 @@ function createButtons() {
     const button2 = createButton("Applications");
     const button3 = createButton("Blog");
     const button4 = createButton("Other stuff");
-    const button5 = createButton("Do I need this many buttons?");
+    const button5 = createButton("Contact");
 
 
     buttonSection.appendChild(button1);
