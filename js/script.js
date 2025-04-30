@@ -1,4 +1,4 @@
-const headerText = "I'm Joey, and I invite you to journey through my work.";
+const headerText = "My name is Joey, check out what I've been working on.";
 const headerSpan = document.getElementById("header-text");
 let i = 0;
 
