@@ -96,6 +96,36 @@ body {
   object-fit: cover;
   border: 5px solid white;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  pointer-events: auto;
+  cursor: none;
+}
+
+.image__container1 {
+  display: flex; /* Changed from inline-block to flex */
+  justify-content: center; /* Added to center horizontally */
+  margin-top: 60px;
+  width: 100%; /* Changed to full width */
+  animation: fadeIn 1s 2.5s both;
+}
+
+.image__container1 a {
+  display: block;
+  width: 180px;
+  height: 180px;
+  cursor: none;
+  transition: transform 0.2s ease; /* Smooth movement */
+}
+.image__container1 a:hover {
+  transform: translateY(-8px); /* Moves up 8px on hover */
+}
+.logo__image {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  pointer-events: none; /* Changed from auto to none */
 }
 
 /*======= Content & Steps ==========*/
