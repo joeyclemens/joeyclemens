@@ -48,7 +48,7 @@ const elements = {
 };
 
 // Add audio element for buzzer sound
-const buzzerSound = new Audio('../sounds/buzz.mp3'); // Updated file name
+const buzzerSound = new Audio('quizzes/catchphrase-main/sounds/buzz.mp3'); // Updated file name
 
 // Initialize game UI
 function initializeUI() {
@@ -141,7 +141,7 @@ function handleTimeUp() {
 // Handle pause button click
 function handlePause() {
     if (gameState.timeLeft > 0 && !gameState.isPaused) {
-        // Attempt to play the buzzer sound
+        console.log("Buzzer button clicked, attempting to play sound.");
         buzzerSound.play().catch(error => {
             console.error("Error playing sound:", error);
         });
