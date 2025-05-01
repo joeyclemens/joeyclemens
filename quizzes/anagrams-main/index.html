@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagram Game</title>
+    <link rel="stylesheet" href="styles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+  <span id="cursor"></span>
+    <div id="container">
+        
+        <h1>Anagram Game</h1>
+        <h2 id="themeHeader"></h2>
+
+         <!--<h3><u>Enter your team name</u></h3>
+        <input type="text" id="teamName" placeholder="Enter your team name" required>
+        <hr>-->
+
+        <h3><u>Unscramble the word</u></h3>
+        <div id="word"></div>
+        <input type="text" id="userInput" placeholder="Enter your answer">
+        
+        <button id="checkButton" onclick="checkAnagram()">Check</button>
+        
+        <button id="skipButton" onclick="skipWord()">Skip Word</button>
+
+        <p id="result"></p>
+        <p id="score"></p>
+        <hr>
+        <p id="finalScore" style="display: none;"></p> <!-- Placeholder for final score -->
+        <button id="resetButton" onclick="resetGame()">Play Again</button>
+
+    </div>
+    
+    <!-- Modal for displaying final score -->
+    <div id="scoreModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Your Final Score</h2>
+            <p id="modalScore"></p>
+            <button id="checkButton" onclick="startNewGame()">Start New Game</button>
+        </div>
+    </div>
+
+    <audio id="correctSound">
+      <source src="ding.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+
+    <audio id="incorrectSound">
+      <source src="buzzer.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+    
+    <script src="script.js"></script> <!-- Linking to JavaScript file -->
+
+</body>
+</html>
