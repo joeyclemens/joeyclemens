@@ -48,7 +48,7 @@ const elements = {
 };
 
 // Add audio element for buzzer sound
-const buzzerSound = new Audio('../sounds/200811-361c3147-1867-4239-b23d-467d41e82d0b.mp3'); // Updated file name
+const buzzerSound = new Audio('../sounds/buzz.mp3'); // Updated file name
 
 // Initialize game UI
 function initializeUI() {
