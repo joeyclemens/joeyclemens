@@ -1,0 +1,166 @@
+/* Overall Body Styling */
+body {
+    font-family: 'Poppins', sans-serif; /* Use Poppins font */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Use min-height instead of height */
+    margin: 0;
+    background: linear-gradient(135deg, #000033, #50748A);
+    color: #f2f2f2;
+    padding: 10px; /* Add padding to avoid cutting off */
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Quiz Section */
+.quiz {
+    flex: 2;
+    padding: 30px;
+    background-color: #1a1a4d;
+    border-right: 2px solid #7C99AD;
+}
+
+/* Prize List Section */
+.prize-list {
+    flex: 1;
+    padding: 20px;
+    background-color: #1a1a66;
+}
+
+/* Prize Item Styling */
+.prize-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #4d4dff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+}
+
+.prize-item:hover {
+    background-color: #3333ff;
+}
+
+/* Active Item */
+.active {
+    background-color: #00CC00;
+    font-weight: bold;
+}
+
+/* Question Styling */
+.question {
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Options Layout */
+.options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* Option Styling */
+.option {
+    padding: 15px;
+    background-color: #4d4dff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.option:hover {
+    background-color: #3333ff;
+    transform: translateY(-2px);
+}
+
+/* Correct and Incorrect Options */
+.correct {
+    background-color: #00CC00;
+}
+
+.incorrect {
+    background-color: #CC0000;
+}
+
+/* Lifeline Button Styling */
+.lifeline {
+    padding: 10px 20px;
+    background-color: #FF9900;
+    color: #000033;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.lifeline:hover {
+    background-color: #FFAA33;
+    transform: translateY(-2px);
+}
+
+.lifeline:disabled {
+    background-color: #666666;
+    cursor: not-allowed;
+}
+
+/* Mobile Styles */
+@media (max-width: 600px) {
+    /* Overall Body Styling */
+    body {
+        padding: 20px; /* Ensure some space around the content */
+        overflow: auto; /* Allow scrolling if necessary */
+    }
+
+    /* Main Container */
+    .container {
+        flex-direction: column; /* Stack sections vertically */
+        width: 95%; /* Adjust width for mobile */
+    }
+
+    /* Quiz Section */
+    .quiz {
+        border-right: none; /* Remove border for mobile */
+        border-bottom: 2px solid #7C99AD; /* Add bottom border instead */
+    }
+
+    /* Prize List Section */
+    .prize-list {
+        padding: 15px; /* Adjust padding */
+    }
+
+    /* Question Styling */
+    .question {
+        font-size: 20px; /* Slightly smaller font size */
+    }
+
+    /* Options Layout */
+    .options {
+        grid-template-columns: 1fr; /* Stack options vertically */
+    }
+
+    /* Option Styling */
+    .option {
+        padding: 12px; /* Adjust padding for smaller screens */
+        font-size: 16px; /* Adjust font size for options */
+    }
+
+    /* Lifeline Button Styling */
+    .lifeline {
+        width: 100%; /* Make lifeline button full width */
+        padding: 10px; /* Adjust padding */
+    }
+}
