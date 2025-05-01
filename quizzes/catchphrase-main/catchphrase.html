@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catchphrase Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="game-container">
+        <h1>Catchphrase</h1>
+        <div class="image-container">
+            <img id="catchphrase-image" src="images/1.png" alt="Catchphrase">
+        </div>
+        <div class="timer">
+            Time left: <span id="timer">30</span>s
+            <div class="progress-bar-container">
+                <div id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <input type="text" id="guess" placeholder="Enter your guess">
+        <button id="submit-guess">Submit Guess</button>
+        <button id="pause-timer">Buzzer</button>
+        <div id="result"></div>
+    </div>
+    
+    <audio id="pause-sound" src="sounds/buzz.mp3"></audio>
+    
+    <script src="script.js"></script>
+</body>
+</html>
