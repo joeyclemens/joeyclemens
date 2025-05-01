@@ -48,7 +48,7 @@ function createButtons() {
     // Add event listeners to the buttons
     button1.addEventListener('click', () => {
         // Navigate to a new page when Button 1 is clicked
-        window.location.href = 'help.html'; 
+        window.location.href = 'games.html'; 
     });
 
     button2.addEventListener('click', () => {
