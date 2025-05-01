@@ -48,7 +48,7 @@ const elements = {
 };
 
 // Add audio element for buzzer sound
-const buzzerSound = new Audio('quizzes/catchphrase-main/sounds/buzz.mp3'); // Updated file name
+const buzzerSound = new Audio('sounds/buzz.mp3'); // Updated file name
 
 // Initialize game UI
 function initializeUI() {
