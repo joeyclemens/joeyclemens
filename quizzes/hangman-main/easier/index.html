@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        canvas {
+            margin: 20px auto;
+            display: block;
+            background-color: #fff;
+            border: 1px solid #000;
+        }
+        .word {
+            font-size: 24px;
+            letter-spacing: 8px;
+            margin: 20px;
+        }
+        .message {
+            font-size: 18px;
+            color: red;
+            margin-top: 20px;
+        }
+        .letters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .letter {
+            padding: 10px 15px;
+            font-size: 18px;
+            border: 1px solid #000;
+            background-color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .letter:hover {
+            background-color: #ddd;
+        }
+        #timer-display {
+            font-size: 20px;
+            margin: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <div id="timer-display">Time Remaining: 5:00</div> <!-- Timer display -->
+    <canvas id="hangman-canvas" width="200" height="250"></canvas>
+    <div class="word" id="word-display">_ _ _ _ _</div>
+    <div class="letters" id="letter-buttons"></div>
+    <div class="message" id="message"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
