@@ -1,4 +1,4 @@
-const headerText = "The SoA Maker";
+const headerText = "Quizness as Usual";
 const headerSpan = document.getElementById("header-text");
 let i = 0;
 
