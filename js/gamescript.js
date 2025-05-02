@@ -18,12 +18,11 @@ function createButtons() {
     const buttonSection = document.querySelector(".button-section");
 
     const button1 = createButton("Home");
-    const button2 = createButton("SoA template Export");
+
    
 
     buttonSection.appendChild(button1);
-    buttonSection.appendChild(button2);
-    
+
 
     // Add margin between buttons
     buttonSection.querySelectorAll('.button').forEach(button => {
@@ -44,10 +43,7 @@ function createButtons() {
         window.location.href = 'index.html'; // Replace 'page1.html' with the URL of the desired page
     });
 
-    button2.addEventListener('click', () => {
-        // Navigate to a new page when Button 2 is clicked
-        window.location.href = 'soa_export.html'; // Replace 'page2.html' with the URL of the desired page
-    });
+
 
    
 
