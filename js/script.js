@@ -53,37 +53,23 @@ function createButtons() {
 
     button2.addEventListener('click', () => {
         // Navigate to a new page when Button 2 is clicked
-        window.location.href = 'soa_export.html'; 
+        window.location.href = '#'; 
     });
 
     button3.addEventListener('click', () => {
-        // Create a function to trigger file download
-        function downloadFile(url) {
-            // Create an anchor element
-            const link = document.createElement('a');
-            // Set the href attribute to the file URL
-            link.href = url;
-            // Set the download attribute to specify the file name
-            link.download = 'MJM_PROJ_240311_SOATEMPLATE_v1.0.xlsx'; // Replace with the desired file name
-            // Append the anchor element to the document body
-            document.body.appendChild(link);
-            // Trigger a click event on the anchor element
-            link.click();
-            // Remove the anchor element from the document body
-            document.body.removeChild(link);
-        }
+               // Navigate to a new page when Button 3 is clicked
+               window.location.href = '#'; 
+        
     
-        // Call the downloadFile function with the URL of the file to download
-        downloadFile('../files/MJM_PROJ_240311_SOATEMPLATE_v1.0.xlsx'); // Replace the URL with the URL of the desired file
-    });
+        });
 
     button4.addEventListener('click', () => {
         // Navigate to a new page when Button 2 is clicked
-        window.location.href = 'python.html'; 
+        window.location.href = '#'; 
     });
     button5.addEventListener('click', () => {
         // Navigate to a new page when Button 2 is clicked
-        window.location.href = 'bugsandthefuture.html'; 
+        window.location.href = '#'; 
     });
 }
 
