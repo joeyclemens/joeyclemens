@@ -20,17 +20,13 @@ function createButtons() {
     const buttonSection = document.querySelector(".button-section");
 
     const button1 = createButton("Games");
-    const button2 = createButton("Applications");
-    const button3 = createButton("Blog");
-    const button4 = createButton("Other stuff");
-    const button5 = createButton("Contact");
+    const button2 = createButton("Productivity Tool");
+    const button3 = createButton("Contact");
 
 
     buttonSection.appendChild(button1);
     buttonSection.appendChild(button2);
     buttonSection.appendChild(button3);
-    buttonSection.appendChild(button4);
-    buttonSection.appendChild(button5);
 
     // Add margin between buttons
     buttonSection.querySelectorAll('.button').forEach(button => {
@@ -53,7 +49,7 @@ function createButtons() {
 
     button2.addEventListener('click', () => {
         // Navigate to a new page when Button 2 is clicked
-        window.location.href = '#'; 
+        window.location.href = 'productivity-tool/index.html'; 
     });
 
     button3.addEventListener('click', () => {
@@ -63,14 +59,7 @@ function createButtons() {
     
         });
 
-    button4.addEventListener('click', () => {
-        // Navigate to a new page when Button 2 is clicked
-        window.location.href = '#'; 
-    });
-    button5.addEventListener('click', () => {
-        // Navigate to a new page when Button 2 is clicked
-        window.location.href = '#'; 
-    });
+
 }
 
 function createButton(text) {
