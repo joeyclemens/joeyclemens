@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productivity Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- App UI will go here -->
+    <h1>Productivity Tool</h1>
+    <div id="sections-row">
+      <div id="todo-section">
+        <h2>To-Do List <span id="todo-score">(Score: 0)</span></h2>
+        <div class="todo-input-row">
+          <input type="text" id="todo-input" placeholder="Add a new task..." />
+          <button id="todo-add-btn" class="button">Add</button>
+        </div>
+        <ul id="todo-list"></ul>
+      </div>
+      <div id="pomodoro-section">
+        <h2>Pomodoro Timer</h2>
+        <div id="pomodoro-timer-row">
+          <span id="pomodoro-session-label">Work</span>
+          <span id="pomodoro-timer">25:00</span>
+        </div>
+        <div id="pomodoro-controls">
+          <button id="pomodoro-start" class="button">Start</button>
+          <button id="pomodoro-pause" class="button">Pause</button>
+          <button id="pomodoro-reset" class="button">Reset</button>
+        </div>
+        <div id="pomodoro-testmode-row">
+          <label><input type="checkbox" id="pomodoro-testmode"> Test Mode (10s sessions)</label>
+        </div>
+        <div id="pomodoro-completed">Completed Pomodoros: <span id="pomodoro-count">0</span></div>
+      </div>
+      <div id="progress-section">
+        <h2>Progress Chart</h2>
+        <canvas id="progress-chart" width="400" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
