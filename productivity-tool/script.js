@@ -97,7 +97,14 @@ function deleteTodo(idx) {
     }
   }
   todos.splice(idx, 1);
-  saveTodos();
+  // If no tasks left, reset score to zero
+  if (todos.length === 0) {
+    score = 0;
+    updateScore();
+    saveTodos();
+  } else {
+    saveTodos();
+  }
   renderTodos();
 }
 
@@ -192,7 +199,17 @@ function pausePomodoro() {
 function resetPomodoro() {
   clearInterval(pomodoroInterval);
   pomodoroIsRunning = false;
-  pomodoroTime = pomodoroIsWork ? getWorkDuration() : getBreakDuration();
+  pomodoroIsWork = true;
+  pomodoroTime = getWorkDuration();
+  // Reset today's pomodoros in progress chart
+  const today = getToday();
+  if (progressData[today]) {
+    progressData[today].pomodoros = 0;
+    saveProgress();
+    renderProgressChart();
+  }
+  // Reset completed Pomodoros counter
+  pomodorosCompleted = 0;
   updatePomodoroUI();
   savePomodoro();
 }
