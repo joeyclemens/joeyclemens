@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video Player</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      height: 100vh;
+      margin: 0;
+      color: #fff;
+      font-family: sans-serif;
+      flex-direction: column;
+    }
+    video {
+      width: 80%;
+      max-width: 900px;
+      border: 3px solid #444;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <h1>Video Playback</h1>
+  <video controls>
+    <source src="Screen Recording 2025-10-07 100022.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</body>
+</html>
