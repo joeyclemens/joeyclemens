@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Litany of the Lode</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg-1:#07101a;
+  --bg-2:#0b2230;
+  --panel: rgba(255,255,255,0.03);
+  --accent:#7AE7C7;
+  --muted:#98B0C0;
+  --text:#E6F3F8;
+  /* page background variable (updated by JS on scroll) */
+  --page-bg: radial-gradient(1200px 600px at 10% 10%, rgba(122,231,199,0.04), transparent), linear-gradient(180deg,var(--bg-1),var(--bg-2));
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,"Noto Sans",sans-serif;
+  background: var(--page-bg);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.55;
+  transition: background 600ms ease, background-image 600ms ease;
+}
+
+.container{max-width:970px;margin:0 auto;padding:36px 22px}
+.page{min-height:100vh;display:flex;flex-direction:column}
+
+/* Main grid for TOC + content */
+.main-grid{display:grid;grid-template-columns:260px minmax(0,720px);gap:28px;align-items:start;margin:0 auto}
+
+@media (max-width:980px){
+  .main-grid{grid-template-columns:1fr}
+}
+
+.hero{padding:48px 0 18px}
+.hero .container{padding:0}
+.hero h1{margin:0;font-size:clamp(1.6rem,3.8vw,2.8rem);letter-spacing:-0.02em}
+.logline{margin-top:10px;color:var(--muted);font-style:normal;opacity:.95;padding:10px 14px;border-left:4px solid var(--accent);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);border-radius:6px}
+
+hr{border:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);margin:20px 0}
+
+h2{font-size:1rem;margin-top:28px;margin-bottom:10px;color:var(--text);text-transform:uppercase;letter-spacing:0.12em;font-weight:700}
+
+/* Headings use a serif for gravitas */
+h1, h2, h3{font-family: Merriweather, Georgia, serif}
+
+p{margin:10px 0}
+ul,ol{margin:8px 0 8px 1.2rem;padding:0}
+li{margin:6px 0}
+
+/* Subtle card feel for sections */
+.overview{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:28px;border-radius:10px;box-shadow:0 6px 20px rgba(2,8,14,0.45);border:1px solid rgba(255,255,255,0.02);max-width:720px;margin:0}
+
+/* Blockquotes for dialogue */
+blockquote{
+  margin:14px 0;
+  padding:12px 14px;
+  border-left:4px solid rgba(122,231,199,0.22);
+  background:linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.004));
+  border-radius:8px;
+  color:rgba(230,243,248,0.92);
+}
+blockquote p{margin:8px 0}
+blockquote em{color:rgba(230,243,248,0.85)}
+
+/* Part callouts */
+.thematic{margin-top:18px;padding:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.003));border-left:4px solid rgba(122,231,199,0.15);color:var(--muted);border-radius:6px}
+
+/* Table of contents */
+#toc{position:relative}
+#toc .toc-panel{position:sticky;top:24px;padding:18px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02)}
+#toc h3{margin:0 0 8px 0;font-size:0.95rem}
+#toc ul{list-style:none;padding:0;margin:0}
+#toc li{margin:8px 0}
+#toc a{color:var(--muted);text-decoration:none;padding:6px 8px;display:block;border-radius:6px}
+#toc a.active{color:var(--text);background:linear-gradient(90deg, rgba(122,231,199,0.06), transparent);box-shadow:inset 3px 0 0 var(--accent)}
+
+/* Smooth scrolling */
+html{scroll-behavior:smooth}
+
+/* Make lists and ordered steps more legible */
+ol{counter-reset:step}
+ol li{position:relative;padding-left:38px;list-style:none}
+ol li:before{counter-increment:step;content:counter(step);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:6px;display:inline-grid;place-items:center;background:linear-gradient(180deg, rgba(122,231,199,0.12), rgba(122,231,199,0.06));color:var(--text);font-weight:700}
+
+/* Responsive tidy */
+@media (max-width:600px){
+  .container{padding:20px}
+  .hero{padding:30px 0 10px}
+  .logline{font-size:.95rem}
+}
+
+/* Decorative subtle glow on headings */
+h1, h2{text-shadow:0 1px 0 rgba(2,8,14,0.6)}
+
+/* Accessibility: high contrast focus */
+a:focus, button:focus{outline:2px dashed var(--accent);outline-offset:3px}
+
+/* Printing: keep it simple */
+@media print{body{background:white;color:black} .overview{box-shadow:none;border:none} .hero{display:block}}
+
+/* Section background bands that intersect neighboring Parts */
+.overview section{position:relative;padding:28px;border-radius:10px;margin:34px 0;background:linear-gradient(180deg, rgba(255,255,255,0.008), rgba(255,255,255,0.002));overflow:visible;z-index:1}
+.overview section::before{content:"";position:absolute;left:-15%;right:-15%;top:-18%;height:140%;transform:skewY(-6deg);z-index:0;border-radius:12px;filter:blur(18px);opacity:0.95;pointer-events:none}
+.overview section[data-part="part-1"]::before{background:linear-gradient(180deg, rgba(122,231,199,0.085), rgba(122,231,199,0.02));}
+.overview section[data-part="part-2"]::before{background:linear-gradient(180deg, rgba(255,176,85,0.08), rgba(255,176,85,0.02));}
+.overview section[data-part="part-3"]::before{background:linear-gradient(180deg, rgba(255,100,120,0.07), rgba(255,100,120,0.02));}
+.overview section[data-part="part-4"]::before{background:linear-gradient(180deg, rgba(170,140,255,0.08), rgba(170,140,255,0.02));}
+.overview section[data-part="part-5"]::before{background:linear-gradient(180deg, rgba(100,120,255,0.09), rgba(100,120,255,0.02));}
+
+/* Make TOC panel scrollable so the active link can be centered */
+#toc .toc-panel{position:sticky;top:24px;padding:18px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));border:1px solid rgba(255,255,255,0.02);max-height:72vh;overflow:auto}
+
+/* Make the content column sticky and internally scrollable so it follows the viewport */
+.main-grid .overview{position:sticky;top:110px;max-height:calc(100vh - 140px);overflow:auto}
+
+@media (max-width:980px){
+  /* disable sticky on small screens so layout stays natural */
+  .main-grid .overview{position:static;max-height:none;overflow:visible}
+}
+
+/* Custom scrollbars for overview and TOC (WebKit + Firefox) */
+.main-grid .overview{
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(122,231,199,0.25) transparent;
+}
+.main-grid .overview::-webkit-scrollbar{width:12px}
+.main-grid .overview::-webkit-scrollbar-track{background:linear-gradient(180deg, transparent, rgba(2,8,14,0.02));border-radius:8px}
+.main-grid .overview::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(122,231,199,0.20), rgba(122,231,199,0.10));border-radius:10px;border:3px solid rgba(2,8,14,0.55);box-shadow:0 2px 8px rgba(0,0,0,0.45) inset}
+.main-grid .overview::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg, rgba(122,231,199,0.30), rgba(122,231,199,0.12));}
+.main-grid .overview::-webkit-scrollbar-corner{background:transparent}
+
+/* Slightly different, compact scrollbar for TOC */
+#toc .toc-panel{scrollbar-width:thin;}
+#toc .toc-panel::-webkit-scrollbar{width:10px}
+#toc .toc-panel::-webkit-scrollbar-track{background:transparent;border-radius:8px}
+#toc .toc-panel::-webkit-scrollbar-thumb{background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));border-radius:8px;border:2px solid rgba(2,8,14,0.45)}
+#toc .toc-panel::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.03));}
+
+/* Focus styling when keyboard-scrolling inside overview */
+.main-grid .overview:focus{outline:2px solid rgba(122,231,199,0.12);outline-offset:4px}
+
+/* Per-part page backgrounds (applies via `body[data-section="part-N"]`) */
+body[data-section="part-1"]{ --page-bg: radial-gradient(1200px 600px at 10% 10%, rgba(122,231,199,0.06), transparent), linear-gradient(180deg,#061018,#0b2230); }
+body[data-section="part-2"]{ --page-bg: radial-gradient(1000px 500px at 20% 15%, rgba(255,176,85,0.06), transparent), linear-gradient(180deg,#1a1206,#3b2208); }
+body[data-section="part-3"]{ --page-bg: radial-gradient(900px 420px at 85% 10%, rgba(255,100,120,0.045), transparent), linear-gradient(180deg,#2a0b0f,#3b1217); }
+body[data-section="part-4"]{ --page-bg: radial-gradient(1000px 480px at 30% 20%, rgba(170,140,255,0.055), transparent), linear-gradient(180deg,#0e0830,#24143f); }
+body[data-section="part-5"]{ --page-bg: radial-gradient(1100px 520px at 80% 20%, rgba(100,120,255,0.065), transparent), linear-gradient(180deg,#041230,#102146); }
+</style>
+</head>
+
+<body data-section="part-1">
+<div class="page">
+
+  <header class="hero">
+    <div class="container">
+      <h1>The Litany of the Lode</h1>
+      <div class="logline">
+        <strong>Logline:</strong> A stranded scout discovers a frontier town's prosperity is built on the drugged, conscious torment of a buried god—and must protect its reborn, innocent offspring when the dying titan's righteous fury destroys its captors.
+      </div>
+    </div>
+  </header>
+
+  <main class="container main-grid">
+
+    <nav id="toc" aria-label="Table of contents">
+      <div class="toc-panel">
+        <h3>Contents</h3>
+        <ul>
+          <li><a href="#part-1">Part 1: The Lie</a></li>
+          <li><a href="#part-2">Part 2: The Sin</a></li>
+          <li><a href="#part-3">Part 3: The Reckoning</a></li>
+          <li><a href="#part-4">Part 4: The Covenant</a></li>
+          <li><a href="#part-5">Part 5: The Unknown</a></li>
+          <li><a href="#thematic-core">Thematic Core</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <article class="overview">
+<article class="overview">
+
+  <section data-part="part-1">
+    <h2 id="part-1">Part 1: The Lie (Arrival &amp; Discovery)</h2>
+
+    <p>The <em>Drift Meridian</em> didn't crash. It was torn out a tunnel that was still being born. Warp gates were the safe way to cross the stars; they were fixed anchors in space, linked by stable corridors of folded reality. Convoys trusted them, civilian pilots depended on them. But gates didn't connect themselves.</p>
+
+    <p>That was my job. I'm a <strong>Pathfinder</strong>, one of the few trained to slip ahead of the network and carve those corridors piece by piece. I fly where maps fail, threading my ship through raw folded space, feeling for routes that could be stabilised and bound into the gate lattice.</p>
+
+    <p>It was dangerous work, but predictable, so long as you respected the physics of what you were doing. Folded space followed a different set of rules, but there were still rules, and some were the same as real-space. Gravity, mass, and time, for example, still mattered.</p>
+
+    <p>A dying star, however, doesn't have to respect the physics of folded space.</p>
+
+    <p>The Ember star collapsed faster than the models predicted. Its final gravity surge reached out into folded space like a blind, grasping hand and caught the Meridian while I was stitching my way through the gates. The half-formed tunnel twisted, sheared, and came apart.</p>
+
+    <p>Folded space rejected the <em>Drift Meridian</em> and violently flung it back into real space, its vectors scrambled, instruments screaming in protest.</p>
+
+    <p>Deep in the hull, the crystal drive, the core that made Pathfinding possible, howled once and then went silent.</p>
+
+    <p>The tunnel was gone.<br>
+    The gates unreachable.<br>
+    The Pathfinder was stranded on the wrong side of the stars.</p>
+
+ 
+      <p><em>"Fuuuuck,"</em> I said. Then, louder, <em>"Fuck, fuck, fuck. Computer, where the hell are we?"</em></p>
+    
+
+    <p>The ship's computer whirred to life, emitting a sequence of beeps and screeches, its irritating way of announcing that it was thinking. I'd always suspected it did that purely to annoy me. After a moment, it finally decided to contribute.</p>
+
+
+      <p><em>"It appears we have been exited from folded space somewhere near the Erythos Reach. The ship is in desperate need of repair before further tunnelling can be attempted."</em></p>
+ 
+
+    <p>I stared at the instrument panel, a forest of red alarms blinking back.</p>
+
+    <p><em>"The word "Desperate" is doing a lot of work there,"</em> I muttered.</p>
+
+    <p>The computer emitted a brief, noncommittal tone, somehow conveying a shrug better than any physical gesture ever could.</p>
+
+    <p>I clenched my jaw. I'd had more than a few frustrating encounters with the ship's AI. It had a habit of being sarcastic at exactly the wrong moments, and an equally strong habit of not offering practical solutions unless explicitly asked.</p>
+
+    <p><em>"Could you check what we still have to work with,"</em> I said carefully, <em>"and see if there's anywhere we can land?"</em></p>
+
+    <p>More screeching noises. I really had to get that checked.</p>
+
+  
+      <p><em>"There is a faint power source coming from a small planet not far from here. We should be able to reach it on current power reserves."</em></p>
+   
+
+    <p>Finally, some useful information.</p>
+
+    <p><em>"Plot a course and let's go."</em> Hopefully, whatever was down there would be enough to get the ship back in working condition.</p>
+
+    <p>The planet was one of those frontier worlds the central governments had quietly written off. The kind that didn't want interference and was content to mind its own business. No patrols. No bureaucracy. Just distance and indifference.</p>
+
+    <p>The power source was the interesting part. It didn't match anything in my databases. Not that I was an expert, there were plenty of things in the galaxy I'd never seen, but this was different. Something about it called to me in a way I couldn't explain.</p>
+
+    <p>I set the Meridian down, though <em>set</em> was generous. The ship spluttered, lurched, and argued with gravity every metre of the way while I hovered over the controls doing little more than persuading it not to kill us outright. Thrusters coughed, warning tones stacked on top of one another, and the ground rushed up with far more enthusiasm than I would have liked.</p>
+
+    <p>We came to rest near the settlement the power source was coming from, but not too near. Close enough that I could reach it on foot if I had to. Far enough that, if things went wrong, the Meridian might still have room to limp back into the air.</p>
+
+    <p>If I was going to get the ship flying again, this was my best chance.</p>
+
+    <p>Now that I was planet-side, I could run deeper scans and finally get a clearer picture of where I'd ended up. It turned out the planet had been mapped before, just not recently, and not thoroughly.</p>
+
+    <p>The nearby settlement was listed as <strong>Bramblewatch</strong>. The accompanying cartographer's notes were… informal. One margin comment read, <em>"What kind of dumbass builds a town on a cliff edge?"</em> Apparently, professional standards had been looser back then.</p>
+
+    <p>Cartography's a dying art these days. Most modern charts are stitched together by drones and prediction models; clean and soulless. So it was strangely comforting to scroll through an older, handcrafted map with inked contours, uneven annotations, and the unmistakable sense that a real person had stood here once, looked at the same impossible terrain, and felt compelled to say rude things about it.</p>
+
+  </section>
+
+</article>
+
+  </main>
+
+  <footer class="footer container">
+    The Litany of the Lode
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const headings = Array.from(document.querySelectorAll('.overview h2[id]'));
+  const tocLinks = Array.from(document.querySelectorAll('#toc a'));
+  const tocPanel = document.querySelector('#toc .toc-panel');
+  if(!headings.length) return;
+
+  function setActive(id){
+    tocLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+    // keep the active TOC link visible inside the TOC panel
+    const active = tocLinks.find(a=> a.classList.contains('active'));
+    if(active && tocPanel){
+      // scroll the TOC panel itself so the page doesn't jump
+      const top = active.offsetTop - (tocPanel.clientHeight / 2) + (active.clientHeight / 2);
+      try{ tocPanel.scrollTo({ top, behavior: 'smooth' }); }catch(e){ tocPanel.scrollTop = top; }
+    }
+  }
+
+  // Intercept TOC link clicks: animate the content scroll and update hash without default jump
+  tocLinks.forEach(a=>{
+    a.addEventListener('click', (ev)=>{
+      ev.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target){
+        try{ target.scrollIntoView({behavior:'smooth', block:'center'}); }catch(e){ target.scrollIntoView(); }
+        // update URL hash without causing an extra scroll
+        history.replaceState(null, '', a.getAttribute('href'));
+        // ensure the active class + toc scroll are synced
+        setActive(target.id);
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const id = e.target.id;
+        const m = id.match(/^part-(\d)/i);
+        const key = m ? `part-${m[1]}` : id;
+        document.body.setAttribute('data-section', key);
+        setActive(id);
+      }
+    });
+  }, {root:null, rootMargin:'-50% 0px -50% 0px', threshold:0});
+
+  headings.forEach(h=> observer.observe(h));
+  // set initial section
+  const first = headings[0];
+  if(first){
+    const m = first.id.match(/^part-(\d)/i);
+    if(m) document.body.setAttribute('data-section', `part-${m[1]}`);
+    setActive(first.id);
+  }
+})();
+</script>
+
+</body>
+</html>
