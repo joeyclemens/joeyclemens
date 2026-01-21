@@ -38,12 +38,8 @@ body{
 .container{max-width:970px;margin:0 auto;padding:36px 22px}
 .page{min-height:100vh;display:flex;flex-direction:column}
 
-/* Main grid for TOC + content */
-.main-grid{display:grid;grid-template-columns:260px minmax(0,720px);gap:28px;align-items:start;margin:0 auto}
-
-@media (max-width:980px){
-  .main-grid{grid-template-columns:1fr}
-}
+/* Main grid for content */
+.main-grid{display:grid;grid-template-columns:1fr;gap:28px;align-items:start;margin:0 auto;max-width:720px}
 
 .hero{padding:48px 0 18px}
 .hero .container{padding:0}
@@ -168,27 +164,11 @@ body[data-section="part-5"]{ --page-bg: radial-gradient(1100px 520px at 80% 20%,
   <header class="hero">
     <div class="container">
       <h1>The Litany of the Lode</h1>
-      <div class="logline">
-        <strong>Logline:</strong> A stranded scout discovers a frontier town's prosperity is built on the drugged, conscious torment of a buried god—and must protect its reborn, innocent offspring when the dying titan's righteous fury destroys its captors.
-      </div>
+     
     </div>
   </header>
 
   <main class="container main-grid">
-
-    <nav id="toc" aria-label="Table of contents">
-      <div class="toc-panel">
-        <h3>Contents</h3>
-        <ul>
-          <li><a href="#part-1">Part 1: The Lie</a></li>
-          <li><a href="#part-2">Part 2: The Sin</a></li>
-          <li><a href="#part-3">Part 3: The Reckoning</a></li>
-          <li><a href="#part-4">Part 4: The Covenant</a></li>
-          <li><a href="#part-5">Part 5: The Unknown</a></li>
-          <li><a href="#thematic-core">Thematic Core</a></li>
-        </ul>
-      </div>
-    </nav>
 
     <article class="overview">
 <article class="overview">
