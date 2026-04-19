@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Salmon & Sweet Potato Fishcakes — Joey's Recipes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --warm-white: #faf7f2;
+      --teal: #3a7c7c;
+      --teal-light: #4d9a9a;
+      --teal-dark: #2c6060;
+      --coral: #e07a5f;
+      --ink: #1e1a14;
+      --ink-muted: #4a4035;
+      --border: #ddd5c4;
+      --shadow: rgba(30,26,20,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background-color: var(--teal);
+      background-image:
+        radial-gradient(ellipse at 15% 60%, rgba(255,255,255,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse at 85% 20%, rgba(0,0,0,0.12) 0%, transparent 50%);
+      color: var(--cream);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.75);
+      border: 1px solid rgba(245,240,232,0.3);
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      font-family: 'Lora', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: rgba(245,240,232,0.8);
+      max-width: 480px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
+
+    .meta-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.6);
+    }
+
+    .meta-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* ── Description band ── */
+    .description-band {
+      background: var(--warm-white);
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 1.5rem;
+      text-align: center;
+    }
+
+    .description-band p {
+      font-family: 'Lora', serif;
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── Section titles ── */
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Body grid ── */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-top: 3px solid var(--teal);
+    }
+
+    @media (max-width: 640px) {
+      .body-grid { grid-template-columns: 1fr; }
+    }
+
+    .ingredients-col {
+      background: var(--warm-white);
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+    }
+
+    @media (max-width: 640px) {
+      .ingredients-col { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+
+    .servings-note {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--cream);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .ingredient-list { list-style: none; }
+
+    .ingredient-list li {
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 0.95rem;
+    }
+
+    .ingredient-list li:last-child { border-bottom: none; }
+
+    .ing-amount {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--teal);
+      min-width: 3.5rem;
+      font-size: 0.9rem;
+    }
+
+    .ing-name { color: var(--ink-muted); }
+
+    /* ── Info col ── */
+    .info-col {
+      background: var(--cream);
+      padding: 2.5rem 2rem;
+    }
+
+    .tag-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .pill {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--ink-muted);
+      font-size: 0.78rem;
+      padding: 0.3rem 0.85rem;
+      border-radius: 2rem;
+      font-weight: 500;
+    }
+
+    .pill.teal {
+      border-color: var(--teal-light);
+      color: var(--teal-dark);
+      background: rgba(58,124,124,0.08);
+    }
+
+    .pill.coral {
+      border-color: var(--coral);
+      color: var(--coral);
+      background: rgba(224,122,95,0.08);
+    }
+
+    /* ── Steps ── */
+    .steps-section {
+      background: var(--warm-white);
+      padding: 2.5rem 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .steps-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .step-number {
+      width: 2.5rem;
+      height: 2.5rem;
+      background: var(--teal);
+      color: var(--cream);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    .step-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.3rem;
+    }
+
+    .step-content {
+      font-size: 0.97rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+    }
+
+    .step-timer {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 0.5rem;
+      background: rgba(58,124,124,0.1);
+      color: var(--teal-dark);
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 0.2rem 0.65rem;
+      border-radius: 2rem;
+    }
+
+    /* ── Safety callout ── */
+    .safety-box {
+      background: rgba(224,122,95,0.1);
+      border: 1px solid var(--coral);
+      border-left: 4px solid var(--coral);
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+    }
+
+    .safety-box strong {
+      color: var(--coral);
+      display: block;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
+
+    /* ── Notes ── */
+    .notes-section {
+      background: var(--cream);
+      padding: 2rem 2rem 2.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .notes-box {
+      background: var(--warm-white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--teal);
+      border-radius: 0.5rem;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .notes-box p {
+      font-size: 0.93rem;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .notes-box p:last-child { margin-bottom: 0; }
+
+    .notes-box strong {
+      color: var(--teal-dark);
+      font-weight: 500;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--border);
+      letter-spacing: 0.05em;
+    }
+
+    footer a { color: var(--teal-light); text-decoration: none; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero > * { animation: fadeUp 0.6s ease both; }
+    .hero-tag       { animation-delay: 0.05s; }
+    .hero h1        { animation-delay: 0.15s; }
+    .hero-subtitle  { animation-delay: 0.25s; }
+    .hero-meta      { animation-delay: 0.35s; }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-tag">🐟 Baby-Friendly · Finger Food · Freezer-Friendly</div>
+    <h1>Mini Salmon &amp; <em>Sweet Potato</em> Fishcakes</h1>
+    <p class="hero-subtitle">Soft, lightly golden patties packed with omega-3s — easy to grip, easy to gum.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Prep</span>
+        <span class="meta-value">10 min</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Cook</span>
+        <span class="meta-value">20 min</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Makes</span>
+        <span class="meta-value">12</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Age</span>
+        <span class="meta-value">12m+</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Description -->
+  <div class="description-band">
+    <p>A brilliant batch-cook staple for babies and toddlers — naturally soft, no added salt, and packed with good fats. Make a big batch, freeze, and pull out as needed.</p>
+  </div>
+
+  <!-- Ingredients + Info -->
+  <div class="body-grid">
+
+    <div class="ingredients-col">
+      <h2 class="section-title">Ingredients</h2>
+      <div class="servings-note">Makes 12 fishcakes</div>
+      <ul class="ingredient-list">
+        <li><span class="ing-amount">250 g</span><span class="ing-name">sweet potato, peeled and cubed</span></li>
+        <li><span class="ing-amount">200 g</span><span class="ing-name">tinned salmon in water, drained — no added salt</span></li>
+        <li><span class="ing-amount">3 tbsp</span><span class="ing-name">plain flour, for dusting</span></li>
+        <li><span class="ing-amount">1</span><span class="ing-name">large egg, beaten</span></li>
+        <li><span class="ing-amount">1 tbsp</span><span class="ing-name">fresh parsley or chives, finely chopped</span></li>
+        <li><span class="ing-amount">1 tbsp</span><span class="ing-name">olive oil, for frying</span></li>
+      </ul>
+    </div>
+
+    <div class="info-col">
+      <h2 class="section-title">At a Glance</h2>
+      <div class="tag-pills">
+        <span class="pill teal">✓ No added salt</span>
+        <span class="pill teal">✓ 12 months+</span>
+        <span class="pill teal">✓ Finger food</span>
+        <span class="pill">Freezer-friendly</span>
+        <span class="pill">Omega-3 rich</span>
+        <span class="pill">Batch cook</span>
+      </div>
+
+      <div class="safety-box">
+        <strong>⚠ Salt &amp; bones — important</strong>
+        Always use no-added-salt tinned salmon, and check carefully for any small bones before mixing. Add no extra salt — babies under 2 need very little sodium.
+      </div>
+
+      <h2 class="section-title" style="font-size:1.1rem;">Serve with</h2>
+      <p style="font-size:0.93rem; color:var(--ink-muted);">Soft avocado slices, steamed broccoli florets, or strips of soft-cooked carrot all pair well and make a complete little meal.</p>
+    </div>
+
+  </div>
+
+  <!-- Method -->
+  <div class="steps-section">
+    <h2 class="section-title">Method</h2>
+    <ol class="steps-list">
+
+      <li class="step">
+        <div class="step-number">1</div>
+        <div class="step-body">
+          <div class="step-title">Cook the sweet potato</div>
+          <p class="step-content">Boil or steam 250 g sweet potato cubes for 12–15 minutes until completely tender. Drain and mash until smooth. Leave to cool slightly.</p>
+          <div class="step-timer">⏱ 12–15 minutes</div>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-number">2</div>
+        <div class="step-body">
+          <div class="step-title">Mix the fishcakes</div>
+          <p class="step-content">Flake the tinned salmon into the mash, checking carefully for any bones. Add the chopped herbs and mix well. The mixture should be firm enough to shape — if too soft, add a little extra flour.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-number">3</div>
+        <div class="step-body">
+          <div class="step-title">Shape and coat</div>
+          <p class="step-content">Divide into 12 small patties, roughly 4 cm wide — a good size for little hands. Dip each one in beaten egg, then dust lightly with flour.</p>
+        </div>
+      </li>
+
+      <li class="step">
+        <div class="step-number">4</div>
+        <div class="step-body">
+          <div class="step-title">Fry until golden</div>
+          <p class="step-content">Heat 1 tbsp olive oil in a non-stick pan over medium heat. Cook the fishcakes for 3–4 minutes each side until lightly golden and heated through. Cool completely before serving.</p>
+          <div class="step-timer">⏱ 3–4 minutes per side</div>
+        </div>
+      </li>
+
+    </ol>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-section">
+    <h2 class="section-title">Notes &amp; Variations</h2>
+    <div class="notes-box">
+      <p><strong>Freezing:</strong> Freeze after frying in a single layer, then transfer to a bag. Reheat from frozen in the oven at 180°C for 10 minutes until piping hot throughout — cool before serving.</p>
+      <p><strong>Veg boost:</strong> Add a small handful of finely grated courgette or carrot to the mix — squeeze out excess moisture first.</p>
+      <p><strong>For older children and adults:</strong> A squeeze of lemon juice and a pinch of black pepper lifts the flavour nicely. Keep seasoning separate so the baby batch stays salt-free.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>From <a href="https://joeyclemens.com">joeyclemens.com</a> &nbsp;·&nbsp; Mini Salmon &amp; Sweet Potato Fishcakes &nbsp;·&nbsp; Makes 12</p>
+  </footer>
+
+</body>
+</html>
