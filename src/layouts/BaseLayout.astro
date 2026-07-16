@@ -1,0 +1,156 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  windowTitle?: string;
+}
+
+const { title } = Astro.props;
+
+const fileLinks = [
+  { href: "/", label: "Home" },
+  { href: "/games/", label: "Games" },
+  { href: "/photography/", label: "Photography" },
+  { href: "/writing/", label: "Writing" },
+  { href: "/meals/", label: "Meals" },
+  { href: "/help/", label: "Help" },
+];
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} — Joey Clemens</title>
+  <link rel="icon" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="menubar" id="menubar">
+    <div class="menu-item apple" data-menu="apple">
+      &#63743;
+      <div class="dropdown">
+        <div class="d-item" id="about-mac">About This Macintosh</div>
+        <div class="d-sep"></div>
+        <div class="d-item">Control Panels</div>
+        <div class="d-item">Chooser</div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="file">
+      File
+      <div class="dropdown">
+        {fileLinks.map((l) => (
+          <div class="d-item"><a href={l.href}>{l.label}</a></div>
+        ))}
+        <div class="d-sep"></div>
+        <div class="d-item"><a href="/tools/productivity/index.html">Productivity Tool</a></div>
+        <div class="d-item"><a href="mailto:joeyclemens87@gmail.com">Contact</a></div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="edit">
+      Edit
+      <div class="dropdown">
+        <div class="d-item">Undo</div>
+        <div class="d-sep"></div>
+        <div class="d-item">Cut</div>
+        <div class="d-item">Copy</div>
+        <div class="d-item">Paste</div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="view">
+      View
+      <div class="dropdown">
+        <div class="d-item">by Icon</div>
+        <div class="d-item">by Name</div>
+        <div class="d-item">by Date</div>
+      </div>
+    </div>
+    <div class="menu-item" data-menu="special">
+      Special
+      <div class="dropdown">
+        <div class="d-item">Clean Up Window</div>
+        <div class="d-item" id="empty-trash">Empty Trash&hellip;</div>
+        <div class="d-sep"></div>
+        <div class="d-item" id="restart">Restart</div>
+        <div class="d-item">Shut Down</div>
+      </div>
+    </div>
+    <span class="flex-sp"></span>
+    <span class="clock" id="clock">9:41 AM</span>
+  </div>
+
+  <div class="desktop-icons">
+    <a class="d-icon" href="/">
+      <svg viewBox="0 0 40 34"><rect x="4" y="4" width="32" height="26" fill="#fff" stroke="#000" stroke-width="1.5"/><rect x="8" y="9" width="24" height="2" fill="#000"/><rect x="8" y="14" width="24" height="2" fill="#000"/><rect x="8" y="19" width="16" height="2" fill="#000"/></svg>
+      <span class="label">Joey HD</span>
+    </a>
+    <a class="d-icon" href="/photography/">
+      <svg viewBox="0 0 42 34"><path d="M2 6 h14 l3 4 h21 v22 h-38 z" fill="#e8d9a8" stroke="#000" stroke-width="1.5"/></svg>
+      <span class="label">Photos</span>
+    </a>
+    <a class="d-icon" href="/help/">
+      <svg viewBox="0 0 34 40"><rect x="2" y="2" width="30" height="36" fill="#fff" stroke="#000" stroke-width="1.5"/><circle cx="17" cy="15" r="7" fill="none" stroke="#000" stroke-width="1.5"/><text x="17" y="19" font-family="Georgia, serif" font-size="12" font-weight="bold" text-anchor="middle">?</text><rect x="7" y="27" width="20" height="2" fill="#000"/><rect x="7" y="32" width="20" height="2" fill="#000"/></svg>
+      <span class="label">Help</span>
+    </a>
+  </div>
+
+  <div class="trash">
+    <svg viewBox="0 0 34 34"><path d="M6 8 h22 v22 a2 2 0 0 1 -2 2 h-18 a2 2 0 0 1 -2 -2 z" fill="#fff" stroke="#000" stroke-width="1.5"/><rect x="3" y="5" width="28" height="4" fill="#fff" stroke="#000" stroke-width="1.5"/><rect x="13" y="1" width="8" height="4" fill="#fff" stroke="#000" stroke-width="1.5"/></svg>
+    <span class="label">Trash</span>
+  </div>
+
+  <div class="desktop">
+    <slot />
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      const m = now.getMinutes();
+      const ampm = h >= 12 ? "PM" : "AM";
+      h = h % 12; if (h === 0) h = 12;
+      const mm = m < 10 ? "0" + m : m;
+      const el = document.getElementById("clock");
+      if (el) el.textContent = h + ":" + mm + " " + ampm;
+    }
+    updateClock();
+    setInterval(updateClock, 15000);
+
+    const menuItems = document.querySelectorAll(".menu-item[data-menu]");
+    function closeAll() {
+      menuItems.forEach((mi) => mi.classList.remove("open"));
+    }
+    menuItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        if (e.target.closest(".dropdown")) return;
+        e.stopPropagation();
+        const isOpen = item.classList.contains("open");
+        closeAll();
+        if (!isOpen) item.classList.add("open");
+      });
+      item.addEventListener("mouseenter", () => {
+        const anyOpen = document.querySelector(".menu-item.open");
+        if (anyOpen && anyOpen !== item) {
+          closeAll();
+          item.classList.add("open");
+        }
+      });
+    });
+    document.addEventListener("click", closeAll);
+
+    document.getElementById("about-mac")?.addEventListener("click", () => {
+      alert("Joey Clemens's site\nBuilt with Astro. No actual System 7 was harmed.");
+    });
+    document.getElementById("empty-trash")?.addEventListener("click", () => {
+      alert("The Trash is empty.");
+    });
+    document.getElementById("restart")?.addEventListener("click", () => {
+      location.reload();
+    });
+  </script>
+</body>
+</html>

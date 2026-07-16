@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sections = [
+  { href: "/games/", label: "Games", kind: "folder" },
+  { href: "/photography/", label: "Photography", kind: "folder" },
+  { href: "/writing/", label: "Writing", kind: "doc" },
+  { href: "/meals/", label: "Meals", kind: "folder" },
+  { href: "/tools/productivity/index.html", label: "Productivity Tool", kind: "folder" },
+  { href: "mailto:joeyclemens87@gmail.com", label: "Contact", kind: "doc" },
+];
+---
+<BaseLayout title="Home">
+  <div class="window about-window">
+    <div class="titlebar">
+      <span class="closebox"></span>
+      <span class="title">About This Site</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <div class="about-block">
+        <svg class="about-icon" viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="32" fill="#fff" stroke="#000" stroke-width="2"/><circle cx="24" cy="24" r="10" fill="none" stroke="#000" stroke-width="2"/><circle cx="24" cy="24" r="3" fill="#000"/></svg>
+        <div>
+          <h1>Joey Clemens</h1>
+          <p>Design, code, the odd game, and lately &mdash; photos. A small personal corner of the internet: some things I've built, some things I've written, some things I've cooked, and now some things I've shot.</p>
+        </div>
+      </div>
+    </div>
+    <div class="statusbar">1 item, 1.4 MB in this window</div>
+  </div>
+
+  <div class="window">
+    <div class="titlebar">
+      <span class="closebox"></span>
+      <span class="title">Sections</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <div class="icon-grid">
+        {sections.map((s) => (
+          <a class="icon-item" href={s.href} target={s.kind === "folder" && s.href.endsWith(".html") ? "_blank" : undefined}>
+            {s.kind === "folder" ? (
+              <svg viewBox="0 0 42 34"><path d="M2 6 h14 l3 4 h21 v22 h-38 z" fill="#e8d9a8" stroke="#000" stroke-width="1.5"/></svg>
+            ) : (
+              <svg viewBox="0 0 34 42"><rect x="2" y="2" width="30" height="38" fill="#fff" stroke="#000" stroke-width="1.5"/><rect x="7" y="9" width="20" height="2" fill="#000"/><rect x="7" y="15" width="20" height="2" fill="#000"/><rect x="7" y="21" width="14" height="2" fill="#000"/></svg>
+            )}
+            <span class="label">{s.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="statusbar">{sections.length} items, 68 KB in this window</div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Help">
+  <div class="window">
+    <div class="titlebar">
+      <a class="closebox" href="/" aria-label="Close and return home"></a>
+      <span class="title">Help</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <h1 style="font-family:'Silkscreen',monospace;font-size:15px;margin:0 0 14px;">How this site works</h1>
+      <ul>
+        <li>Click a folder or document icon to open it.</li>
+        <li>Click the small box in the top-left corner of any window to close it and go back.</li>
+        <li>Use the File menu in the top bar to jump straight to any section.</li>
+        <li>The Trash icon on the desktop is just for fun &mdash; it doesn't do anything.</li>
+      </ul>
+    </div>
+    <div class="statusbar">1 item in this window</div>
+  </div>
+</BaseLayout>

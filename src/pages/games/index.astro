@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const games = [
+  { title: "Millionaire", href: "/games/wwtbam/index.html", img: "/images/wwtbam.png" },
+  { title: "Anagrams", href: "/games/anagrams/index.html", img: "/images/anagram.png" },
+  { title: "Catchphrase", href: "/games/catchphrase/catchphrase.html", img: "/images/logo.png" },
+  { title: "Hangman", href: "/games/hangman/index.html", img: "/images/hangman.png" },
+];
+---
+<BaseLayout title="Games">
+  <div class="window">
+    <div class="titlebar">
+      <a class="closebox" href="/" aria-label="Close and return home"></a>
+      <span class="title">Games</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <p style="margin: 0 0 18px; line-height: 1.6;">
+        A collection of games and quizzes put together over the last year or so for various events, and sometimes just for fun. Double-click one to play.
+      </p>
+      <div class="icon-grid">
+        {games.map((g) => (
+          <a class="icon-item" href={g.href} target="_blank" rel="noopener">
+            <img src={g.img} alt={g.title} />
+            <span class="label">{g.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+    <div class="statusbar">{games.length} items, 2.1 MB in this window</div>
+  </div>
+</BaseLayout>

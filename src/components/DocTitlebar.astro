@@ -1,0 +1,52 @@
+---
+interface Props {
+  title: string;
+  backHref: string;
+}
+const { title, backHref } = Astro.props;
+---
+<a class="doc-titlebar" href={backHref} aria-label={`Close and return`}>
+  <span class="closebox"></span>
+  <span class="title">{title}</span>
+  <span class="zoombox"></span>
+</a>
+
+<style>
+  .doc-titlebar {
+    height: 22px;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 0 6px;
+    border-bottom: 1px solid #000;
+    background-color: #fff;
+    background-image: repeating-linear-gradient(#fff 0px, #fff 2px, #000 2px, #000 3px);
+    font-family: 'Silkscreen', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: none;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .doc-titlebar .closebox {
+    width: 11px;
+    height: 11px;
+    border: 1px solid #000;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .doc-titlebar .title {
+    background: #fff;
+    padding: 0 8px;
+    margin: 0 auto;
+  }
+  .doc-titlebar .zoombox {
+    width: 11px;
+    height: 11px;
+    border: 1px solid #000;
+    background: #fff;
+    flex-shrink: 0;
+  }
+</style>

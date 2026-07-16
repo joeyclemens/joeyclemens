@@ -1,0 +1,134 @@
+---
+import type { Photo } from "../data/photos";
+
+interface Props {
+  photos: Photo[];
+}
+
+const { photos } = Astro.props;
+---
+<div class="icon-grid photo-icon-grid">
+  {photos.map((photo, i) => (
+    <button class="icon-item photo-thumb" data-index={i} aria-label={`Open ${photo.alt}`}>
+      <img src={photo.src} alt={photo.alt} loading="lazy" />
+      <span class="label">{photo.caption.length > 22 ? photo.caption.slice(0, 20) + "…" : photo.caption}</span>
+    </button>
+  ))}
+</div>
+
+<div class="preview-overlay" id="lightbox">
+  <div class="window preview-window">
+    <div class="titlebar">
+      <span class="closebox" id="lightbox-close"></span>
+      <span class="title">Preview</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body preview-body">
+      <img id="lightbox-img" src="" alt="" />
+      <p id="lightbox-caption"></p>
+      <div class="preview-controls">
+        <button class="mac-button" id="lightbox-prev">&larr; Previous</button>
+        <button class="mac-button" id="lightbox-next">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ photos }}>
+  const thumbs = document.querySelectorAll(".photo-thumb");
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img");
+  const lightboxCaption = document.getElementById("lightbox-caption");
+  const closeBtn = document.getElementById("lightbox-close");
+  const prevBtn = document.getElementById("lightbox-prev");
+  const nextBtn = document.getElementById("lightbox-next");
+
+  let current = 0;
+
+  function render() {
+    const photo = photos[current];
+    lightboxImg.src = photo.src;
+    lightboxImg.alt = photo.alt;
+    lightboxCaption.textContent = photo.caption;
+  }
+
+  function open(index) {
+    current = index;
+    render();
+    lightbox.classList.add('is-open');
+  }
+
+  function close() {
+    lightbox.classList.remove('is-open');
+  }
+
+  function step(delta) {
+    current = (current + delta + photos.length) % photos.length;
+    render();
+  }
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => open(Number(thumb.dataset.index)));
+  });
+
+  closeBtn.addEventListener("click", close);
+  prevBtn.addEventListener("click", () => step(-1));
+  nextBtn.addEventListener("click", () => step(1));
+  lightbox.addEventListener("click", (e) => {
+    if (e.target === lightbox) close();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") step(-1);
+    if (e.key === "ArrowRight") step(1);
+  });
+</script>
+
+<style>
+  .photo-thumb {
+    border: none;
+    background: none;
+    padding: 0;
+    font: inherit;
+  }
+  .preview-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .preview-overlay.is-open {
+    display: flex;
+  }
+  .preview-window {
+    max-width: 560px;
+    width: 100%;
+    margin: 0;
+  }
+  .preview-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  .preview-body img {
+    max-width: 100%;
+    max-height: 55vh;
+    object-fit: contain;
+    border: 1px solid #000;
+  }
+  .preview-body p {
+    margin: 0;
+    text-align: center;
+    font-size: 13px;
+  }
+  .preview-controls {
+    display: flex;
+    gap: 12px;
+  }
+</style>

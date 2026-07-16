@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PhotoGrid from "../../components/PhotoGrid.astro";
+import { sortedPhotos } from "../../data/photos";
+---
+<BaseLayout title="Photography">
+  <div class="window">
+    <div class="titlebar">
+      <a class="closebox" href="/" aria-label="Close and return home"></a>
+      <span class="title">Photos</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <p style="margin: 0 0 18px; line-height: 1.6;">
+        Just getting started &mdash; shooting on my phone for now until I get a proper camera. Click a thumbnail to preview.
+      </p>
+      <PhotoGrid photos={sortedPhotos} />
+    </div>
+    <div class="statusbar">{sortedPhotos.length} items in this window</div>
+  </div>
+</BaseLayout>
