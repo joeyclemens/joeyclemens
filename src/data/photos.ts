@@ -34,8 +34,8 @@ export const photos: Photo[] = [
   },
   {
     src: "/photos/full/sunny-corner/20260717_063751.jpg",
-    alt: "A small hand-painted wooden toy boat sitting among weeds at Malpas, with the river and hills blurred in the background",
-    caption: "A little painted wooden boat I found propped in the weeds at Malpas. Focused in close and let the river and hills blur out behind it — happy with how much depth that gave it.",
+    alt: "Flowers along a moor point for boats in Sunny Corner, Truro",
+    caption: "Leading lines along the flower beds guide the eye towards moored boats, balancing natural texture against marine geometry in soft morning light",
     location: "sunny-corner, Truro",
     locationSlug: "sunny-corner",
     date: "2026-07-21T06:37:43",
