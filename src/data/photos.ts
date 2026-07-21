@@ -32,6 +32,14 @@ export const photos: Photo[] = [
     locationSlug: "malpas",
     date: "2026-07-21T06:50:43",
   },
+  {
+    src: "/photos/full/sunny-corner/20260717_063751.jpg",
+    alt: "A small hand-painted wooden toy boat sitting among weeds at Malpas, with the river and hills blurred in the background",
+    caption: "A little painted wooden boat I found propped in the weeds at Malpas. Focused in close and let the river and hills blur out behind it — happy with how much depth that gave it.",
+    location: "sunny-corner, Truro",
+    locationSlug: "sunny-corner",
+    date: "2026-07-21T06:37:43",
+  },
 ];
 
 // Newest first, by default
