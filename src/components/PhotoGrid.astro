@@ -7,14 +7,13 @@ interface Props {
 
 const { photos } = Astro.props;
 ---
-<div class="icon-grid photo-icon-grid">
-  {photos.map((photo, i) => (
-    <button class="icon-item photo-thumb" data-index={i} aria-label={`Open ${photo.alt}`}>
-      <img src={photo.src} alt={photo.alt} loading="lazy" />
-      <span class="label">{photo.caption.length > 22 ? photo.caption.slice(0, 20) + "…" : photo.caption}</span>
-    </button>
-  ))}
+<div class="sort-bar">
+  <span class="sort-label">Sort by:</span>
+  <button class="sort-btn active" data-sort="date">Date</button>
+  <button class="sort-btn" data-sort="location">Location</button>
 </div>
+
+<div class="icon-grid photo-icon-grid" id="photo-grid"></div>
 
 <div class="preview-overlay" id="lightbox">
   <div class="window preview-window">
@@ -26,6 +25,7 @@ const { photos } = Astro.props;
     <div class="window-body preview-body">
       <img id="lightbox-img" src="" alt="" />
       <p id="lightbox-caption"></p>
+      <p id="lightbox-meta"></p>
       <div class="preview-controls">
         <button class="mac-button" id="lightbox-prev">&larr; Previous</button>
         <button class="mac-button" id="lightbox-next">Next &rarr;</button>
@@ -35,21 +35,72 @@ const { photos } = Astro.props;
 </div>
 
 <script define:vars={{ photos }}>
-  const thumbs = document.querySelectorAll(".photo-thumb");
+  const grid = document.getElementById("photo-grid");
   const lightbox = document.getElementById("lightbox");
   const lightboxImg = document.getElementById("lightbox-img");
   const lightboxCaption = document.getElementById("lightbox-caption");
+  const lightboxMeta = document.getElementById("lightbox-meta");
   const closeBtn = document.getElementById("lightbox-close");
   const prevBtn = document.getElementById("lightbox-prev");
   const nextBtn = document.getElementById("lightbox-next");
+  const sortBtns = document.querySelectorAll(".sort-btn");
 
+  let order = [...photos];
   let current = 0;
 
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+
+  function sortOrder(mode) {
+    const arr = [...photos];
+    if (mode === "location") {
+      arr.sort(
+        (a, b) =>
+          a.location.localeCompare(b.location) ||
+          new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
+    } else {
+      arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    }
+    return arr;
+  }
+
+  function renderGrid() {
+    grid.innerHTML = "";
+    order.forEach((photo, i) => {
+      const btn = document.createElement("button");
+      btn.className = "icon-item photo-thumb";
+      btn.dataset.index = String(i);
+      btn.setAttribute("aria-label", `Open ${photo.alt}`);
+
+      const img = document.createElement("img");
+      img.src = photo.src;
+      img.alt = photo.alt;
+      img.loading = "lazy";
+
+      const label = document.createElement("span");
+      label.className = "label";
+      label.textContent =
+        photo.caption.length > 22 ? photo.caption.slice(0, 20) + "…" : photo.caption;
+
+      btn.appendChild(img);
+      btn.appendChild(label);
+      btn.addEventListener("click", () => open(i));
+      grid.appendChild(btn);
+    });
+  }
+
   function render() {
-    const photo = photos[current];
+    const photo = order[current];
     lightboxImg.src = photo.src;
     lightboxImg.alt = photo.alt;
     lightboxCaption.textContent = photo.caption;
+    lightboxMeta.textContent = `${photo.location} · ${formatDate(photo.date)}`;
   }
 
   function open(index) {
@@ -63,12 +114,17 @@ const { photos } = Astro.props;
   }
 
   function step(delta) {
-    current = (current + delta + photos.length) % photos.length;
+    current = (current + delta + order.length) % order.length;
     render();
   }
 
-  thumbs.forEach((thumb) => {
-    thumb.addEventListener("click", () => open(Number(thumb.dataset.index)));
+  sortBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      sortBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      order = sortOrder(btn.dataset.sort);
+      renderGrid();
+    });
   });
 
   closeBtn.addEventListener("click", close);
@@ -83,9 +139,35 @@ const { photos } = Astro.props;
     if (e.key === "ArrowLeft") step(-1);
     if (e.key === "ArrowRight") step(1);
   });
+
+  renderGrid();
 </script>
 
 <style>
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+    font-size: 12px;
+  }
+  .sort-label { color: #333; }
+  .sort-btn {
+    font-family: Geneva, sans-serif;
+    font-size: 12px;
+    background: #fff;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 3px 12px;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+  }
+  .sort-btn.active {
+    background: #000;
+    color: #fff;
+    box-shadow: none;
+  }
+
   .photo-thumb {
     border: none;
     background: none;
@@ -114,21 +196,27 @@ const { photos } = Astro.props;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 14px;
+    gap: 8px;
   }
   .preview-body img {
     max-width: 100%;
     max-height: 55vh;
     object-fit: contain;
     border: 1px solid #000;
+    margin-bottom: 6px;
   }
   .preview-body p {
     margin: 0;
     text-align: center;
     font-size: 13px;
   }
+  #lightbox-meta {
+    font-size: 11px;
+    color: #555;
+  }
   .preview-controls {
     display: flex;
     gap: 12px;
+    margin-top: 8px;
   }
 </style>
