@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PhotoGrid from "../../components/PhotoGrid.astro";
+import { getLocations, getPhotosByLocation } from "../../data/photos";
+
+export function getStaticPaths() {
+  return getLocations().map((loc) => ({
+    params: { location: loc.slug },
+    props: { name: loc.name },
+  }));
+}
+
+const { location } = Astro.params;
+const { name } = Astro.props;
+const photos = getPhotosByLocation(location as string);
+---
+<BaseLayout title={name}>
+  <div class="window">
+    <div class="titlebar">
+      <a class="closebox" href="/photography/" aria-label="Close and return to Photos"></a>
+      <span class="title">{name}</span>
+      <span class="zoombox"></span>
+    </div>
+    <div class="window-body">
+      <PhotoGrid photos={photos} />
+    </div>
+    <div class="statusbar">{photos.length} items in this window</div>
+  </div>
+</BaseLayout>

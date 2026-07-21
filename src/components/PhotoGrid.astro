@@ -9,8 +9,8 @@ const { photos } = Astro.props;
 ---
 <div class="sort-bar">
   <span class="sort-label">Sort by:</span>
-  <button class="sort-btn active" data-sort="date">Date</button>
-  <button class="sort-btn" data-sort="location">Location</button>
+  <button class="sort-btn active" data-sort="newest">Newest first</button>
+  <button class="sort-btn" data-sort="oldest">Oldest first</button>
 </div>
 
 <div class="icon-grid photo-icon-grid" id="photo-grid"></div>
@@ -58,15 +58,8 @@ const { photos } = Astro.props;
 
   function sortOrder(mode) {
     const arr = [...photos];
-    if (mode === "location") {
-      arr.sort(
-        (a, b) =>
-          a.location.localeCompare(b.location) ||
-          new Date(b.date).getTime() - new Date(a.date).getTime()
-      );
-    } else {
-      arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    }
+    arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    if (mode === "oldest") arr.reverse();
     return arr;
   }
 
