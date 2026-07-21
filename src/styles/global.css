@@ -163,6 +163,25 @@ a { color: inherit; }
 .window-body { padding: 20px 22px; }
 .statusbar { border-top: 1px solid #000; padding: 4px 10px; font-size: 11px; color: #333; }
 
+.titlebar { cursor: move; }
+.titlebar .closebox, .titlebar .zoombox { cursor: pointer; }
+
+.window.is-floating {
+  position: fixed;
+  margin: 0 !important;
+  min-width: min(380px, 90vw);
+  max-width: min(560px, 90vw);
+  z-index: 30;
+  animation: window-pop 0.12s ease-out;
+}
+@keyframes window-pop {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+@media (max-width: 600px) {
+  .window.is-floating { max-width: 94vw; }
+}
+
 /*======= About block ==========*/
 .about-block { display: flex; gap: 18px; align-items: flex-start; }
 .about-icon { width: 48px; height: 48px; flex-shrink: 0; object-fit: cover; border: 1px solid #000; }
@@ -222,4 +241,220 @@ a { color: inherit; }
   .desktop-icons { position: static; flex-direction: row; flex-wrap: wrap; justify-content: flex-end; margin: 0 0 20px 24px; }
   .trash { position: static; align-items: flex-end; margin: 0 24px 20px; }
   .about-block { flex-direction: column; align-items: flex-start; }
+}
+
+/*======= Window resizing (grow box) ==========*/
+.window.is-floating {
+  display: flex;
+  flex-direction: column;
+}
+.window.is-floating .window-body,
+.window.is-floating .mw-page {
+  max-height: 55vh;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+.window.is-floating.is-resized .window-body,
+.window.is-floating.is-resized .mw-page {
+  max-height: none;
+}
+.resize-handle {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  cursor: nwse-resize;
+  background-color: #fff;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #000 0px,
+    #000 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  z-index: 2;
+}
+.window.is-floating .resize-handle {
+  display: block;
+}
+
+/*======= PhotoGrid (see component note) ==========*/
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  font-size: 12px;
+}
+.sort-label { color: #333; }
+.sort-btn {
+  font-family: Geneva, sans-serif;
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 4px;
+  padding: 3px 12px;
+  cursor: pointer;
+  box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
+}
+.sort-btn.active {
+  background: #000;
+  color: #fff;
+  box-shadow: none;
+}
+.photo-thumb {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+}
+.preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+.preview-overlay.is-open {
+  display: flex;
+}
+.preview-window {
+  max-width: 560px;
+  width: 100%;
+  margin: 0;
+}
+.preview-window .titlebar {
+  cursor: default;
+}
+.preview-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.preview-body img {
+  max-width: min(480px, 80vw);
+  max-height: 45vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border: 1px solid #000;
+  margin-bottom: 6px;
+}
+.preview-body p {
+  margin: 0;
+  text-align: center;
+  font-size: 13px;
+}
+.lightbox-meta {
+  font-size: 11px;
+  color: #555;
+}
+.preview-controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/*======= MacWriteWindow (see component note) ==========*/
+.mw-window { margin-bottom: 32px; }
+.mw-window .titlebar {
+  position: sticky;
+  top: 22px;
+  z-index: 35;
+}
+.mw-ruler {
+  position: sticky;
+  top: 42px;
+  z-index: 34;
+  height: 22px;
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+  background-image: repeating-linear-gradient(
+    to right,
+    #000 0,
+    #000 1px,
+    transparent 1px,
+    transparent 10px
+  );
+  background-position: 32px 18px;
+  background-repeat: repeat-x;
+  background-size: 100% 4px;
+}
+.mw-indent {
+  position: absolute;
+  left: 32px;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+}
+.mw-indent-top { top: 2px; border-top: 6px solid #000; }
+.mw-indent-bottom { bottom: 2px; border-bottom: 6px solid #000; }
+.mw-tab {
+  position: absolute;
+  bottom: 2px;
+  width: 2px;
+  height: 9px;
+  background: #000;
+}
+.mw-tab::before {
+  content: "";
+  position: absolute;
+  bottom: 7px;
+  left: -3px;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-bottom: 4px solid #000;
+}
+.mw-page {
+  background: #fff;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 50px 60px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 15px;
+  line-height: 1.75;
+  color: #000;
+}
+.mw-page h1 {
+  font-family: 'Silkscreen', monospace;
+  font-size: 18px;
+  margin: 0 0 6px;
+  text-align: center;
+}
+.mw-page .mw-meta {
+  text-align: center;
+  font-style: italic;
+  font-size: 13px;
+  color: #333;
+  margin: 0 0 34px;
+}
+.mw-page h2 {
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #000;
+  padding-bottom: 4px;
+  margin: 34px 0 14px;
+}
+.mw-page p { margin: 0 0 14px; text-align: justify; }
+.mw-page ul,
+.mw-page ol { margin: 0 0 18px; padding-left: 26px; }
+.mw-page li { margin: 0 0 8px; }
+.mw-page strong { font-weight: bold; }
+.mw-page em { font-style: italic; }
+
+@media (max-width: 700px) {
+  .mw-page { padding: 32px 22px; }
 }

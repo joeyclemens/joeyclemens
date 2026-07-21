@@ -13,203 +13,140 @@ const { photos } = Astro.props;
   <button class="sort-btn" data-sort="oldest">Oldest first</button>
 </div>
 
-<div class="icon-grid photo-icon-grid" id="photo-grid"></div>
+<div class="icon-grid photo-icon-grid"></div>
 
-<div class="preview-overlay" id="lightbox">
+<div class="preview-overlay">
   <div class="window preview-window">
     <div class="titlebar">
-      <span class="closebox" id="lightbox-close"></span>
+      <span class="closebox lightbox-close"></span>
       <span class="title">Preview</span>
       <span class="zoombox"></span>
     </div>
     <div class="window-body preview-body">
-      <img id="lightbox-img" src="" alt="" />
-      <p id="lightbox-caption"></p>
-      <p id="lightbox-meta"></p>
+      <img class="lightbox-img" src="" alt="" />
+      <p class="lightbox-caption"></p>
+      <p class="lightbox-meta"></p>
       <div class="preview-controls">
-        <button class="mac-button" id="lightbox-prev">&larr; Previous</button>
-        <button class="mac-button" id="lightbox-next">Next &rarr;</button>
+        <button class="mac-button lightbox-prev">&larr; Previous</button>
+        <button class="mac-button lightbox-next">Next &rarr;</button>
       </div>
     </div>
   </div>
 </div>
 
 <script define:vars={{ photos }}>
-  const grid = document.getElementById("photo-grid");
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  const lightboxCaption = document.getElementById("lightbox-caption");
-  const lightboxMeta = document.getElementById("lightbox-meta");
-  const closeBtn = document.getElementById("lightbox-close");
-  const prevBtn = document.getElementById("lightbox-prev");
-  const nextBtn = document.getElementById("lightbox-next");
-  const sortBtns = document.querySelectorAll(".sort-btn");
+  (function () {
+    const scriptEl = document.currentScript;
+    const root = scriptEl.closest(".window-body") || scriptEl.parentElement || document;
 
-  let order = [...photos];
-  let current = 0;
+    const grid = root.querySelector(".photo-icon-grid");
+    const lightbox = root.querySelector(".preview-overlay");
+    const lightboxImg = root.querySelector(".lightbox-img");
+    const lightboxCaption = root.querySelector(".lightbox-caption");
+    const lightboxMeta = root.querySelector(".lightbox-meta");
+    const closeBtn = root.querySelector(".lightbox-close");
+    const prevBtn = root.querySelector(".lightbox-prev");
+    const nextBtn = root.querySelector(".lightbox-next");
+    const sortBtns = root.querySelectorAll(".sort-btn");
 
-  function formatDate(iso) {
-    return new Date(iso).toLocaleDateString("en-GB", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
+    let order = [...photos];
+    let current = 0;
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+
+    function sortOrder(mode) {
+      const arr = [...photos];
+      arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      if (mode === "oldest") arr.reverse();
+      return arr;
+    }
+
+    function renderGrid() {
+      grid.innerHTML = "";
+      order.forEach((photo, i) => {
+        const btn = document.createElement("button");
+        btn.className = "icon-item photo-thumb";
+        btn.dataset.index = String(i);
+        btn.setAttribute("aria-label", `Open ${photo.alt}`);
+
+        const img = document.createElement("img");
+        img.src = photo.src;
+        img.alt = photo.alt;
+        img.loading = "lazy";
+
+        const label = document.createElement("span");
+        label.className = "label";
+        label.textContent =
+          photo.caption.length > 22 ? photo.caption.slice(0, 20) + "…" : photo.caption;
+
+        btn.appendChild(img);
+        btn.appendChild(label);
+        btn.addEventListener("click", () => openPhoto(i));
+        grid.appendChild(btn);
+      });
+    }
+
+    function render() {
+      const photo = order[current];
+      lightboxImg.src = photo.src;
+      lightboxImg.alt = photo.alt;
+      lightboxCaption.textContent = photo.caption;
+      lightboxMeta.textContent = `${photo.location} · ${formatDate(photo.date)}`;
+    }
+
+    function openPhoto(index) {
+      current = index;
+      render();
+      lightbox.classList.add("is-open");
+    }
+
+    function closePhoto() {
+      lightbox.classList.remove("is-open");
+    }
+
+    function step(delta) {
+      current = (current + delta + order.length) % order.length;
+      render();
+    }
+
+    sortBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        sortBtns.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        order = sortOrder(btn.dataset.sort);
+        renderGrid();
+      });
     });
-  }
 
-  function sortOrder(mode) {
-    const arr = [...photos];
-    arr.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    if (mode === "oldest") arr.reverse();
-    return arr;
-  }
-
-  function renderGrid() {
-    grid.innerHTML = "";
-    order.forEach((photo, i) => {
-      const btn = document.createElement("button");
-      btn.className = "icon-item photo-thumb";
-      btn.dataset.index = String(i);
-      btn.setAttribute("aria-label", `Open ${photo.alt}`);
-
-      const img = document.createElement("img");
-      img.src = photo.src;
-      img.alt = photo.alt;
-      img.loading = "lazy";
-
-      const label = document.createElement("span");
-      label.className = "label";
-      label.textContent =
-        photo.caption.length > 22 ? photo.caption.slice(0, 20) + "…" : photo.caption;
-
-      btn.appendChild(img);
-      btn.appendChild(label);
-      btn.addEventListener("click", () => open(i));
-      grid.appendChild(btn);
+    closeBtn.addEventListener("click", closePhoto);
+    prevBtn.addEventListener("click", () => step(-1));
+    nextBtn.addEventListener("click", () => step(1));
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closePhoto();
     });
-  }
-
-  function render() {
-    const photo = order[current];
-    lightboxImg.src = photo.src;
-    lightboxImg.alt = photo.alt;
-    lightboxCaption.textContent = photo.caption;
-    lightboxMeta.textContent = `${photo.location} · ${formatDate(photo.date)}`;
-  }
-
-  function open(index) {
-    current = index;
-    render();
-    lightbox.classList.add('is-open');
-  }
-
-  function close() {
-    lightbox.classList.remove('is-open');
-  }
-
-  function step(delta) {
-    current = (current + delta + order.length) % order.length;
-    render();
-  }
-
-  sortBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      sortBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      order = sortOrder(btn.dataset.sort);
-      renderGrid();
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("is-open")) return;
+      if (e.key === "Escape") closePhoto();
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
     });
-  });
 
-  closeBtn.addEventListener("click", close);
-  prevBtn.addEventListener("click", () => step(-1));
-  nextBtn.addEventListener("click", () => step(1));
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) close();
-  });
-  document.addEventListener("keydown", (e) => {
-    if (!lightbox.classList.contains('is-open')) return;
-    if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft") step(-1);
-    if (e.key === "ArrowRight") step(1);
-  });
-
-  renderGrid();
+    renderGrid();
+  })();
 </script>
 
-<style>
-  .sort-bar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 16px;
-    font-size: 12px;
-  }
-  .sort-label { color: #333; }
-  .sort-btn {
-    font-family: Geneva, sans-serif;
-    font-size: 12px;
-    background: #fff;
-    border: 1px solid #000;
-    border-radius: 4px;
-    padding: 3px 12px;
-    cursor: pointer;
-    box-shadow: 1px 1px 0 rgba(0,0,0,0.4);
-  }
-  .sort-btn.active {
-    background: #000;
-    color: #fff;
-    box-shadow: none;
-  }
+<!--
+  Note: styling for this component lives in src/styles/global.css (not a
+  scoped <style> block here). Astro's scoped component CSS is only loaded on
+  pages that directly render the component, but our floating-window system
+  fetches OTHER pages' HTML fragments and injects them into the current page
+  without their <head>/CSS. Keeping this component's styles global guarantees
+  they're present no matter which page a photo window is opened from.
+-->
 
-  .photo-thumb {
-    border: none;
-    background: none;
-    padding: 0;
-    font: inherit;
-  }
-  .preview-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    padding: 20px;
-  }
-  .preview-overlay.is-open {
-    display: flex;
-  }
-  .preview-window {
-    max-width: 560px;
-    width: 100%;
-    margin: 0;
-  }
-  .preview-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .preview-body img {
-    max-width: 100%;
-    max-height: 55vh;
-    object-fit: contain;
-    border: 1px solid #000;
-    margin-bottom: 6px;
-  }
-  .preview-body p {
-    margin: 0;
-    text-align: center;
-    font-size: 13px;
-  }
-  #lightbox-meta {
-    font-size: 11px;
-    color: #555;
-  }
-  .preview-controls {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-  }
-</style>

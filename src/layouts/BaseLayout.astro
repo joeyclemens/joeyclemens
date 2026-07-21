@@ -152,5 +152,189 @@ const fileLinks = [
       location.reload();
     });
   </script>
+
+  <script>
+    (function () {
+      let topZ = 30;
+      let cascadeIndex = 0;
+
+      function bringToFront(win) {
+        topZ += 1;
+        win.style.zIndex = String(topZ);
+      }
+
+      function floatWindow(win) {
+        if (win.classList.contains("is-floating")) return;
+        const rect = win.getBoundingClientRect();
+        win.classList.add("is-floating");
+        win.style.left = rect.left + "px";
+        win.style.top = rect.top + "px";
+        win.style.width = rect.width + "px";
+      }
+
+      function makeDraggable(win) {
+        if (win.dataset.draggableInit) return;
+        win.dataset.draggableInit = "1";
+        const titlebar = win.querySelector(":scope > .titlebar");
+        if (!titlebar) return;
+
+        let dragging = false;
+        let startX = 0;
+        let startY = 0;
+        let startLeft = 0;
+        let startTop = 0;
+
+        titlebar.addEventListener("pointerdown", (e) => {
+          if (e.target.closest(".closebox") || e.target.closest(".zoombox")) return;
+          floatWindow(win);
+          bringToFront(win);
+          dragging = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          startLeft = parseFloat(win.style.left);
+          startTop = parseFloat(win.style.top);
+          titlebar.setPointerCapture(e.pointerId);
+        });
+        titlebar.addEventListener("pointermove", (e) => {
+          if (!dragging) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          win.style.left = startLeft + dx + "px";
+          win.style.top = Math.max(22, startTop + dy) + "px";
+        });
+        function stopDrag() {
+          dragging = false;
+        }
+        titlebar.addEventListener("pointerup", stopDrag);
+        titlebar.addEventListener("pointercancel", stopDrag);
+
+        win.addEventListener("pointerdown", () => bringToFront(win));
+      }
+
+      function makeResizable(win) {
+        if (win.dataset.resizableInit) return;
+        win.dataset.resizableInit = "1";
+
+        const handle = document.createElement("div");
+        handle.className = "resize-handle";
+        win.appendChild(handle);
+
+        let resizing = false;
+        let startX = 0;
+        let startY = 0;
+        let startWidth = 0;
+        let startHeight = 0;
+
+        handle.addEventListener("pointerdown", (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          floatWindow(win);
+          bringToFront(win);
+          win.classList.add("is-resized");
+          win.style.maxWidth = "none";
+          const rect = win.getBoundingClientRect();
+          win.style.width = rect.width + "px";
+          win.style.height = rect.height + "px";
+          resizing = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          startWidth = rect.width;
+          startHeight = rect.height;
+          handle.setPointerCapture(e.pointerId);
+        });
+        handle.addEventListener("pointermove", (e) => {
+          if (!resizing) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          win.style.width = Math.max(280, startWidth + dx) + "px";
+          win.style.height = Math.max(160, startHeight + dy) + "px";
+        });
+        function stopResize() {
+          resizing = false;
+        }
+        handle.addEventListener("pointerup", stopResize);
+        handle.addEventListener("pointercancel", stopResize);
+      }
+
+      function initWindowsIn(root) {
+        root.querySelectorAll(".desktop > .window").forEach((win) => {
+          makeDraggable(win);
+          makeResizable(win);
+        });
+      }
+
+      function extractWindows(doc) {
+        return Array.from(doc.querySelectorAll(".desktop > .window"));
+      }
+
+      function runScripts(container) {
+        container.querySelectorAll("script").forEach((oldScript) => {
+          const newScript = document.createElement("script");
+          Array.from(oldScript.attributes).forEach((attr) =>
+            newScript.setAttribute(attr.name, attr.value)
+          );
+          newScript.textContent = oldScript.textContent;
+          oldScript.replaceWith(newScript);
+        });
+      }
+
+      async function openFloatingWindow(url) {
+        let res;
+        try {
+          res = await fetch(url);
+        } catch (err) {
+          window.location.href = url;
+          return;
+        }
+        if (!res.ok) {
+          window.location.href = url;
+          return;
+        }
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        const windows = extractWindows(doc);
+        if (!windows.length) {
+          window.location.href = url;
+          return;
+        }
+        windows.forEach((winEl) => {
+          const wrapper = document.importNode(winEl, true);
+          wrapper.classList.add("is-floating");
+          cascadeIndex += 1;
+          const offset = (cascadeIndex % 8) * 28;
+          wrapper.style.left = 90 + offset + "px";
+          wrapper.style.top = 70 + offset + "px";
+          document.body.appendChild(wrapper);
+          runScripts(wrapper);
+          makeDraggable(wrapper);
+          makeResizable(wrapper);
+          bringToFront(wrapper);
+        });
+      }
+
+      document.addEventListener("click", (e) => {
+        const closeBtn = e.target.closest(".closebox");
+        if (closeBtn) {
+          const floatingWin = closeBtn.closest(".is-floating");
+          if (floatingWin && floatingWin.parentElement === document.body) {
+            e.preventDefault();
+            floatingWin.remove();
+          }
+          return;
+        }
+
+        const link = e.target.closest("a");
+        if (!link) return;
+        if (link.target === "_blank") return;
+        const href = link.getAttribute("href");
+        if (!href || href.startsWith("mailto:") || href.startsWith("#")) return;
+        if (!href.startsWith("/")) return;
+        e.preventDefault();
+        openFloatingWindow(href);
+      });
+
+      initWindowsIn(document);
+    })();
+  </script>
 </body>
 </html>
