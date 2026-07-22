@@ -256,10 +256,53 @@ const fileLinks = [
         handle.addEventListener("pointercancel", stopResize);
       }
 
+      function makeZoomable(win) {
+        if (win.dataset.zoomableInit) return;
+        win.dataset.zoomableInit = "1";
+        const zoombox = win.querySelector(":scope > .titlebar .zoombox");
+        if (!zoombox) return;
+
+        zoombox.addEventListener("click", (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          floatWindow(win);
+          bringToFront(win);
+
+          if (win.classList.contains("is-zoomed")) {
+            const prev = win.dataset.preZoom ? JSON.parse(win.dataset.preZoom) : null;
+            win.classList.remove("is-zoomed");
+            if (prev) {
+              win.style.left = prev.left;
+              win.style.top = prev.top;
+              win.style.width = prev.width;
+              win.style.height = prev.height;
+              win.style.maxWidth = prev.maxWidth;
+              if (!prev.resized) win.classList.remove("is-resized");
+            }
+          } else {
+            win.dataset.preZoom = JSON.stringify({
+              left: win.style.left,
+              top: win.style.top,
+              width: win.style.width,
+              height: win.style.height,
+              maxWidth: win.style.maxWidth,
+              resized: win.classList.contains("is-resized"),
+            });
+            win.classList.add("is-zoomed", "is-resized");
+            win.style.maxWidth = "none";
+            win.style.left = "4vw";
+            win.style.top = "34px";
+            win.style.width = "92vw";
+            win.style.height = "calc(100vh - 70px)";
+          }
+        });
+      }
+
       function initWindowsIn(root) {
         root.querySelectorAll(".desktop > .window").forEach((win) => {
           makeDraggable(win);
           makeResizable(win);
+          makeZoomable(win);
         });
       }
 
@@ -308,6 +351,7 @@ const fileLinks = [
           runScripts(wrapper);
           makeDraggable(wrapper);
           makeResizable(wrapper);
+          makeZoomable(wrapper);
           bringToFront(wrapper);
         });
       }

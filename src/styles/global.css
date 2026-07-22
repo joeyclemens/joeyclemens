@@ -344,6 +344,13 @@ a { color: inherit; }
 .preview-window .titlebar {
   cursor: default;
 }
+.preview-window .zoombox {
+  cursor: pointer;
+}
+.preview-window.is-zoomed {
+  max-width: 94vw;
+  width: 94vw;
+}
 .preview-body {
   display: flex;
   flex-direction: column;
@@ -358,6 +365,10 @@ a { color: inherit; }
   object-fit: contain;
   border: 1px solid #000;
   margin-bottom: 6px;
+}
+.preview-window.is-zoomed .preview-body img {
+  max-width: 90vw;
+  max-height: 80vh;
 }
 .preview-body p {
   margin: 0;

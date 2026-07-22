@@ -32,14 +32,6 @@ export const photos: Photo[] = [
     locationSlug: "malpas",
     date: "2026-07-21T06:50:43",
   },
-  {
-    src: "/photos/full/sunny-corner/20260717_063751.jpg",
-    alt: "Flowers along a moor point for boats in Sunny Corner, Truro",
-    caption: "Leading lines along the flower beds guide the eye towards moored boats, balancing natural texture against marine geometry in soft morning light",
-    location: "sunny-corner, Truro",
-    locationSlug: "sunny-corner",
-    date: "2026-07-21T06:37:43",
-  },
 ];
 
 // Newest first, by default
