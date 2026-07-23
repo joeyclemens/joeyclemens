@@ -172,6 +172,24 @@ const fileLinks = [
         win.style.width = rect.width + "px";
       }
 
+      // Keep a window's titlebar reachable within the current viewport.
+      // Used on open (so windows never appear off-screen on small phones)
+      // and while dragging (so you can't lose a window off the edge).
+      function clampWinPosition(win, left, top) {
+        const rect = win.getBoundingClientRect();
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const visible = Math.min(rect.width, 80);
+        const minLeft = -(rect.width - visible);
+        const maxLeft = vw - visible;
+        const minTop = 22;
+        const maxTop = vh - 40;
+        return {
+          left: Math.max(minLeft, Math.min(left, maxLeft)),
+          top: Math.max(minTop, Math.min(top, maxTop)),
+        };
+      }
+
       function makeDraggable(win) {
         if (win.dataset.draggableInit) return;
         win.dataset.draggableInit = "1";
@@ -186,6 +204,7 @@ const fileLinks = [
 
         titlebar.addEventListener("pointerdown", (e) => {
           if (e.target.closest(".closebox") || e.target.closest(".zoombox")) return;
+          e.preventDefault();
           floatWindow(win);
           bringToFront(win);
           dragging = true;
@@ -199,8 +218,9 @@ const fileLinks = [
           if (!dragging) return;
           const dx = e.clientX - startX;
           const dy = e.clientY - startY;
-          win.style.left = startLeft + dx + "px";
-          win.style.top = Math.max(22, startTop + dy) + "px";
+          const pos = clampWinPosition(win, startLeft + dx, startTop + dy);
+          win.style.left = pos.left + "px";
+          win.style.top = pos.top + "px";
         });
         function stopDrag() {
           dragging = false;
@@ -343,15 +363,21 @@ const fileLinks = [
         windows.forEach((winEl) => {
           const wrapper = document.importNode(winEl, true);
           wrapper.classList.add("is-floating");
-          cascadeIndex += 1;
-          const offset = (cascadeIndex % 8) * 28;
-          wrapper.style.left = 90 + offset + "px";
-          wrapper.style.top = 70 + offset + "px";
           document.body.appendChild(wrapper);
           runScripts(wrapper);
           makeDraggable(wrapper);
           makeResizable(wrapper);
           makeZoomable(wrapper);
+
+          // Measure after appending (CSS min/max-width has now applied),
+          // then place it cascaded from the previous window but clamped so
+          // it always lands fully inside the current viewport.
+          cascadeIndex += 1;
+          const offset = (cascadeIndex % 8) * 28;
+          const pos = clampWinPosition(wrapper, 90 + offset, 70 + offset);
+          wrapper.style.left = pos.left + "px";
+          wrapper.style.top = pos.top + "px";
+
           bringToFront(wrapper);
         });
       }

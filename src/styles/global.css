@@ -163,8 +163,8 @@ a { color: inherit; }
 .window-body { padding: 20px 22px; }
 .statusbar { border-top: 1px solid #000; padding: 4px 10px; font-size: 11px; color: #333; }
 
-.titlebar { cursor: move; }
-.titlebar .closebox, .titlebar .zoombox { cursor: pointer; }
+.titlebar { cursor: move; touch-action: none; }
+.titlebar .closebox, .titlebar .zoombox { cursor: pointer; touch-action: auto; }
 
 .window.is-floating {
   position: fixed;
@@ -180,6 +180,7 @@ a { color: inherit; }
 }
 @media (max-width: 600px) {
   .window.is-floating { max-width: 94vw; }
+  .resize-handle { width: 22px; height: 22px; }
 }
 
 /*======= About block ==========*/
@@ -267,6 +268,7 @@ a { color: inherit; }
   width: 14px;
   height: 14px;
   cursor: nwse-resize;
+  touch-action: none;
   background-color: #fff;
   background-image: repeating-linear-gradient(
     -45deg,
